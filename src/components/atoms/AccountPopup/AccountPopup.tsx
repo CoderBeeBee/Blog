@@ -2,8 +2,9 @@ import styles from './AccountPopup.module.scss'
 import CloseButton from '../CloseButton/CloseButton'
 import APIResponseMessage from '../APIResponseMessage/APIResponseMessage'
 import type { Dispatch, SetStateAction } from 'react'
+import FormBtn from '../FormBtn/FormBtn'
 interface AccountPopupProps {
-	// handleAccountPopup: () => void
+	
 	popupEmail: string
 	handleSendEmail: () => void
 	setAccountPopup: Dispatch<SetStateAction<boolean>>
@@ -40,19 +41,24 @@ const AccountPopup = ({
 						{popupSuccessMessage ? popupSuccessMessage : <>{popupErrorMessage}</>}
 					</APIResponseMessage>
 				)}
-				<button
-					aria-label="Send button"
+				<FormBtn
+					type="button"
+					handleResend={handleSendEmail}
 					className={`${styles.popupBtn} ${styles.sendPopupBtn}`}
-					onClick={() => handleSendEmail()}>
+					ariaLabel="Send button">
 					Send Link
-				</button>
+				</FormBtn>
+				
 				<div className={styles.footerLine}></div>
-				<button
-					aria-label="Cancel button"
+				<FormBtn
+					type="button"
 					className={`${styles.popupBtn} ${styles.cancelPopupBtn}`}
-					onClick={() => handleAccountPopup()}>
+					onClick={handleAccountPopup}
+					aria-label="Cancel button"
+					>
 					Back
-				</button>
+				</FormBtn>
+				
 				<CloseButton ariaLabel="Close popup button" styles={styles} handleClose={handleAccountPopup} />
 			</div>
 		</div>

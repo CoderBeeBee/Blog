@@ -65,7 +65,11 @@
 
 			}
 		}
-
+		.deleteText{
+			font-size: var(--textSize_14);
+			line-height: 2.2rem;
+			color: var(--blackColor);
+		}
 		.deleteAccount {
 			@include formBtn($bgc: var(--errorColor), $color: #ffffff, $padding: 1rem);
 

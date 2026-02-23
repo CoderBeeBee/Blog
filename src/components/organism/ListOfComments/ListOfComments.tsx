@@ -239,20 +239,20 @@ const ListOfComments = () => {
 			/>
 			<Popup
 				popupRef={popupRef}
-				popupTitle="DELETE comment"
 				handleClosePopup={handleClosePopup}
 				handleDelete={handleDeleteComment}
 				popUpMessage={popUpMessage}>
 				{!popUpMessage && (
 					<div className={styles.popupInfo}>
+						
 						<span>
-							<span>Comment Id:</span> {userData.commentId}
+							Comment Id: <span>{userData.commentId}</span>
 						</span>
 						<span>
-							<span>Author:</span> {userData.author}
+							Author: <span>{userData.author}</span>
 						</span>
 						<span>
-							<span>Content:</span> {userData.commentContent}
+							Content: <span>{userData.commentContent}</span>
 						</span>
 					</div>
 				)}

@@ -18,6 +18,7 @@ import NotificationNew from '../../atoms/NotificationNew/NotificationNew'
 import longDateConverter from '../../../hooks/longDateConverter'
 import dateConverter from '../../../hooks/dateConverter'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 const ListOfUsers = () => {
 	const popupRef = useRef<HTMLDivElement | null>(null)
@@ -28,7 +29,6 @@ const ListOfUsers = () => {
 		userName: '',
 	})
 
-	// const rowsRef = useRef<HTMLDivElement | null>(null)
 	const [rows, setRows] = useState<number>(10)
 	const [currentPage, setCurrentPage] = useState<number>(1)
 
@@ -145,7 +145,17 @@ const ListOfUsers = () => {
 
 			refetch()
 		} catch (error) {
-			console.log(error)
+			if (typeof error === 'object' && error !== null) {
+				const fetchError = error as FetchBaseQueryError
+				const message =
+					fetchError.data && typeof fetchError.data === 'object' && 'message' in fetchError.data
+						? (fetchError.data.message as string)
+						: 'An unexpected error has occurder'
+
+				setPopUpMessage(message)
+			} else {
+				setPopUpMessage('An unexpected error has occurder')
+			}
 		}
 	}
 
@@ -230,17 +240,16 @@ const ListOfUsers = () => {
 			/>
 			<Popup
 				popupRef={popupRef}
-				popupTitle="DELETE User"
 				handleClosePopup={handleClosePopup}
 				handleDelete={handleDeleteUser}
 				popUpMessage={popUpMessage}>
 				{!popUpMessage && (
 					<div className={styles.popupInfo}>
 						<span>
-							<span>User Name:</span> {userData.userName}
+							User Name: <span>{userData.userName}</span>
 						</span>
 						<span>
-							<span>User Id:</span> {userData.userId}
+							User Id: <span>{userData.userId}</span>
 						</span>
 					</div>
 				)}

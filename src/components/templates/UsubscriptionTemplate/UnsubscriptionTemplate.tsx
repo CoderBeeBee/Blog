@@ -1,5 +1,5 @@
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { useUnsubscribeMutation } from '../../../slices/api/subscriptionApi'
+import { useConfirmUnsubscribeQuery, useUnsubscribeMutation } from '../../../slices/api/subscriptionApi'
 import styles from './UnsubscriptionTemplate.module.scss'
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
@@ -8,7 +8,7 @@ import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 import { useEffect, useState } from 'react'
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 const unsubscriptionSchema = z.object({
 	email: z.email(),
@@ -18,6 +18,11 @@ const UnsubscriptionTemplate = () => {
 	const [successUnsubscription, setSuccessUnsubscription] = useState<string>('')
 	const navigate = useNavigate()
 	const [unsubscribe] = useUnsubscribeMutation()
+	const { search } = useLocation()
+	const params = new URLSearchParams(search)
+	const token = params.get('token')
+
+	const { data, error } = useConfirmUnsubscribeQuery({ token })
 
 	const {
 		register,
@@ -45,7 +50,7 @@ const UnsubscriptionTemplate = () => {
 
 				setTimeout(() => {
 					navigate('/')
-				}, 4000);
+				}, 4000)
 			}
 			if (errors) clearErrors()
 		} catch (error) {
@@ -71,7 +76,29 @@ const UnsubscriptionTemplate = () => {
 		}
 	}, [successUnsubscription])
 
-	
+	useEffect(() => {
+		if (data) {
+			setSuccessUnsubscription(data.message)
+
+			const timer = setTimeout(() => {
+				navigate('/')
+			}, 4000)
+
+			return () => clearTimeout(timer)
+		}
+
+		if (error) {
+			const fetchError = error as FetchBaseQueryError
+
+			const message =
+				fetchError?.data && typeof fetchError.data === 'object' && 'error' in fetchError.data
+					? (fetchError.data.error as string)
+					: 'An unexpected error has occurred'
+
+			setError('root', { message })
+		}
+	}, [data, error, navigate, setError])
+
 	return (
 		<div className={styles.unsubscriptionContainer}>
 			<div className={styles.unsubscriptionWrapper}>
@@ -99,7 +126,7 @@ const UnsubscriptionTemplate = () => {
 								{errors.root?.message ? errors.root?.message : successUnsubscription}
 							</APIResponseMessage>
 						)}
-						
+
 						<FormBtn type="submit" isSubmitting={isSubmitting} className={styles.unsubscriptionButton}>
 							Unsubscribe
 						</FormBtn>
