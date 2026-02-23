@@ -34,10 +34,10 @@ const IntegrationsSocialLinks = () => {
 			if (!data) return
 			if (!isDirty) return
 			console.log(data)
-			const res = await updateIntegrations({ integrations: data })
+			const res = await updateIntegrations({ integrations: data }).unwrap()
 
 			if (res) {
-				setSuccessMessage(res.data.message)
+				setSuccessMessage(res.message)
 				reset(data)
 			}
 			if (errors) clearErrors()

@@ -84,7 +84,7 @@ import PageNotFound from './components/pages/PageNotFound/PageNotFound'
 
 import SubscriptionPage from './components/pages/SubscriptionPage/SubscriptionPage'
 import UnsubscriptionPage from './components/pages/UnsubscriptionPage/UnsubscriptionPage'
-import ConfirmUnsubscriptionPage from './components/pages/ConfirmUnsubscriptionPage/ConfirmUnsubscriptionPage'
+
 
 const App = () => {
 	return (
@@ -110,7 +110,7 @@ const App = () => {
 					</Route>
 						<Route path="/verify-subscription" element={<SubscriptionPage />} />
 						<Route path="/unsubscribe" element={<UnsubscriptionPage />} />
-						<Route path="/confirm-unsubscribe" element={<ConfirmUnsubscriptionPage />} />
+						
 
 					{/* User Routes */}
 					<Route
