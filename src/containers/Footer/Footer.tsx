@@ -38,6 +38,7 @@ const Footer = () => {
 						<h2 className={styles.footerTitle}>Follow Us</h2>
 						<ul className={styles.footerList}>
 							{socialLinks.map(social => {
+								console.log(socialLinks)
 								return (
 									<SocialIcon key={social.name} social={social} styles={styles}>
 										{social.name}
@@ -46,19 +47,7 @@ const Footer = () => {
 							})}
 						</ul>
 					</div>
-					{/* <div className={`${styles.footerSubscribe} ${styles.column}`}>
-						<h2>Sign Up For Newsletter</h2>
-						<p>Signup to get updates on articles, interviews and events.</p>
-						<div className={styles.subscribeForm}>
-							<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-								<input {...register('email')} type="email" name="email" id="email" placeholder="Your email Address" />
-								{errors.email && <div>{errors.email.message}</div>}
-								<button disabled={isSubmitting} type="submit">
-									Subscribe
-								</button>
-							</form>
-						</div>
-					</div> */}
+					
 					<Subscribe/>
 				</div>
 			</div>
