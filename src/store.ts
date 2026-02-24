@@ -13,6 +13,7 @@ import { emailApi } from './slices/api/emailApi'
 import { generalApi } from './slices/api/settingsApi'
 import { legalApi } from './slices/api/legalDocumentsApi'
 import { subscriptionApi } from './slices/api/subscriptionApi'
+import { newsletterApi } from './slices/api/newsletterApi'
 
 export const store = configureStore({
 	reducer: {
@@ -29,6 +30,7 @@ export const store = configureStore({
 		[generalApi.reducerPath]: generalApi.reducer,
 		[legalApi.reducerPath]: legalApi.reducer,
 		[subscriptionApi.reducerPath]: subscriptionApi.reducer,
+		[newsletterApi.reducerPath]: newsletterApi.reducer,
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware()
@@ -42,7 +44,8 @@ export const store = configureStore({
 			.concat(emailApi.middleware)
 			.concat(generalApi.middleware)
 			.concat(legalApi.middleware)
-			.concat(subscriptionApi.middleware),
+			.concat(subscriptionApi.middleware)
+			.concat(newsletterApi.middleware),
 })
 
 setupListeners(store.dispatch)

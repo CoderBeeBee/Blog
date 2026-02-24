@@ -32,13 +32,11 @@ const Subscription = () => {
 	})
 	const onSubmit: SubmitHandler<subscriptionTypes> = async data => {
 		try {
-			if (!data) return
-
 			const res = await subscribe({ email: data.email }).unwrap()
 
 			if (res) {
 				setSuccessSubscription(res.message)
-				reset()
+				reset({ email: '' })
 			}
 			if (errors) clearErrors()
 		} catch (error) {
