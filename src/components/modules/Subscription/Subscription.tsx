@@ -20,11 +20,12 @@ const Subscription = () => {
 		register,
 		handleSubmit,
 		setError,
-		reset,
+		resetField,
 		clearErrors,
 		formState: { isSubmitting, errors },
 	} = useForm<subscriptionTypes>({
 		mode: 'onSubmit',
+		reValidateMode: 'onChange',
 		resolver: zodResolver(subscriptionSchema),
 		defaultValues: {
 			email: '',
@@ -32,11 +33,12 @@ const Subscription = () => {
 	})
 	const onSubmit: SubmitHandler<subscriptionTypes> = async data => {
 		try {
+			
 			const res = await subscribe({ email: data.email }).unwrap()
 
 			if (res) {
 				setSuccessSubscription(res.message)
-				reset({ email: '' })
+				resetField('email')
 			}
 			if (errors) clearErrors()
 		} catch (error) {
@@ -54,6 +56,7 @@ const Subscription = () => {
 			}
 		}
 	}
+	
 	useEffect(() => {
 		if (successSubscription) {
 			const timer = setTimeout(() => {
@@ -80,7 +83,6 @@ const Subscription = () => {
 					<input
 						{...register('email')}
 						type="email"
-						name="email"
 						id="email"
 						placeholder="Your email Address"
 						readOnly={isSubmitting}
