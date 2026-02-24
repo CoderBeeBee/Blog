@@ -308,8 +308,12 @@ Plik ten wrzucamy na hosting frontendowy
 - **Wolf Kit Rounded Line Icons**
   Autor: thewolfkit
   Licencja: Creative Commons Uznanie autorstwa 4.0 Międzynarodowa (CC BY 4.0)
-  Licencja: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/)
-
+ *Licencja CC BY 4.0 pozwala na używanie, modyfikację oraz rozpowszechnianie (w tym w celach komercyjnych), pod warunkiem podania informacji o autorze oraz dołączenia informacji o licencji.*
+ 
+- **Laura Reen Icons**
+  Autor: Laura Reen
+  Repozytorium: [http://laurareen.com/](http://laurareen.com/)
+  Licencja: Creative Commons Uznanie autorstwa 4.0 Międzynarodowa (CC BY 4.0)
   *Licencja CC BY 4.0 pozwala na używanie, modyfikację oraz rozpowszechnianie (w tym w celach komercyjnych), pod warunkiem podania informacji o autorze oraz dołączenia informacji o licencji.*
 
 - **Jtb Variety Oval Icons**

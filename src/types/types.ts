@@ -90,6 +90,7 @@ export interface UsersProps {
 	commentsCount: number
 	postCount?: number
 	lastLogin: string
+	lastLogout: string
 }
 export interface UserProps {
 	name: string

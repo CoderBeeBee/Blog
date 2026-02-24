@@ -57,6 +57,7 @@ const Login = () => {
 			if (!data) return
 
 			const res = await logIn({ email: data.email, password: data.password }).unwrap()
+			
 			if (res) {
 				dispatch(setLogin(true))
 				dispatch(setData(res))

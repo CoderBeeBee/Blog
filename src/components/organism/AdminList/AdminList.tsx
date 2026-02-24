@@ -220,17 +220,16 @@ const AdminList = () => {
 			/>
 			<Popup
 				popupRef={popupRef}
-				popupTitle="DELETE User"
 				handleClosePopup={handleClosePopup}
 				handleDelete={handleDeleteUser}
 				popUpMessage={popUpMessage}>
 				{!popUpMessage && (
 					<div className={styles.popupInfo}>
 						<span>
-							<span>User Name:</span> {userData.userName}
+							User Name: <span>{userData.userName}</span>
 						</span>
 						<span>
-							<span>User Id:</span> {userData.userId}
+							User Id: <span>{userData.userId}</span>
 						</span>
 					</div>
 				)}

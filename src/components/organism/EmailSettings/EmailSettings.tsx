@@ -83,7 +83,8 @@ const EmailSettings = () => {
 		try {
 			if (!email) return setErrorTestMessage('Enter valid email address')
 			const res = await testSMTP(email).unwrap()
-			if (res) {setTestMessage(res.message)
+			if (res) {
+				setTestMessage(res.message)
 				setEmail('')
 			}
 		} catch (error) {
@@ -182,7 +183,10 @@ const EmailSettings = () => {
 							)}
 
 							<div className={styles.submitBtns}>
-								<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.submitBtn : ''}>
+								<FormBtn
+									type="submit"
+									isSubmitting={isSubmitting}
+									className={`${styles.submitBtn} ${isDirty && !isSubmitting ? styles.save : ''}`}>
 									{isSubmitting ? (
 										<>
 											Saving

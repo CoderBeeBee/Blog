@@ -75,6 +75,7 @@ export const analyticsSchema = z.object({
 export const differentSchema = z.object({
 	searchEngine: z.boolean(),
 	contactForm: z.boolean(),
+	subscriptions:z.boolean()
 })
 
 export type generalTypes = z.infer<typeof generalSchema>
@@ -102,6 +103,7 @@ export const analyticsDefaults: analyticsTypes = {
 export const differentDefaults: differentTypes = {
 	searchEngine: false,
 	contactForm: false,
+	subscriptions:false
 }
 export const postsDefaults: postsTypes = {
 	heroPostLimit: 0,

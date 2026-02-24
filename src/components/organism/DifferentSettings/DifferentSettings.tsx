@@ -11,6 +11,8 @@ import styles from './DifferentSettings.module.scss'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { useUpdateDifferentSettingsMutation } from '../../../slices/api/settingsApi'
 import useMenuContext from '../../../hooks/useMenuContext'
+
+
 const DifferentSettings = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
 	const [updateSettings] = useUpdateDifferentSettingsMutation()
@@ -32,9 +34,9 @@ const DifferentSettings = () => {
 		formState: { isSubmitting, errors, isDirty },
 	} = methods
 
-	const [searchEngine, contactForm] = useWatch({
+	const [searchEngine, contactForm,subscriptions] = useWatch({
 		control,
-		name: ['searchEngine', 'contactForm'],
+		name: ['searchEngine', 'contactForm','subscriptions'],
 	})
 
 	const onSubmit: SubmitHandler<differentTypes> = async data => {
@@ -114,6 +116,14 @@ const DifferentSettings = () => {
 						styles={styles}
 						isSubmitting={isSubmitting}>
 						<SwitchButton switchButton={contactForm} isSubmitting={isSubmitting} />
+					</RHFCheckbox>
+					<RHFCheckbox
+						name="subscriptions"
+						id="subscriptions"
+						label="Subscriptions"
+						styles={styles}
+						isSubmitting={isSubmitting}>
+						<SwitchButton switchButton={subscriptions} isSubmitting={isSubmitting} />
 					</RHFCheckbox>
 
 					{(errors.root?.message || successMessage) && (

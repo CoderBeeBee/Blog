@@ -29,18 +29,18 @@
 	&::before {
 		content: '';
 		position: absolute;
-		// z-index: 1;
+		
 		border-radius: 100%;
 		inset: -42%;
 		transform: scale(0);
-		background-color: #016bf8;
+		background-color: var(--mainColor);
 		transform-origin: center center;
 		transition: transform 0.1s ease-in-out 50ms;
 	}
 }
 .scaleCheckmark {
-	background-color: #016bf8;
-	border-color: #016bf8;
+	background-color: var(--mainColor);
+	border-color: var(--mainColor);
 
 	.checkmarkSVG {
 		transform: scale(1) rotate(0deg);
@@ -55,7 +55,7 @@
 	height: 14px;
 	width: 14px;
 	z-index: 0;
-	background-color: #016bf8;
+	background-color: var(--mainColor);
 	transform-origin: center center;
 	transform: scale(0);
 	opacity: 1;

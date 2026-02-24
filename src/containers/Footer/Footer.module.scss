@@ -6,7 +6,7 @@
 	background-color: var(--footerBgc);
 	line-height: calc(0.8125 * var(--space));
 
-	h2 {
+	.footerTitle {
 		font-size: var(--text-xs);
 		font-weight: 400;
 		text-transform: uppercase;
@@ -49,46 +49,7 @@
 			.footerSocialLinks {
 				grid-column: 6/8;
 			}
-			.footerSubscribe {
-				grid-column: 9/13;
-
-				.subscribeForm {
-					margin-top: 1.6rem;
-					.form {
-						display: flex;
-						flex-direction: column;
-
-						input {
-							padding: 0.8rem 2rem;
-							margin-bottom: 1.6rem;
-							background-color: transparent;
-							border: 1px solid var(--blackColorHover);
-							font-size: calc(var(--text-Size) * 0.7778);
-							line-height: 3.2rem;
-							text-align: center;
-							outline: none;
-						}
-						button {
-							padding: 0.8rem 2rem;
-							margin-bottom: 1.6rem;
-							background-color: var(--blackColor);
-							color: var(--whiteColor);
-							border: none;
-							font-size: var(--text-xs);
-							text-transform: uppercase;
-							letter-spacing: 5px;
-							line-height: 3.4rem;
-							text-align: center;
-							transition: all 0.3s ease-in-out;
-							cursor: pointer;
-
-							&:hover {
-								background-color: var(--blackColorHover);
-							}
-						}
-					}
-				}
-			}
+			
 		}
 	}
 	.footerBottom {

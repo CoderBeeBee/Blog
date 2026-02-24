@@ -88,13 +88,13 @@ const ListOfPosts = () => {
 		} else {
 			lastChild?.classList.remove(styles.scaleUp)
 		}
-		if(!el) return
+		if (!el) return
 		if (el !== focusedChevron) {
 			setFocusedChevron(el)
 		} else {
 			setFocusedChevron('')
 		}
-		if ( el === 'status' || el === 'categories') return
+		if (el === 'status' || el === 'categories') return
 		if (el === 'createdAt' || el === 'publishedAt' || el === 'comments' || el === 'views') {
 			setSort(prev => {
 				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
@@ -183,7 +183,6 @@ const ListOfPosts = () => {
 		}
 	}
 
-	
 	return (
 		<div className={styles.listWrapper}>
 			<h3 className={styles.listTitle}>List of Posts</h3>
@@ -302,18 +301,16 @@ const ListOfPosts = () => {
 
 			<Popup
 				popupRef={popupRef}
-				popupTitle="DELETE the post"
 				handleClosePopup={handleClosePopup}
 				handleDelete={handleDeletePost}
 				popUpMessage={popUpMessage}>
 				{!popUpMessage && (
 					<div className={styles.popupInfo}>
 						<span>
-							<span>Post Title: </span>
-							{postData.postTitle}
+							Post Title: <span>{postData.postTitle}</span>
 						</span>
 						<span>
-							<span>Post Id:</span> {postData.postId}
+							Post Id: <span>{postData.postId}</span>
 						</span>
 					</div>
 				)}

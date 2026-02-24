@@ -3,6 +3,7 @@ import {
 	CommentsSVG,
 	DashboardSVG,
 	LawSVG,
+	NewsletterSVG,
 	PostsSVG,
 	ProfileSVG,
 	SecuritySVG,
@@ -51,9 +52,25 @@ const adminLinks: sideBarLinksProps[] = [
 		icon: <CommentsSVG />,
 		children: [
 			{ title: 'List', href: '/admin/comments/list' },
-			
+
 			{ title: 'Change History', href: '/admin/comments/comments-history' },
 		],
+	},
+
+	{
+		title: 'Legal Documents',
+		href: '',
+		icon: <LawSVG />,
+		children: [
+			{ title: 'Privacy Policy ', href: '/admin/legal-documents/privacy-policy' },
+			{ title: 'Terms and Conditions ', href: '/admin/legal-documents/terms-and-conditions' },
+			{ title: 'Acknowledgments ', href: '/admin/legal-documents/acknowledgments' },
+		],
+	},
+	{
+		title: 'Newsletter',
+		href: '/admin/newsletter',
+		icon: <NewsletterSVG />,
 	},
 	{
 		title: 'Security',
@@ -63,17 +80,6 @@ const adminLinks: sideBarLinksProps[] = [
 			{ title: 'Login Attempts', href: '/admin/security/login' },
 			{ title: 'Unauthorized Access', href: '/admin/security/access' },
 			{ title: 'Password Events', href: '/admin/security/passwords' },
-		],
-	},
-	{
-		title: 'Legal Documents',
-		href: '',
-		icon: <LawSVG />,
-		children: [
-			{ title: 'Privacy Policy ', href: '/admin/legal-documents/privacy-policy' },
-			{ title: 'Terms and Conditions ', href: '/admin/legal-documents/terms-and-conditions' },
-			{ title: 'Acknowledgments ', href: '/admin/legal-documents/acknowledgments' },
-			
 		],
 	},
 	{

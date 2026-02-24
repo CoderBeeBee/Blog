@@ -113,6 +113,11 @@
 			.submitBtn {
 				display: flex;
 				align-self: flex-start;
+				cursor: not-allowed;
+			}
+			.save {
+				cursor: pointer;
+
 				color: var(--whiteColor);
 				background-color: var(--mainColor);
 

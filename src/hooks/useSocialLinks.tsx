@@ -9,7 +9,7 @@ const useSocialLinks = () => {
 	const socialLinks: SocialProps[] = [
 		{ name: 'YoutTube', url: youTube, icon: <YouTubeSVG />, ariaLabel: 'Youtube' },
 		{ name: 'Instagram', url: instagram, icon: <InstagramSVG />, ariaLabel: 'Instagram' },
-		{ name: 'Twitter', url: twitter, icon: <TwitterSVG />, ariaLabel: 'X(Twitter)' },
+		{ name: 'X(Twitter)', url: twitter, icon: <TwitterSVG />, ariaLabel: 'X(Twitter)' },
 		{ name: 'Facebook', url: facebook, icon: <FacebookSVG />, ariaLabel: 'Facebook' },
 	]
 

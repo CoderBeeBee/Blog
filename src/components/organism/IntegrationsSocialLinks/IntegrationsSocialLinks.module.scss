@@ -54,16 +54,22 @@
 				}
 			}
 		}
+
+		
 	}
 
 	.submitBtns {
 		display: flex;
 		gap: 2rem;
 		margin-top: 3rem;
-
 		.submitBtn {
 			display: flex;
 			align-self: flex-start;
+			cursor: not-allowed;
+		}
+		.save {
+			cursor: pointer;
+
 			color: var(--whiteColor);
 			background-color: var(--mainColor);
 
@@ -93,6 +99,22 @@
 .error {
 	color: var(--errorColor);
 	font-size: var(--textSize_14);
+}
+@media (width < 800px) {
+	.socialLinksWrapper {
+		.formWrapper {
+			.svgBox {
+				.tooltip {
+					.exampleSVG {
+						
+						top: 3rem;
+						left: -10rem;
+						
+					}
+				}
+			}
+		}
+	}
 }
 @media (width < 800px) {
 	.socialLinksWrapper {

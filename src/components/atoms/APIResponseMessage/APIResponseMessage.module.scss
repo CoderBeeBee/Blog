@@ -2,10 +2,11 @@
 	display: flex;
 	align-items: center;
 	margin-bottom: 1.6rem;
-	padding-left: 1rem;
+	padding: 1rem;
 	font-size: var(--textSize_14);
 	color: var(--textColor);
-	line-height: 50px;
+	line-height: 2.2rem;
+	min-height: 5rem;
 	border-radius: var(--borderRadius06);
 	.warnSVG {
 		margin-right: 0.5rem;

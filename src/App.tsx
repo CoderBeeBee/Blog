@@ -82,6 +82,11 @@ const LegalAcknowledgmentsPage = lazy(
 import Loader from './components/atoms/loader/Loader'
 import PageNotFound from './components/pages/PageNotFound/PageNotFound'
 
+import SubscriptionPage from './components/pages/SubscriptionPage/SubscriptionPage'
+import UnsubscriptionPage from './components/pages/UnsubscriptionPage/UnsubscriptionPage'
+import NewsletterPage from './components/pages/AdminPanel/Newsletter/NewsletterPage'
+
+
 const App = () => {
 	return (
 		<Router basename="/">
@@ -104,6 +109,9 @@ const App = () => {
 						<Route path="privacy-policy" element={<PrivacyPolicy />} />
 						<Route path="terms-and-conditions" element={<TermsAndConditions />} />
 					</Route>
+						<Route path="/verify-subscription" element={<SubscriptionPage />} />
+						<Route path="/unsubscribe" element={<UnsubscriptionPage />} />
+						
 
 					{/* User Routes */}
 					<Route
@@ -169,6 +177,7 @@ const App = () => {
 						<Route path="terms-and-conditions" element={<LegalTermsPage />} />
 						<Route path="acknowledgments" element={<LegalAcknowledgmentsPage />} />
 					</Route>
+					<Route path='newsletter' element={<NewsletterPage/>}/>
 				</Route>
 
 				{/* Settings */}

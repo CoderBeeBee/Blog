@@ -90,7 +90,10 @@ const ProfileTemplate = () => {
 				<Password handleAccountPopup={handleAccountPopup} />
 				<WrapperBox>
 					<p className={styles.boxTitle}>Delete Account</p>
-					<p>You will lose access to your account once your deletion request has been submitted.</p>
+					<p className={styles.deleteText}>
+						By clicking on the button, you will proceed to the account deletion process. You will be able to recover
+						your account within 30 days from the date of confirmation of deletion.
+					</p>
 
 					<AnchorLink href="/account/delete" ariaLabel="Delete account" className={styles.deleteAccount}>
 						Delete Account

@@ -62,7 +62,7 @@ const Profile = () => {
 
 	const onChangeInputProfile = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.currentTarget
-
+		console.log('ok')
 		const { type } = target
 
 		if (type === 'file') {
@@ -107,6 +107,7 @@ const Profile = () => {
 	const onSubmit: SubmitHandler<profileTypes> = async data => {
 		let updatedAvatar = {}
 
+		console.log(data)
 		try {
 			if (!isDirty) return
 			if (data.avatar instanceof File) {
@@ -230,8 +231,8 @@ const Profile = () => {
 
 					<FormBtn
 						type="submit"
-						isSubmitting={!isSubmitting}
-						className={`${styles.saveChanges} ${isDirty ? styles.enabledChanges : ''}`}>
+						isSubmitting={isSubmitting}
+						className={`${styles.saveChanges} ${(isDirty && !isSubmitting) ? styles.enabledChanges : ''}`}>
 						Save Changes
 					</FormBtn>
 				</form>

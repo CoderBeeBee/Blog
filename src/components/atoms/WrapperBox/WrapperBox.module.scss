@@ -5,10 +5,8 @@
     justify-content: flex-start;
     margin: 1.6rem 0;
     padding: 2.4rem;
-    font-size: 13px;
-    background-color: #fff;
-    border: 1px solid #e8edeb;
-    box-shadow: 0px 4px 10px -4px rgba(0,30,43,0.3);
+    background-color: var(--whiteColor);
+    box-shadow: 0px 0px 10px 4px var(--lightGrayColor);
     width: 450px;
     max-width: 90dvw;
     border-radius: var(--borderRadius16);

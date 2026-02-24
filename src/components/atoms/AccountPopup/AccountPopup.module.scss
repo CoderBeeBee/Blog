@@ -9,60 +9,58 @@
 	min-height: 100dvh;
 	height: 100%;
 	width: 100%;
-	background-color: #0000003d;
+	padding: 2rem;
+	background-color: var(--popupBgcOpacity);
 	z-index: 2000;
-
 	.popupWrapper {
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		padding: 4rem;
+		
 		max-width: 560px;
 		width: 100%;
-		min-height: 350px;
+		
 		border-radius: var(--borderRadius16);
 		background-color: var(--whiteColor);
+		overflow: hidden;
 
 		.popupTitle {
+			padding: 2.4rem 3.2rem;
 			font-size: var(--textSize_22);
-			margin-bottom: 3rem;
-			padding-bottom: 2rem;
+			color: var(--whiteColor);
+			background-color: var(--mainColor);
 			border-bottom: 1px solid var(--lightGrayColor);
 		}
 		.sendInfo {
-			margin-top: auto;
+			padding: 2.4rem;
 			font-size: var(--textSize_14);
 			span {
 				font-weight: bold;
 			}
 		}
 		.popupBtn {
-			@include formBtn($padding: 1rem, $bgc: transparent, $color: #000000);
+			@include formBtn($padding: 1rem 2rem, $bgc: var(--mainColor), $color: var(--whiteColor));
+			&:hover {
+				background-color: var(--mainColorHover);
+			}
 		}
 
 		.sendPopupBtn {
-			@include formBtn($padding: 1rem 2rem, $bgc: var(--mainColor), $color: var(--whiteColor));
-			margin-top: auto;
-
-			&:hover {
-				background-color: var(--mainColorHover);
-			}
+			margin:  0  2rem;
+			
 		}
 		.cancelPopupBtn {
-			@include formBtn($padding: 1rem 2rem, $bgc: var(--mainColor), $color: var(--whiteColor));
-
-			&:hover {
-				background-color: var(--mainColorHover);
-			}
+			margin: 2rem 0 2rem 2rem;
+			
 		}
 
 		.popupMessage {
-			margin-top: 1rem;
+			margin: 0 2rem 2rem;
 		}
 
 		.footerLine {
 			margin-top: 1.8rem;
-			padding: 1.8rem 0 0 0;
+			
 			border-top: 1px solid var(--lightGrayColor);
 		}
 
@@ -76,6 +74,7 @@
 			cursor: pointer;
 
 			.closeSVG {
+				fill: var(--darkColor);
 				&:hover {
 					scale: 1.1;
 				}

@@ -412,6 +412,22 @@ const LogoutSVG = ({ className }: IconsProps) => {
 		</svg>
 	)
 }
+// <!-- License: CC Attribution. Made by Laura Reen: http://laurareen.com/ -->
+
+const NewsletterSVG = ({ className }: IconsProps) => (
+	<svg
+		width="800px"
+		height="800px"
+		viewBox="0 0 30 30"
+		id="Layer_1"
+		xmlSpace="preserve"
+		xmlns="http://www.w3.org/2000/svg"
+		xmlnsXlink="http://www.w3.org/1999/xlink"
+		className={className ? className : ` ${styles.newsletterSVG}`}>
+		<path d="M25,6H5C3.9,6,3,6.9,3,8v14c0,1.1,0.9,2,2,2h20c1.1,0,2-0.9,2-2V8C27,6.9,26.1,6,25,6z M23.8,10l-8.1,6.4  c-0.4,0.3-1,0.3-1.5,0l-8-6.3C5.9,9.9,5.8,9.4,6.1,9c0.3-0.3,0.7-0.4,1.1-0.2L15,14l7.9-5.2c0.4-0.2,0.9-0.1,1.1,0.2  C24.2,9.3,24.1,9.8,23.8,10z" />
+	</svg>
+)
+
 export {
 	UsersSVG,
 	PostsSVG,
@@ -435,4 +451,5 @@ export {
 	UploadSVG,
 	LawSVG,
 	LogoutSVG,
+	NewsletterSVG,
 }

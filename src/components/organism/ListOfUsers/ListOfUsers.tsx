@@ -18,6 +18,7 @@ import NotificationNew from '../../atoms/NotificationNew/NotificationNew'
 import longDateConverter from '../../../hooks/longDateConverter'
 import dateConverter from '../../../hooks/dateConverter'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 const ListOfUsers = () => {
 	const popupRef = useRef<HTMLDivElement | null>(null)
@@ -28,7 +29,6 @@ const ListOfUsers = () => {
 		userName: '',
 	})
 
-	// const rowsRef = useRef<HTMLDivElement | null>(null)
 	const [rows, setRows] = useState<number>(10)
 	const [currentPage, setCurrentPage] = useState<number>(1)
 
@@ -68,12 +68,10 @@ const ListOfUsers = () => {
 		const el = target.dataset.element
 
 		if (!el) return
-		if(el !== focusedChevron){
+		if (el !== focusedChevron) {
 			setFocusedChevron(el)
-			
-		}else{
+		} else {
 			setFocusedChevron('')
-			
 		}
 
 		if (el === 'comments' || el === 'lastLogin' || el === 'status') {
@@ -90,8 +88,6 @@ const ListOfUsers = () => {
 
 			return { sortBy: el, order: newOrder }
 		})
-
-
 	}
 
 	useEffect(() => {
@@ -149,12 +145,19 @@ const ListOfUsers = () => {
 
 			refetch()
 		} catch (error) {
-			console.log(error)
+			if (typeof error === 'object' && error !== null) {
+				const fetchError = error as FetchBaseQueryError
+				const message =
+					fetchError.data && typeof fetchError.data === 'object' && 'message' in fetchError.data
+						? (fetchError.data.message as string)
+						: 'An unexpected error has occurder'
+
+				setPopUpMessage(message)
+			} else {
+				setPopUpMessage('An unexpected error has occurder')
+			}
 		}
 	}
-
-
-	
 
 	// if (isFetching) return <Loader />
 	return (
@@ -170,7 +173,7 @@ const ListOfUsers = () => {
 								if (item !== 'actions' && item !== 'role') {
 									return (
 										<div data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
-											{item} <ChevronDownSVG className={`${item === focusedChevron ? styles.chevronRotate : ''}`}/>
+											{item} <ChevronDownSVG className={`${item === focusedChevron ? styles.chevronRotate : ''}`} />
 										</div>
 									)
 								} else {
@@ -185,37 +188,39 @@ const ListOfUsers = () => {
 					</div>
 					<div className={styles.tbody}>
 						{users &&
-							users?.map((item: UsersProps, index: number) => (
+							users?.map((user: UsersProps, index: number) => (
 								<div key={index} className={`${styles.tr} `}>
 									<div className={styles.td}>
 										<AnchorLink
 											ariaLabel="Username"
 											className={styles.tabelTitle}
-											href={`admin/users/profile/${item._id}`}>
-											{item.name}
-											{timePass(item.createdAt, 7) && <NotificationNew />}
+											href={`admin/users/profile/${user._id}`}>
+											{user.name}
+											{timePass(user.createdAt, 7) && <NotificationNew />}
 										</AnchorLink>
 									</div>
 
-									<div className={styles.td}>{item.email}</div>
-									<div className={styles.td}>{new Date(item.createdAt).toLocaleDateString(...dateConverter())}</div>
-									<div className={styles.td}>{item.isVerified.toString()}</div>
+									<div className={styles.td}>{user.email}</div>
+									<div className={styles.td}>{new Date(user.createdAt).toLocaleDateString(...dateConverter())}</div>
+									<div className={styles.td}>{user.isVerified.toString()}</div>
 
-									<div className={styles.td}>{item.commentsCount}</div>
-									<div className={styles.td}>{item.role}</div>
+									<div className={styles.td}>{user.commentsCount}</div>
+									<div className={styles.td}>{user.role}</div>
 									<div className={styles.td}>
-										{!timePass(item.lastLogin, 7) ? (
-											<span className={styles.inActiveUser}>In Active</span>
-										) : (
+										{new Date(user.lastLogin) > new Date(user.lastLogout) ? (
 											<span className={styles.activeUser}>Active</span>
+										) : (
+											<span className={styles.inActiveUser}>In Active</span>
 										)}
 									</div>
-									<div className={styles.td}>{item.lastLogin ? new Date(item.lastLogin).toLocaleString(...longDateConverter()): '-'}</div>
 									<div className={styles.td}>
-										<AnchorLink ariaLabel="Edit button" href={`/admin/users/profile/${item._id}`}>
+										{user.lastLogin ? new Date(user.lastLogin).toLocaleString(...longDateConverter()) : '-'}
+									</div>
+									<div className={styles.td}>
+										<AnchorLink ariaLabel="Edit button" href={`/admin/users/profile/${user._id}`}>
 											<PencilSVG />
 										</AnchorLink>
-										<div data-id={item._id} data-name={item.name} onClick={e => handleOpenPopup(e)}>
+										<div data-id={user._id} data-name={user.name} onClick={e => handleOpenPopup(e)}>
 											<TrashSVG />
 										</div>
 									</div>
@@ -235,17 +240,16 @@ const ListOfUsers = () => {
 			/>
 			<Popup
 				popupRef={popupRef}
-				popupTitle="DELETE User"
 				handleClosePopup={handleClosePopup}
 				handleDelete={handleDeleteUser}
 				popUpMessage={popUpMessage}>
 				{!popUpMessage && (
 					<div className={styles.popupInfo}>
 						<span>
-							<span>User Name:</span> {userData.userName}
+							User Name: <span>{userData.userName}</span>
 						</span>
 						<span>
-							<span>User Id:</span> {userData.userId}
+							User Id: <span>{userData.userId}</span>
 						</span>
 					</div>
 				)}

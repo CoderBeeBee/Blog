@@ -34,10 +34,10 @@ const IntegrationsSocialLinks = () => {
 			if (!data) return
 			if (!isDirty) return
 			console.log(data)
-			const res = await updateIntegrations({ integrations: data })
+			const res = await updateIntegrations({ integrations: data }).unwrap()
 
 			if (res) {
-				setSuccessMessage(res.data.message)
+				setSuccessMessage(res.message)
 				reset(data)
 			}
 			if (errors) clearErrors()
@@ -120,7 +120,7 @@ const IntegrationsSocialLinks = () => {
 						)}
 
 						<div className={styles.submitBtns}>
-							<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.submitBtn : ''}>
+							<FormBtn type="submit" isSubmitting={isSubmitting} className={`${styles.submitBtn} ${isDirty ? styles.save : ''}`}>
 								{isSubmitting ? (
 									<>
 										Saving
