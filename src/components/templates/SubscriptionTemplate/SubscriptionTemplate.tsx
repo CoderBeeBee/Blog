@@ -49,7 +49,7 @@ const SubscribctionTemplate = () => {
 		if (successMessage) {
 			const timer = setTimeout(() => {
 				navigate('/')
-			}, 4000)
+			}, 5000)
 
 			return () => clearTimeout(timer)
 		}

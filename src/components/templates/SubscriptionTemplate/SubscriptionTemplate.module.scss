@@ -4,7 +4,7 @@
 	min-height: 100dvh;
 	height: 100%;
 	width: 100%;
-	background-color: var(--pagesBgc);
+	background-color: #ffffff;
 	padding: 2rem;
 	.subscriptionWrapper {
 		display: flex;
@@ -35,7 +35,7 @@
 		.homePageLink {
 			display: flex;
 			align-self: flex-start;
-			margin: 0 auto;
+			margin: 0 auto 2rem;
 			padding: 1rem 2rem;
 			color: var(--textColor);
 			font-size: var(--textSize_20);

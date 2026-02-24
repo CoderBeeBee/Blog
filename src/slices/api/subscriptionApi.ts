@@ -19,14 +19,7 @@ export const subscriptionApi = createApi({
 				
 			}),
 		}),
-		unsubscribe: builder.mutation({
-			query: ({ email }) => ({
-				url: `${SUB_URL}/unsubscribe`,
-				method: 'POST',
-				headers: { 'Content-type': 'application/json' },
-				body: { email },
-			}),
-		}),
+		
 		confirmUnsubscribe: builder.query({
 			query: ({ token }) => ({
 				url: `${SUB_URL}/confirm-unsubscribe?token=${token}`,
@@ -39,4 +32,4 @@ export const subscriptionApi = createApi({
 	}),
 })
 
-export const { useSubscriptionMutation,useVerifySubscriptionQuery,useUnsubscribeMutation,useConfirmUnsubscribeQuery } = subscriptionApi
+export const { useSubscriptionMutation,useVerifySubscriptionQuery,useConfirmUnsubscribeQuery } = subscriptionApi

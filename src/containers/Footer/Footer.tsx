@@ -38,7 +38,7 @@ const Footer = () => {
 						<h2 className={styles.footerTitle}>Follow Us</h2>
 						<ul className={styles.footerList}>
 							{socialLinks.map(social => {
-								console.log(socialLinks)
+								
 								return (
 									<SocialIcon key={social.name} social={social} styles={styles}>
 										{social.name}

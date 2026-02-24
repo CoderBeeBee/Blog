@@ -120,7 +120,7 @@ const IntegrationsSocialLinks = () => {
 						)}
 
 						<div className={styles.submitBtns}>
-							<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.submitBtn : ''}>
+							<FormBtn type="submit" isSubmitting={isSubmitting} className={`${styles.submitBtn} ${isDirty ? styles.save : ''}`}>
 								{isSubmitting ? (
 									<>
 										Saving
