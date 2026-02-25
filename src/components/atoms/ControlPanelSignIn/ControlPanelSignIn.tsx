@@ -1,19 +1,19 @@
 import AnchorLink from '../AnchorLink/AnchorLink'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 
 interface ControlPanelSignInProps {
 	styles: Record<string, string>
 }
 
 const ControlPanelSignIn = ({ styles }: ControlPanelSignInProps) => {
-	const { userRef, openCloseUserMenu, toggleMenu } = useMenuContext()
+	const { userRef, openCloseUserMenu, toggleMenu } = useGlobalContext()
 	return (
 		<div ref={userRef} className={styles.signInWrapper}>
-			<button type='button' onClick={() => openCloseUserMenu()} className={styles.signInBtn}>
+			<button type="button" onClick={() => openCloseUserMenu()} className={styles.signInBtn}>
 				Sign In
 			</button>
 
-			<div  className={`${styles.linksWrapper} ${toggleMenu ? styles.displayVisibility : ''}`}>
+			<div className={`${styles.linksWrapper} ${toggleMenu ? styles.displayVisibility : ''}`}>
 				<AnchorLink className={styles.anchorLink} href="/login">
 					Sign In
 				</AnchorLink>

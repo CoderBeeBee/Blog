@@ -10,14 +10,14 @@ import SwitchButton from '../../atoms/SwitchButton/SwitchButton'
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { useUpdateSecuritySettingsMutation } from '../../../slices/api/settingsApi'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 import RHFInput from '../../atoms/RHFInput/RHFInput'
 
 const SecuritySettings = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
 
 	const [updateSettings] = useUpdateSecuritySettingsMutation()
-	const { security } = useMenuContext()
+	const { security } = useGlobalContext()
 	const methods = useForm<securityTypes>({
 		mode: 'onSubmit',
 		reValidateMode: 'onChange',
@@ -103,67 +103,69 @@ const SecuritySettings = () => {
 		}
 	}, [clearErrors, errors.root?.message, reset, security, successMessage])
 	return (
-		<FormProvider {...methods}>
-			<WrapperBox>
-				<p className={styles.boxTitle}>Security Settings</p>
-				<form onSubmit={handleSubmit(onSubmit)} aria-busy={isSubmitting} className={styles.formWrapper}>
-					<RHFCheckbox
-						name="registrationEnabled"
-						id="registration"
-						label="Registration"
-						styles={styles}
-						isSubmitting={isSubmitting}>
-						<SwitchButton switchButton={registrationEnabled} isSubmitting={isSubmitting} />
-					</RHFCheckbox>
-					<RHFCheckbox name="loginEnabled" id="login" label="Login" styles={styles} isSubmitting={isSubmitting}>
-						<SwitchButton switchButton={loginEnabled} isSubmitting={isSubmitting} />
-					</RHFCheckbox>
-					<RHFCheckbox
-						name="maintenanceMode.maintenance"
-						id="maintenance"
-						label="Maintenance"
-						styles={styles}
-						isSubmitting={isSubmitting}>
-						<SwitchButton switchButton={maintenanceMode.maintenance} isSubmitting={isSubmitting} />
-					</RHFCheckbox>
-					<RHFInput
-						type="datetime-local"
-						name="maintenanceMode.breakUntil"
-						id="breakUntil"
-						label="Break until"
-						isSubmitting={isSubmitting}
-						styles={styles}
-					/>
-					{(errors.root?.message || successMessage) && (
-						<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
-							{errors.root?.message ? errors.root.message : successMessage}
-						</APIResponseMessage>
-					)}
-					<div className={styles.submitBtns}>
-						<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.saveSettings : ''}>
-							{isSubmitting ? (
-								<>
-									Saving
-									<span className={styles.animate1}>.</span>
-									<span className={styles.animate2}>.</span>
-									<span className={styles.animate3}>.</span>
-								</>
-							) : (
-								'Save'
-							)}
-						</FormBtn>
-
-						<FormBtn
-							type="button"
+		<div className={styles.securityWrapper}>
+			<FormProvider {...methods}>
+				<WrapperBox>
+					<p className={styles.boxTitle}>Security Settings</p>
+					<form onSubmit={handleSubmit(onSubmit)} aria-busy={isSubmitting} className={styles.formWrapper}>
+						<RHFCheckbox
+							name="registrationEnabled"
+							id="registration"
+							label="Registration"
+							styles={styles}
+							isSubmitting={isSubmitting}>
+							<SwitchButton switchButton={registrationEnabled} isSubmitting={isSubmitting} />
+						</RHFCheckbox>
+						<RHFCheckbox name="loginEnabled" id="login" label="Login" styles={styles} isSubmitting={isSubmitting}>
+							<SwitchButton switchButton={loginEnabled} isSubmitting={isSubmitting} />
+						</RHFCheckbox>
+						<RHFCheckbox
+							name="maintenanceMode.maintenance"
+							id="maintenance"
+							label="Maintenance"
+							styles={styles}
+							isSubmitting={isSubmitting}>
+							<SwitchButton switchButton={maintenanceMode.maintenance} isSubmitting={isSubmitting} />
+						</RHFCheckbox>
+						<RHFInput
+							type="datetime-local"
+							name="maintenanceMode.breakUntil"
+							id="breakUntil"
+							label="Break until"
 							isSubmitting={isSubmitting}
-							className={styles.clearButton}
-							handleResetFields={handleResetFields}>
-							Clear
-						</FormBtn>
-					</div>
-				</form>
-			</WrapperBox>
-		</FormProvider>
+							styles={styles}
+						/>
+						{(errors.root?.message || successMessage) && (
+							<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
+								{errors.root?.message ? errors.root.message : successMessage}
+							</APIResponseMessage>
+						)}
+						<div className={styles.submitBtns}>
+							<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.saveSettings : ''}>
+								{isSubmitting ? (
+									<>
+										Saving
+										<span className={styles.animate1}>.</span>
+										<span className={styles.animate2}>.</span>
+										<span className={styles.animate3}>.</span>
+									</>
+								) : (
+									'Save'
+								)}
+							</FormBtn>
+
+							<FormBtn
+								type="button"
+								isSubmitting={isSubmitting}
+								className={styles.clearButton}
+								handleResetFields={handleResetFields}>
+								Clear
+							</FormBtn>
+						</div>
+					</form>
+				</WrapperBox>
+			</FormProvider>
+		</div>
 	)
 }
 

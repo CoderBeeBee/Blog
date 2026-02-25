@@ -10,13 +10,12 @@ import SwitchButton from '../../atoms/SwitchButton/SwitchButton'
 import styles from './DifferentSettings.module.scss'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { useUpdateDifferentSettingsMutation } from '../../../slices/api/settingsApi'
-import useMenuContext from '../../../hooks/useMenuContext'
-
+import useGlobalContext from '../../../hooks/useGlobalContext'
 
 const DifferentSettings = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
 	const [updateSettings] = useUpdateDifferentSettingsMutation()
-	const { different } = useMenuContext()
+	const { different } = useGlobalContext()
 	const methods = useForm<differentTypes>({
 		mode: 'onSubmit',
 		reValidateMode: 'onChange',
@@ -34,9 +33,9 @@ const DifferentSettings = () => {
 		formState: { isSubmitting, errors, isDirty },
 	} = methods
 
-	const [searchEngine, contactForm,subscriptions] = useWatch({
+	const [searchEngine, contactForm, subscriptions] = useWatch({
 		control,
-		name: ['searchEngine', 'contactForm','subscriptions'],
+		name: ['searchEngine', 'contactForm', 'subscriptions'],
 	})
 
 	const onSubmit: SubmitHandler<differentTypes> = async data => {

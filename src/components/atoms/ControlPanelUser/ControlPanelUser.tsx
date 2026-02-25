@@ -3,7 +3,7 @@ import AnchorLink from '../AnchorLink/AnchorLink'
 import type { RootState } from '../../../store'
 
 import SignOutBtn from '../SingOutBtn/SignOutBtn'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 import { accountLinks, adminLinks } from '../../../utils/sideBarLinks'
 import type { KeyboardEvent } from 'react'
 
@@ -13,7 +13,7 @@ interface ControlPanelUserProps {
 
 const ControlPanelUser = ({ styles }: ControlPanelUserProps) => {
 	const { role, name, avatar } = useSelector((state: RootState) => state.auth)
-	const { userRef, openCloseUserMenu, toggleMenu } = useMenuContext()
+	const { userRef, openCloseUserMenu, toggleMenu } = useGlobalContext()
 
 	const admin = adminLinks[0].href
 	const account = accountLinks[0].children![0].href

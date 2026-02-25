@@ -162,8 +162,11 @@ const ListOfUsers = () => {
 	// if (isFetching) return <Loader />
 	return (
 		<div className={styles.listWrapper}>
-			<h3 className={styles.listTitle}>List of Users</h3>
-			<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+			<div className={styles.listWrapperHeader}>
+				<h3 className={styles.listTitle}>List of Users</h3>
+
+				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+			</div>
 
 			<div className={styles.listContainer}>
 				<div className={styles.tableContainer}>
@@ -193,11 +196,11 @@ const ListOfUsers = () => {
 									<div className={styles.td}>
 										<AnchorLink
 											ariaLabel="Username"
-											className={styles.tabelTitle}
+											className={styles.listUserName}
 											href={`admin/users/profile/${user._id}`}>
 											{user.name}
-											{timePass(user.createdAt, 7) && <NotificationNew />}
 										</AnchorLink>
+										{timePass(user.createdAt, 7) && <NotificationNew />}
 									</div>
 
 									<div className={styles.td}>{user.email}</div>

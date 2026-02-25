@@ -151,12 +151,7 @@
 	color: var(--errorColor);
 	font-size: var(--textSize_14);
 }
-@media (width < 800px) {
-	.legalTermsWrapper {
-		align-items: center;
-		margin-top: 3rem;
-	}
-}
+
 @keyframes animateDot {
 	0% {
 		opacity: 0;

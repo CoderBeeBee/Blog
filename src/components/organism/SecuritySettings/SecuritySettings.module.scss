@@ -1,110 +1,117 @@
-.boxTitle {
-	margin-bottom: 1rem;
-	font-weight: 400;
-	line-height: 4rem;
-	font-family: var(--font-2);
-	font-size: var(--textSize_20);
-	color: var(--textColor);
-}
-.formWrapper {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
+.securityWrapper {
+	.boxTitle {
+		margin-bottom: 2rem;
+		font-weight: 400;
+		line-height: 4rem;
+		font-family: var(--font-2);
+		font-size: var(--textSize_20);
+		color: var(--textColor);
+	}
+	.formWrapper {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
 
-	.formCheckbox {
-		label {
+		.formCheckbox {
+			label {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+				line-height: 20px;
+				font-family: var(--font-2);
+				margin-bottom: 2rem;
+				font-size: var(--textSize_18);
+				font-weight: 500;
+				color: var(--textColor);
+				z-index: 100;
+				cursor: pointer;
+			}
+			input {
+				display: none;
+			}
+		}
+		.formInputBox {
 			display: flex;
 			flex-direction: row;
-			align-items: center;
 			justify-content: space-between;
-			line-height: 20px;
-			font-family: var(--font-2);
+			align-items: center;
+			flex-wrap: wrap;
 			margin-bottom: 2rem;
-			font-size: var(--textSize_18);
-			font-weight: 500;
-			color: var(--textColor);
-			z-index: 100;
-			cursor: pointer;
-		}
-		input {
-			display: none;
-		}
-	}
-	.formInputBox {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		margin-bottom: 2rem;
 
-		label {
-			
-			
-			line-height: 20px;
-			color: var(--textColor);
-			font-family: var(--font-2);
-			font-size: var(--textSize_18);
-			font-weight: 500;
-		}
-		.formInput {
-			input {
-				width: 100%;
-				padding: var(--vspace-0_25);
-				font-size: var(--textSize_16);
-				font-family: var(--font-2);
+			label {
+				line-height: 20px;
 				color: var(--textColor);
-				border: 1px solid var(--lightGrayColor);
-				outline: none;
-				transition: all 0.3s;
+				font-family: var(--font-2);
+				font-size: var(--textSize_18);
+				font-weight: 500;
+			}
+			.formInput {
+				input {
+					width: 100%;
+					padding: var(--vspace-0_25);
+					font-size: var(--textSize_16);
+					font-family: var(--font-2);
+					color: var(--textColor);
+					border: 1px solid var(--lightGrayColor);
+					outline: none;
+					transition: all 0.3s;
+
+					&:hover {
+						box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
+						border-color: var(--whiteColor);
+					}
+
+					&:focus {
+						box-shadow: 0px 0px 0px 2px var(--mainColor);
+						border-color: var(--whiteColor);
+					}
+				}
+			}
+		}
+		.submitBtns {
+			display: flex;
+			gap: 2rem;
+			margin-top: 3rem;
+
+			.saveSettings {
+				display: flex;
+				align-self: flex-start;
+				color: var(--whiteColor);
+				background-color: var(--mainColor);
 
 				&:hover {
-					box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-					border-color: var(--whiteColor);
-				}
-
-				&:focus {
-					box-shadow: 0px 0px 0px 2px var(--mainColor);
-					border-color: var(--whiteColor);
+					background-color: var(--mainColorHover);
 				}
 			}
-		}
-	}
-	.submitBtns {
-		display: flex;
-		gap: 2rem;
-		margin-top: 3rem;
-
-		.saveSettings {
-			display: flex;
-			align-self: flex-start;
-			color: var(--whiteColor);
-			background-color: var(--mainColor);
-
-			&:hover {
-				background-color: var(--mainColorHover);
+			.animate1 {
+				animation: animateDot 1.4s ease-in-out 0.2s infinite;
+			}
+			.animate2 {
+				animation: animateDot 1.4s ease-in-out 0.4s infinite;
+			}
+			.animate3 {
+				animation: animateDot 1.4s ease-in-out 0.6s infinite;
+			}
+			.clearButton {
+				transition: all 0.3s;
+				&:hover {
+					color: var(--whiteColor);
+					background-color: var(--clearButtonBgc);
+				}
 			}
 		}
-		.animate1 {
-			animation: animateDot 1.4s ease-in-out 0.2s infinite;
-		}
-		.animate2 {
-			animation: animateDot 1.4s ease-in-out 0.4s infinite;
-		}
-		.animate3 {
-			animation: animateDot 1.4s ease-in-out 0.6s infinite;
-		}
-		.clearButton {
-			transition: all 0.3s;
-			&:hover {
-				color: var(--whiteColor);
-				background-color: var(--clearButtonBgc);
-			}
+		.error {
+			color: var(--errorColor);
+			font-size: var(--textSize_14);
 		}
 	}
-	.error {
-		color: var(--errorColor);
-		font-size: var(--textSize_14);
+}
+
+@media (width < 800px) {
+	.securityWrapper {
+		margin-left: auto;
+		margin-right: auto;
 	}
 }
 @keyframes animateDot {

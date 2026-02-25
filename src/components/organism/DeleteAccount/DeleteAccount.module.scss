@@ -1,17 +1,15 @@
 @use '../../../assets/styles/variable' as *;
-.title {
-	
-	margin-top: 2rem;
-	font-size: var(--textSize_26);
-	font-weight: 400;
-	line-height: 4rem;
-	font-family: var(--font-2);
-	color: var(--sideBarColor);
-}
 
 .deleteAccountWrapper {
-	display: flex;
-	flex-direction: column;
+	.title {
+		margin-top: 2rem;
+		font-size: var(--textSize_26);
+		font-weight: 400;
+		line-height: 4rem;
+		font-family: var(--font-2);
+		color: var(--sideBarColor);
+	}
+
 	.deleteForm {
 		display: flex;
 		flex-direction: column;
@@ -42,9 +40,9 @@
 		}
 	}
 }
-
 @media (width < 800px) {
-	.title {
-		margin-top: 7rem;
+	.deleteAccountWrapper {
+		margin-left: auto;
+		margin-right: auto;
 	}
 }

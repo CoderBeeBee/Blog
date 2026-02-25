@@ -2,15 +2,12 @@
 	position: relative;
 	width: 100%;
 	height: 100%;
-	min-height: 100dvh;
-	
 	background-color: var(--pagesBgc);
-	padding: 2rem;
-	overflow: hidden;
+	padding:2rem 3rem;
 
-	.statisticTitle {
-		margin-bottom: 3rem;
-		font-size: var(--textSize_26);
+	.dashboardTitle {
+		margin-bottom: 2rem;
+		font-size: var(--textSize_20);
 		font-weight: 400;
 		line-height: 4rem;
 		font-family: var(--font-2);

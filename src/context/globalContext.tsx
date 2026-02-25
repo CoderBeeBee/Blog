@@ -1,4 +1,13 @@
-import { createContext, useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type ReactNode, type RefObject } from 'react'
+import {
+	createContext,
+	useEffect,
+	useRef,
+	useState,
+	type KeyboardEvent,
+	type MouseEvent,
+	type ReactNode,
+	type RefObject,
+} from 'react'
 
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router'
@@ -17,7 +26,7 @@ import type {
 	postsTypes,
 	interactionTypes,
 	differentTypes,
-	generalTypes,
+	basicTypes,
 	securityTypes,
 } from '../types/settingsSchema'
 import type { socialTypes } from '../types/integrationsSchema'
@@ -26,7 +35,7 @@ interface MenuContextProps {
 	children: ReactNode
 }
 
-interface CreateContextProps {
+interface GlobalContextProps {
 	openCloseUserMenu: () => void
 	handleOpenCloseDropdown: (e: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>) => void
 	signOut: () => void
@@ -38,7 +47,7 @@ interface CreateContextProps {
 	activeIndex: number | null
 	toggleMenu: boolean
 	sideBarMenu: ReturnType<typeof useMobileSideBarMenu>
-	general: generalTypes
+	basic: basicTypes
 	security: securityTypes
 	posts: postsTypes
 	interactions: interactionTypes
@@ -47,9 +56,9 @@ interface CreateContextProps {
 	integrations: socialTypes
 }
 
-const MenuContext = createContext<CreateContextProps | null>(null)
+const GlobalContext = createContext<GlobalContextProps | null>(null)
 
-const MenuProvider = ({ children }: MenuContextProps) => {
+const GlobalProvider = ({ children }: MenuContextProps) => {
 	const navigate = useNavigate()
 	const [logOut] = useLogOutMutation()
 	const { pathname } = useLocation()
@@ -64,13 +73,13 @@ const MenuProvider = ({ children }: MenuContextProps) => {
 	const [toggleMenu, setToggleMenu] = useState<boolean>(false)
 	const { close } = sideBarMenu
 	const { data: settings, isLoading } = useFetchSettingsQuery({})
-	const { general, security, posts, interactions, analytics, different, integrations } = settings ?? {}
+	const { basic, security, posts, interactions, analytics, different, integrations } = settings ?? {}
 
 	// Open close mobile dropdown
 	const handleOpenCloseDropdown = (e: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>) => {
 		const target = e.currentTarget
 		const element = Number(target.dataset.element)
-		
+
 		if (Number.isNaN(element)) return
 		if (activeIndex === element) {
 			setActiveIndex(null)
@@ -91,11 +100,14 @@ const MenuProvider = ({ children }: MenuContextProps) => {
 			const el2 = sideBarRef.current
 			if (!el && !el2) return
 
-			if (!el?.contains(e.target as Node) && !el2) {
+			const target = e.target as Node
+			
+			if (!el?.contains(target)) {
 				setToggleMenu(false)
 			}
 
-			if (!el2?.contains(e.target as Node) && !el) {
+			
+			if (!el2?.contains(target)) {
 				close()
 			}
 		}
@@ -125,7 +137,7 @@ const MenuProvider = ({ children }: MenuContextProps) => {
 		}
 	}
 
-	const value: CreateContextProps = {
+	const value: GlobalContextProps = {
 		openCloseUserMenu,
 		handleOpenCloseDropdown,
 		signOut,
@@ -137,7 +149,7 @@ const MenuProvider = ({ children }: MenuContextProps) => {
 		toggleMenu,
 		sideBarMenu,
 		sideBarRef,
-		general,
+		basic,
 		security,
 		posts,
 		interactions,
@@ -148,7 +160,7 @@ const MenuProvider = ({ children }: MenuContextProps) => {
 	if (isLoading) {
 		return null
 	}
-	return <MenuContext value={value}>{children}</MenuContext>
+	return <GlobalContext value={value}>{children}</GlobalContext>
 }
 
-export { MenuContext, MenuProvider }
+export { GlobalContext, GlobalProvider }

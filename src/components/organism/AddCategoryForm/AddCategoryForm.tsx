@@ -82,11 +82,10 @@ const AddCategoryForm = () => {
 		reset()
 	}
 	return (
-		<FormProvider {...methods}>
-			<div className={styles.addCategoryContainer}>
+		<div className={styles.addCategoryWrapper}>
+			<FormProvider {...methods}>
 				<WrapperBox>
-					<p className={styles.addCategoryTitle}>Add Category</p>
-
+				<h3 className={styles.addCategoryTitle}>Add Category</h3>
 					<form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
 						<div className={styles.formWrapper}>
 							<RHFInput
@@ -106,7 +105,7 @@ const AddCategoryForm = () => {
 								isSubmitting={isSubmitting}
 							/>
 						</div>
-						
+
 						{(errors.root?.message || successMessage) && (
 							<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
 								{errors.root?.message ? errors.root.message : successMessage}
@@ -140,8 +139,8 @@ const AddCategoryForm = () => {
 						</div>
 					</form>
 				</WrapperBox>
-			</div>
-		</FormProvider>
+			</FormProvider>
+		</div>
 	)
 }
 

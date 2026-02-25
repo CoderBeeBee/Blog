@@ -1,5 +1,5 @@
 @use '../../../assets/styles/variable' as *;
-.changeEmailContainer {
+.changeEmailWrapper {
 	.title {
 		margin-block: 2rem;
 		font-size: var(--textSize_26);
@@ -47,7 +47,7 @@
 			}
 			.cancelReset {
 				@include formBtn($padding: 1rem 2rem, $bgc: var(--mainColor), $color: var(--whiteColor));
-				
+
 				cursor: pointer;
 
 				&:hover {
@@ -55,5 +55,12 @@
 				}
 			}
 		}
+	}
+}
+
+@media (width < 800px) {
+	.changeEmailWrapper {
+		margin-left: auto;
+		margin-right: auto;
 	}
 }

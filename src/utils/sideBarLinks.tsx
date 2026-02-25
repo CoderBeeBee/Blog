@@ -87,7 +87,7 @@ const adminLinks: sideBarLinksProps[] = [
 		href: '',
 		icon: <SettingsSVG />,
 		children: [
-			{ title: 'General ', href: '/admin/settings/general' },
+			{ title: 'Basic', href: '/admin/settings/basic' },
 			{ title: 'Security ', href: '/admin/settings/security' },
 			{ title: 'Posts ', href: '/admin/settings/posts' },
 			{ title: 'Interactions ', href: '/admin/settings/interactions' },
@@ -96,6 +96,11 @@ const adminLinks: sideBarLinksProps[] = [
 			{ title: 'Integrations', href: '/admin/settings/integrations' },
 		],
 	},
+	
+	
+	
+	
+	
 ]
 const accountLinks: sideBarLinksProps[] = [
 	{

@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import type { RootState } from '../../store'
 import { Navigate, Outlet } from 'react-router'
-import { MenuProvider } from '../../context/menuContext'
+import { GlobalProvider } from '../../context/globalContext'
 
 const UserRoute = () => {
 	const { isLogged } = useSelector((state: RootState) => state.auth)
@@ -10,9 +10,9 @@ const UserRoute = () => {
 
 	return (
 		<>
-			<MenuProvider>
+			<GlobalProvider>
 				<Outlet />
-			</MenuProvider>
+			</GlobalProvider>
 		</>
 	)
 }

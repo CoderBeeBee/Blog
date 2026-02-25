@@ -1,4 +1,4 @@
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 
 import type { ReactNode } from 'react'
 
@@ -9,11 +9,11 @@ interface SignOutBtnProps {
 }
 
 const SignOutBtn = ({ children, className, ariaLabel }: SignOutBtnProps) => {
-	const { signOut, mobileMenu,openCloseUserMenu } = useMenuContext()
+	const { signOut, mobileMenu, openCloseUserMenu } = useGlobalContext()
 	const { toggle } = mobileMenu
 	return (
 		<button
-		type='button'
+			type="button"
 			title="Sign Out"
 			aria-label={ariaLabel}
 			className={className}

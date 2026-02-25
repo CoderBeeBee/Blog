@@ -10,6 +10,7 @@
 	padding: 0 2rem;
 
 	.title {
+		text-align: left;
 		margin-block: 2rem;
 		font-size: var(--textSize_26);
 		font-weight: 400;
@@ -59,13 +60,12 @@
 			border: none;
 			background-color: transparent;
 			cursor: pointer;
-			
-			&:hover{
-				color: var(--mainColorHover);
 
+			&:hover {
+				color: var(--mainColorHover);
 			}
 		}
-		.deleteText{
+		.deleteText {
 			font-size: var(--textSize_14);
 			line-height: 2.2rem;
 			color: var(--blackColor);
@@ -85,6 +85,15 @@
 
 @media (max-width: 800px) {
 	.profileTemplateContainer {
-		align-items: center;
+		.title {
+			max-width: 450px;
+			width: 100%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.profileWrapper {
+			margin-left: auto;
+			margin-right: auto;
+		}
 	}
 }

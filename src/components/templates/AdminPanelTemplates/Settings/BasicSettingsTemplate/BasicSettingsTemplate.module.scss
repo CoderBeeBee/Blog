@@ -1,12 +1,13 @@
-.legalPrivacyContainer {
+.basicSettingsTemplateContainer {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	min-height: 100dvh;
 	height: 100%;
 	width: 100%;
 	background-color: var(--pagesBgc);
-	padding: 4rem 2rem;
+	padding: 2rem;
 	overflow: hidden;
+
 }
+
 

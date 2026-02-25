@@ -3,7 +3,7 @@ import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 import type { MenuTypes } from '../../../containers/Navigation/dataNavigation/dataNavigation'
 
 import DropdownMenu from '../../atoms/DropdownMenu/DropdownMenu'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 interface MenuElementProps {
 	data: MenuTypes
@@ -28,7 +28,7 @@ const MenuElement = ({
 	handleCloseDropDown,
 	toggle,
 }: MenuElementProps) => {
-	const { handleOpenCloseDropdown, activeIndex } = useMenuContext()
+	const { handleOpenCloseDropdown, activeIndex } = useGlobalContext()
 	const [onkeyToogle, setOnKeyToggle] = useState<number | null>(null)
 	if (data.href === '') {
 		return (

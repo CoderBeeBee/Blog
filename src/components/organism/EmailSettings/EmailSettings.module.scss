@@ -1,11 +1,8 @@
 .emailSettingsWrapper {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	height: 100%;
-
 	.boxTitle {
-		margin-bottom: 1rem;
+		margin-bottom: 2rem;
 		font-weight: 500;
 		line-height: 4rem;
 		font-family: var(--font-2);
@@ -190,8 +187,8 @@
 }
 @media (width < 800px) {
 	.emailSettingsWrapper {
-		align-items: center;
-		margin-top: 5rem;
+		margin-left: auto;
+		margin-right: auto;
 	}
 }
 @keyframes animateDot {

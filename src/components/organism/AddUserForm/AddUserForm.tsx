@@ -91,8 +91,8 @@ const AddUserForm = () => {
 		reset()
 	}
 	return (
-		<FormProvider {...methods}>
-			<div className={styles.addUserFormContainer}>
+		<div className={styles.addUserWrapper}>
+			<FormProvider {...methods}>
 				<WrapperBox>
 					<p className={styles.addUserTitle}>Add User</p>
 					<form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
@@ -141,8 +141,8 @@ const AddUserForm = () => {
 						</div>
 					</form>
 				</WrapperBox>
-			</div>
-		</FormProvider>
+			</FormProvider>
+		</div>
 	)
 }
 

@@ -91,7 +91,7 @@ const LegalTerms = () => {
 
 	return (
 		<div className={styles.legalTermsWrapper}>
-			<h3 className={styles.wrapperTitle}>Legal Document Terms and Conditions</h3>
+			<h3 className={styles.wrapperTitle}> Terms and Conditions</h3>
 
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper} aria-busy={isSubmitting}>

@@ -159,8 +159,10 @@ const ListOfComments = () => {
 	// if (isFetching) return <Loader />
 	return (
 		<div className={styles.listWrapper}>
-			<h3 className={styles.listTitle}>List of Comments</h3>
-			<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+			<div className={styles.listWrapperHeader}>
+				<h3 className={styles.listTitle}>List of Comments</h3>
+				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+			</div>
 
 			<div className={styles.listContainer}>
 				<div className={styles.tableContainer}>
@@ -244,7 +246,6 @@ const ListOfComments = () => {
 				popUpMessage={popUpMessage}>
 				{!popUpMessage && (
 					<div className={styles.popupInfo}>
-						
 						<span>
 							Comment Id: <span>{userData.commentId}</span>
 						</span>

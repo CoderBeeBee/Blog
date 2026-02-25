@@ -9,13 +9,13 @@ import FormBtn from '../../atoms/FormBtn/FormBtn'
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
 import RHFInput from '../../atoms/RHFInput/RHFInput'
 import { useUpdatePostsSettingsMutation } from '../../../slices/api/settingsApi'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 
 const PostsSettings = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
 
 	const [updateSettings] = useUpdatePostsSettingsMutation()
-	const { posts } = useMenuContext()
+	const { posts } = useGlobalContext()
 	const methods = useForm<postsTypes>({
 		mode: 'onSubmit',
 		reValidateMode: 'onChange',
@@ -81,57 +81,59 @@ const PostsSettings = () => {
 	}, [posts, clearErrors, errors.root?.message, reset, successMessage])
 
 	return (
-		<FormProvider {...methods}>
-			<WrapperBox>
-				<p className={styles.boxTitle}>Posts Settings</p>
-				<form onSubmit={handleSubmit(onSubmit)} aria-busy={isSubmitting} className={styles.formWrapper}>
-					<RHFInput
-						type="number"
-						name="heroPostLimit"
-						id="heroPostLimit"
-						label="Home Page Post Limit"
-						styles={styles}
-						isSubmitting={isSubmitting}
-					/>
-					<RHFInput
-						type="number"
-						name="postPerPage"
-						id="postPerPage"
-						label="Post Per Page"
-						styles={styles}
-						isSubmitting={isSubmitting}
-					/>
-
-					{(errors.root?.message || successMessage) && (
-						<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
-							{errors.root?.message ? errors.root.message : successMessage}
-						</APIResponseMessage>
-					)}
-					<div className={styles.submitBtns}>
-						<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.saveSettings : ''}>
-							{isSubmitting ? (
-								<>
-									Saving
-									<span className={styles.animate1}>.</span>
-									<span className={styles.animate2}>.</span>
-									<span className={styles.animate3}>.</span>
-								</>
-							) : (
-								'Save'
-							)}
-						</FormBtn>
-
-						<FormBtn
-							type="button"
+		<div className={styles.postSettingsWrapper}>
+			<FormProvider {...methods}>
+				<WrapperBox>
+					<p className={styles.boxTitle}>Posts Settings</p>
+					<form onSubmit={handleSubmit(onSubmit)} aria-busy={isSubmitting} className={styles.formWrapper}>
+						<RHFInput
+							type="number"
+							name="heroPostLimit"
+							id="heroPostLimit"
+							label="Home Page Post Limit"
+							styles={styles}
 							isSubmitting={isSubmitting}
-							className={styles.clearButton}
-							handleResetFields={handleResetFields}>
-							Clear
-						</FormBtn>
-					</div>
-				</form>
-			</WrapperBox>
-		</FormProvider>
+						/>
+						<RHFInput
+							type="number"
+							name="postPerPage"
+							id="postPerPage"
+							label="Post Per Page"
+							styles={styles}
+							isSubmitting={isSubmitting}
+						/>
+
+						{(errors.root?.message || successMessage) && (
+							<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
+								{errors.root?.message ? errors.root.message : successMessage}
+							</APIResponseMessage>
+						)}
+						<div className={styles.submitBtns}>
+							<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.saveSettings : ''}>
+								{isSubmitting ? (
+									<>
+										Saving
+										<span className={styles.animate1}>.</span>
+										<span className={styles.animate2}>.</span>
+										<span className={styles.animate3}>.</span>
+									</>
+								) : (
+									'Save'
+								)}
+							</FormBtn>
+
+							<FormBtn
+								type="button"
+								isSubmitting={isSubmitting}
+								className={styles.clearButton}
+								handleResetFields={handleResetFields}>
+								Clear
+							</FormBtn>
+						</div>
+					</form>
+				</WrapperBox>
+			</FormProvider>
+		</div>
 	)
 }
 

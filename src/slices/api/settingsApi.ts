@@ -2,16 +2,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 const GENERAL_URL = import.meta.env.VITE_GENERAL_URL
 const API_URL = import.meta.env.VITE_API_URL
 export const generalApi = createApi({
-	reducerPath: 'general',
+	reducerPath: 'settings',
 	baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}`, credentials: 'include' }),
 	tagTypes: ['SAVE'],
 	endpoints: builder => ({
-		saveGeneralSettings: builder.mutation({
-			query: ({ general }) => ({
+		basicSettings: builder.mutation({
+			query: ({ basic }) => ({
 				url: `${GENERAL_URL}`,
 				method: 'POST',
 				headers: { 'Content-type': 'application/json' },
-				body: { general },
+				body: { basic },
 			}),
 			invalidatesTags: () => [{ type: 'SAVE' }],
 		}),
@@ -77,12 +77,12 @@ export const generalApi = createApi({
 })
 
 export const {
-	useSaveGeneralSettingsMutation,
+	useBasicSettingsMutation,
 	useFetchSettingsQuery,
 	useUpdateSecuritySettingsMutation,
 	useUpdateInteractionSettingsMutation,
 	useUpdatePostsSettingsMutation,
 	useUpdateAnalyticsSettingsMutation,
 	useUpdateDifferentSettingsMutation,
-	useUpdateIntegrationsSettingsMutation
+	useUpdateIntegrationsSettingsMutation,
 } = generalApi

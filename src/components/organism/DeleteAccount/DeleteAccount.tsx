@@ -8,7 +8,7 @@ import CheckMarkList from '../../modules/CheckMarkList/CheckMarkList'
 import AccountInputBox from '../../modules/AccountInputBox/AccountInputBox'
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { useFetchLegalDocumentsQuery } from '../../../slices/api/legalDocumentsApi'
 const DeleteAccount = () => {
@@ -23,10 +23,9 @@ const DeleteAccount = () => {
 				.map((item: string) => item.trim())
 				.filter((item: string) => item.length > 0)
 		: []
-	
-	
+
 	const [deleteAccount] = useDeleteAccountMutation()
-	const { signOut } = useMenuContext()
+	const { signOut } = useGlobalContext()
 
 	useEffect(() => {
 		if (errorMessage) {
@@ -68,39 +67,33 @@ const DeleteAccount = () => {
 	}
 
 	return (
-		<div className={styles.deleteAccountContainer}>
+		<div className={styles.deleteAccountWrapper}>
 			<h1 className={styles.title}>Delete Account</h1>
 
-			<div className={styles.deleteAccountWrapper}>
-				<WrapperBox>
-					<CheckMarkList
-						data={acknowledgements}
-						confirmPassword={confirmPassword}
-						setEnabledButton={setEnabledButton}
-					/>
+			<WrapperBox>
+				<CheckMarkList data={acknowledgements} confirmPassword={confirmPassword} setEnabledButton={setEnabledButton} />
 
-					<form className={styles.deleteForm} onSubmit={e => confirmDeletion(e)}>
-						<AccountInputBox
-							id="confirmPassword"
-							label="Confirm Password"
-							value={confirmPassword}
-							type="password"
-							onChangeInput={onChangeInput}></AccountInputBox>
-						{errorMessage && <APIResponseMessage messageType="error">{errorMessage}</APIResponseMessage>}
-						<div className={styles.formBtns}>
-							<FormBtn
-								type="submit"
-								isSubmitting={!enabledButton}
-								className={`${styles.deleteAccount} ${enabledButton ? styles.confirmDeletion : ''}`}>
-								Confirm Deletion
-							</FormBtn>
-							<AnchorLink href="/account" className={styles.cancelDeletion}>
-								Cancel
-							</AnchorLink>
-						</div>
-					</form>
-				</WrapperBox>
-			</div>
+				<form className={styles.deleteForm} onSubmit={e => confirmDeletion(e)}>
+					<AccountInputBox
+						id="confirmPassword"
+						label="Confirm Password"
+						value={confirmPassword}
+						type="password"
+						onChangeInput={onChangeInput}></AccountInputBox>
+					{errorMessage && <APIResponseMessage messageType="error">{errorMessage}</APIResponseMessage>}
+					<div className={styles.formBtns}>
+						<FormBtn
+							type="submit"
+							isSubmitting={!enabledButton}
+							className={`${styles.deleteAccount} ${enabledButton ? styles.confirmDeletion : ''}`}>
+							Confirm Deletion
+						</FormBtn>
+						<AnchorLink href="/account" className={styles.cancelDeletion}>
+							Cancel
+						</AnchorLink>
+					</div>
+				</form>
+			</WrapperBox>
 		</div>
 	)
 }

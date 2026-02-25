@@ -2,28 +2,26 @@ import { Outlet } from 'react-router'
 import SideBar from '../../components/organism/SideBar/SideBar'
 import styles from './AccountLayout.module.scss'
 
-import { MenuProvider } from '../../context/menuContext'
+import { GlobalProvider } from '../../context/globalContext'
 import { accountLinks } from '../../utils/sideBarLinks'
 import SideBarLink from '../../components/atoms/SidebarLink/SideBarLink'
-import useWindowSize from '../../hooks/useWindowSize'
+
 import NavPanel from '../../components/atoms/NavPanel/NavPanel'
-
 const AccountLayout = () => {
-	const size = useWindowSize()
-	const isMobile = size.width < 800
-
 	return (
-		<MenuProvider>
+		<GlobalProvider>
 			<div className={styles.accountLayoutContainer}>
-				{isMobile && <NavPanel />}
-				<SideBar>
-					{accountLinks.map((data, index) => (
-						<SideBarLink key={index} data={data} index={index} />
-					))}
-				</SideBar>
-				<Outlet />
+				<NavPanel />
+				<div className={styles.accountPanelWrapper}>
+					<SideBar>
+						{accountLinks.map((data, index) => (
+							<SideBarLink key={index} data={data} index={index} />
+						))}
+					</SideBar>
+					<Outlet />
+				</div>
 			</div>
-		</MenuProvider>
+		</GlobalProvider>
 	)
 }
 

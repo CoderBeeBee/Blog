@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import type { RootState } from '../../store'
 import useWindowSize from '../../hooks/useWindowSize'
 import { SinglePostProvider } from '../../context/createPostContext'
-import { MenuProvider } from '../../context/menuContext'
+import { GlobalProvider } from '../../context/globalContext'
 import CookieBanner from '../CookieBanner/CookieBanner'
 import { useIncrementPageViewsMutation } from '../../slices/api/statisticsApi'
 import { useFetchSettingsQuery } from '../../slices/api/settingsApi'
@@ -24,7 +24,6 @@ const StaticLayout = () => {
 	const [incrementPageViews] = useIncrementPageViewsMutation()
 	const { handleIncrementPageViews } = useIncrementViews()
 	const { data } = useFetchSettingsQuery({})
-
 
 	const path = encodeURIComponent(pathname)
 
@@ -51,9 +50,9 @@ const StaticLayout = () => {
 			Aos.refresh()
 		}
 	}, [pathname, isLoading, width])
-	
+
 	return (
-		<MenuProvider>
+		<GlobalProvider>
 			<SinglePostProvider>
 				{analytics && analytics.analyticsEnabled && <CookieBanner />}
 				<div data-aos="fade-zoom-in">
@@ -65,7 +64,7 @@ const StaticLayout = () => {
 					<Footer />
 				</div>
 			</SinglePostProvider>
-		</MenuProvider>
+		</GlobalProvider>
 	)
 }
 

@@ -1,10 +1,8 @@
 .listOfPostContainer {
 	display: flex;
 	justify-content: center;
-	min-height: 100dvh;
-	height: 100%;
+	height: calc(100dvh - var(--navPanelHeight));
 	width: 100%;
-	 background-color: var(--pagesBgc);
-	
+	background-color: var(--pagesBgc);
 	overflow: hidden;
 }

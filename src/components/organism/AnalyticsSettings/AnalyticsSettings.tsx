@@ -10,11 +10,11 @@ import SwitchButton from '../../atoms/SwitchButton/SwitchButton'
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { useUpdateAnalyticsSettingsMutation } from '../../../slices/api/settingsApi'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 const AnalyticsSettings = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
 	const [updateSettings] = useUpdateAnalyticsSettingsMutation()
-	const { analytics } = useMenuContext()
+	const { analytics } = useGlobalContext()
 	const methods = useForm<analyticsTypes>({
 		mode: 'onSubmit',
 		reValidateMode: 'onChange',
@@ -94,49 +94,51 @@ const AnalyticsSettings = () => {
 		}
 	}, [analytics, clearErrors, errors.root?.message, reset, successMessage])
 	return (
-		<FormProvider {...methods}>
-			<WrapperBox>
-				<p className={styles.boxTitle}>Analytics Settings</p>
-				<form onSubmit={handleSubmit(onSubmit)} aria-busy={isSubmitting} className={styles.formWrapper}>
-					<RHFCheckbox
-						name="analyticsEnabled"
-						id="analytics"
-						label="Analytics"
-						styles={styles}
-						isSubmitting={isSubmitting}>
-						<SwitchButton switchButton={analyticsEnabled} isSubmitting={isSubmitting} />
-					</RHFCheckbox>
+		<div className={styles.analyticsSettingsWrapper}>
+			<FormProvider {...methods}>
+				<WrapperBox>
+					<p className={styles.boxTitle}>Analytics Settings</p>
+					<form onSubmit={handleSubmit(onSubmit)} aria-busy={isSubmitting} className={styles.formWrapper}>
+						<RHFCheckbox
+							name="analyticsEnabled"
+							id="analytics"
+							label="Analytics"
+							styles={styles}
+							isSubmitting={isSubmitting}>
+							<SwitchButton switchButton={analyticsEnabled} isSubmitting={isSubmitting} />
+						</RHFCheckbox>
 
-					{(errors.root?.message || successMessage) && (
-						<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
-							{errors.root?.message ? errors.root.message : successMessage}
-						</APIResponseMessage>
-					)}
-					<div className={styles.submitBtns}>
-						<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.saveSettings : ''}>
-							{isSubmitting ? (
-								<>
-									Saving
-									<span className={styles.animate1}>.</span>
-									<span className={styles.animate2}>.</span>
-									<span className={styles.animate3}>.</span>
-								</>
-							) : (
-								'Save'
-							)}
-						</FormBtn>
+						{(errors.root?.message || successMessage) && (
+							<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
+								{errors.root?.message ? errors.root.message : successMessage}
+							</APIResponseMessage>
+						)}
+						<div className={styles.submitBtns}>
+							<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.saveSettings : ''}>
+								{isSubmitting ? (
+									<>
+										Saving
+										<span className={styles.animate1}>.</span>
+										<span className={styles.animate2}>.</span>
+										<span className={styles.animate3}>.</span>
+									</>
+								) : (
+									'Save'
+								)}
+							</FormBtn>
 
-						<FormBtn
-							type="button"
-							isSubmitting={isSubmitting}
-							className={styles.clearButton}
-							handleResetFields={handleResetFields}>
-							Clear
-						</FormBtn>
-					</div>
-				</form>
-			</WrapperBox>
-		</FormProvider>
+							<FormBtn
+								type="button"
+								isSubmitting={isSubmitting}
+								className={styles.clearButton}
+								handleResetFields={handleResetFields}>
+								Clear
+							</FormBtn>
+						</div>
+					</form>
+				</WrapperBox>
+			</FormProvider>
+		</div>
 	)
 }
 

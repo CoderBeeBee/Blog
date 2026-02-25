@@ -145,8 +145,10 @@ const AdminList = () => {
 
 	return (
 		<div className={styles.listWrapper}>
-			<h3 className={styles.listTitle}>Admins & Moderators</h3>
-			<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+			<div className={styles.listWrapperHeader}>
+				<h3 className={styles.listTitle}>Admins & Moderators</h3>
+				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+			</div>
 
 			<div className={styles.listContainer}>
 				<div className={styles.tableContainer}>

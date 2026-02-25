@@ -7,7 +7,7 @@ import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import styles from './SideBarLink.module.scss'
 import { useLocation } from 'react-router'
 import type { sideBarLinksProps } from '../../../types/types'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 
 interface SideBarLinkProps {
@@ -16,7 +16,7 @@ interface SideBarLinkProps {
 }
 
 const SideBarLink = ({ data, index }: SideBarLinkProps) => {
-	const { sideBarMenu } = useMenuContext()
+	const { sideBarMenu } = useGlobalContext()
 	const { close } = sideBarMenu
 	const { width } = useWindowSize()
 	const arrowRef = useRef<SVGSVGElement | null>(null)
@@ -61,10 +61,10 @@ const SideBarLink = ({ data, index }: SideBarLinkProps) => {
 				ref={sideBarLinkRef}
 				key={index}
 				data-element={index}
-				tabIndex={0}
-				className={`${styles.sideBarLink} ${index === 0 ? styles.activeSubLinks : ''} `}
-				onKeyDown={e => onKeyDown(e)}>
+				className={`${styles.sideBarLink} ${index === 0 ? styles.activeSubLinks : ''} `}>
 				<div
+					tabIndex={0}
+					onKeyDown={e => onKeyDown(e)}
 					className={styles.sideBarLinkHelper}
 					onClick={() => {
 						handleOpenCloseDropdown()
@@ -72,7 +72,7 @@ const SideBarLink = ({ data, index }: SideBarLinkProps) => {
 					<div className={styles.sideBarLinkName}>
 						{data.icon} {width >= 700 && <p>{data.title}</p>}
 					</div>
-					<ChevronDownSVG arrowRef={arrowRef} className={`${styles.chevron}`}/>
+					<ChevronDownSVG arrowRef={arrowRef} className={`${styles.chevron}`} />
 				</div>
 
 				{data.children?.length ? (
@@ -89,7 +89,7 @@ const SideBarLink = ({ data, index }: SideBarLinkProps) => {
 	} else {
 		return (
 			<AnchorLink
-				onKeyDown={onKeyDown}
+				onKeyDown={e => onKeyDown(e)}
 				handleClose={() => {
 					handleOpenCloseDropdown()
 					close()
@@ -97,6 +97,7 @@ const SideBarLink = ({ data, index }: SideBarLinkProps) => {
 				className={styles.sideBarLink}
 				href={data.href}>
 				<div
+					tabIndex={0}
 					className={`${styles.sideBarLinkHelper} ${styles.sideBarPadding} ${active ? styles.activeSideBarLink : ''}`}>
 					<div className={styles.sideBarLinkName}>
 						{data.icon} {width >= 700 && <p>{data.title}</p>}

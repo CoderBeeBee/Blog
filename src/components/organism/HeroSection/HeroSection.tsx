@@ -11,14 +11,14 @@ import Loader from '../../atoms/loader/Loader'
 
 import useSocialLinks from '../../../hooks/useSocialLinks'
 import { useFetchHeroPostLimitQuery } from '../../../slices/api/postApi'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 import { ArrowNext, ArrowPrev } from '../../../assets/icons/Icons'
 
 const HeroSection = () => {
 	const [number, setNumber] = useState<number>(0)
 	const [swipeStartX, setSwipeStartX] = useState<number>(0)
 	const { data, isFetching } = useFetchHeroPostLimitQuery({})
-	const { posts } = useMenuContext()
+	const { posts } = useGlobalContext()
 	const limit = posts.heroPostLimit || 3
 	const { socialLinks } = useSocialLinks()
 

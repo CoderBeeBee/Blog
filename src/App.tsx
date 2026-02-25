@@ -48,7 +48,7 @@ const UnauthorizedAccess = lazy(
 )
 const PasswordEvents = lazy(() => import('./components/pages/AdminPanel/Security/PasswordEvents/PasswordEvents'))
 
-const GeneralSettingsPage = lazy(() => import('./components/pages/AdminPanel/Settings/General/GeneralSettingsPage'))
+const BasicSettingsPage = lazy(() => import('./components/pages/AdminPanel/Settings/Basic/BasicSettingsPage'))
 const EmailSettingsPage = lazy(() => import('./components/pages/AdminPanel/Settings/Email/EmailSettingsPage'))
 const IntegrationsSettingsPage = lazy(
 	() => import('./components/pages/AdminPanel/Settings/Integrations/IntegrationsSettingsPage'),
@@ -164,7 +164,7 @@ const App = () => {
 						<Route path="passwords" element={<PasswordEvents />} />
 					</Route>
 					<Route path="settings">
-						<Route path="general" element={<GeneralSettingsPage />} />
+						<Route path="basic" element={<BasicSettingsPage />} />
 						<Route path="security" element={<SecuritySettingsPage />} />
 						<Route path="posts" element={<PostSettingsPage />} />
 						<Route path="interactions" element={<InteractionsSettingsPage />} />

@@ -11,7 +11,7 @@ import type { RootState } from '../../store'
 import { useEffect } from 'react'
 import MenuIcon from '../../components/atoms/MenuIcon/MenuIcon'
 import ControlPanel from '../../components/organism/ControlPanel/ControlPanel'
-import useMenuContext from '../../hooks/useMenuContext'
+import useGlobalContext from '../../hooks/useGlobalContext'
 import { useLocation } from 'react-router'
 import { useFetchAllCategoriesQuery } from '../../slices/api/categoriesApi'
 
@@ -19,7 +19,7 @@ const Navigation = () => {
 	const size = useWindowSize()
 	const { pathname } = useLocation()
 
-	const { navRef } = useMenuContext()
+	const { navRef } = useGlobalContext()
 
 	const { isOpen } = useSelector((state: RootState) => state.theme)
 	useEffect(() => {
@@ -60,7 +60,7 @@ const Navigation = () => {
 
 		return item
 	})
-	
+
 	return (
 		<nav ref={navRef} className={styles.navContainer}>
 			<Logo styles={styles} />
@@ -69,7 +69,6 @@ const Navigation = () => {
 				<SearchButton />
 				{size.width > 900 ? <ControlPanel index={0} styles={styles} /> : <MenuIcon />}
 			</div>
-			
 
 			{isOpen && <SearchContainer isOpen={isOpen} />}
 		</nav>

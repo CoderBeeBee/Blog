@@ -10,7 +10,7 @@ import type { RootState } from '../../../store'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 import { useFetchLiveCommentsQuery } from '../../../slices/api/commentsApi'
 import { useEffect, useState } from 'react'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 
 const CommentsContent = () => {
 	const { search } = useLocation()
@@ -19,7 +19,7 @@ const CommentsContent = () => {
 	const postId = query.get('id')
 
 	const { data: postComments, refetch } = useFetchLiveCommentsQuery(postId!, { skip: !postId })
-	const { interactions } = useMenuContext()
+	const { interactions } = useGlobalContext()
 
 	const { isLogged } = useSelector((state: RootState) => state.auth)
 

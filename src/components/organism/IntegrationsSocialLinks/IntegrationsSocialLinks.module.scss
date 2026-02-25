@@ -1,8 +1,7 @@
 .socialLinksWrapper {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	height: 100%;
+
 	.boxTitle {
 		margin-bottom: 1rem;
 		font-weight: 500;
@@ -54,8 +53,6 @@
 				}
 			}
 		}
-
-		
 	}
 
 	.submitBtns {
@@ -100,26 +97,11 @@
 	color: var(--errorColor);
 	font-size: var(--textSize_14);
 }
+
 @media (width < 800px) {
 	.socialLinksWrapper {
-		.formWrapper {
-			.svgBox {
-				.tooltip {
-					.exampleSVG {
-						
-						top: 3rem;
-						left: -10rem;
-						
-					}
-				}
-			}
-		}
-	}
-}
-@media (width < 800px) {
-	.socialLinksWrapper {
-		align-items: center;
-		margin-top: 5rem;
+		margin-left: auto;
+		margin-right: auto;
 	}
 }
 @keyframes animateDot {

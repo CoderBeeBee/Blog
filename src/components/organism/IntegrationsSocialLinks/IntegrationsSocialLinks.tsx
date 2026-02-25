@@ -9,11 +9,11 @@ import styles from './IntegrationsSocialLinks.module.scss'
 import WrapperBox from '../../atoms/WrapperBox/WrapperBox'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { useUpdateIntegrationsSettingsMutation } from '../../../slices/api/settingsApi'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 const IntegrationsSocialLinks = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
 	const [updateIntegrations] = useUpdateIntegrationsSettingsMutation()
-	const { integrations } = useMenuContext()
+	const { integrations } = useGlobalContext()
 	const methods = useForm<socialTypes>({
 		mode: 'onSubmit',
 		reValidateMode: 'onChange',
@@ -82,23 +82,6 @@ const IntegrationsSocialLinks = () => {
 						<RHFInput
 							styles={styles}
 							type="text"
-							name="facebook"
-							label="Facebook"
-							id="facebook"
-							isSubmitting={isSubmitting}
-						/>
-
-						<RHFInput
-							styles={styles}
-							type="text"
-							name="twitter"
-							label="Twitter"
-							id="twitter"
-							isSubmitting={isSubmitting}
-						/>
-						<RHFInput
-							styles={styles}
-							type="text"
 							name="instagram"
 							label="Instagram"
 							id="instagram"
@@ -112,7 +95,23 @@ const IntegrationsSocialLinks = () => {
 							id="youtube"
 							isSubmitting={isSubmitting}
 						/>
+						<RHFInput
+							styles={styles}
+							type="text"
+							name="twitter"
+							label="Twitter"
+							id="twitter"
+							isSubmitting={isSubmitting}
+						/>
 
+						<RHFInput
+							styles={styles}
+							type="text"
+							name="facebook"
+							label="Facebook"
+							id="facebook"
+							isSubmitting={isSubmitting}
+						/>
 						{(errors.root?.message || successMessage) && (
 							<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
 								{errors.root?.message ? errors.root.message : successMessage}
@@ -120,7 +119,10 @@ const IntegrationsSocialLinks = () => {
 						)}
 
 						<div className={styles.submitBtns}>
-							<FormBtn type="submit" isSubmitting={isSubmitting} className={`${styles.submitBtn} ${isDirty ? styles.save : ''}`}>
+							<FormBtn
+								type="submit"
+								isSubmitting={isSubmitting}
+								className={`${styles.submitBtn} ${isDirty ? styles.save : ''}`}>
 								{isSubmitting ? (
 									<>
 										Saving

@@ -21,10 +21,10 @@ const PostCategories = () => {
 	}
 
 	return (
-		<div className={styles.postCategoriesContainer}>
+		<div className={styles.postCategoriesWrapper}>
 			<WrapperBox>
-				<p className={styles.postCategoriesTitle}>Category List</p>
-				<div className={styles.postCategoriesWrapper}>
+			<p className={styles.postCategoriesTitle}>Category List</p>
+				<div className={styles.postCategoriesList}>
 					{data?.map(c => (
 						<span key={c._id} className={styles.postCategory}>
 							{c.name}{' '}

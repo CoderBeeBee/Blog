@@ -91,7 +91,7 @@ const LegalPrivacy = () => {
 
 	return (
 		<div className={styles.legalPrivacyWrapper}>
-			<h3 className={styles.wrapperTitle}>Legal Document Privacy Policy</h3>
+			<h3 className={styles.wrapperTitle}> Privacy Policy</h3>
 
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper} aria-busy={isSubmitting}>

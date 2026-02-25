@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 import RHFCheckbox from '../../atoms/RHFCheckbox/RHFCheckbox'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 import CheckMark from '../../atoms/Checkmark/CheckMark'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 import SocialLinks from '../../modules/SocialLinks/SocialLinks'
 
 const contactSchema = z.object({
@@ -29,8 +29,8 @@ type contactTypes = z.infer<typeof contactSchema>
 const ContactForm = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
 	const [sendEmail] = useContactEmailMutation()
-	const { general } = useMenuContext()
-	const faviconSrc = typeof general?.favicon?.src === 'string' ? general.favicon.src : undefined
+	const { basic } = useGlobalContext()
+	const faviconSrc = typeof basic?.favicon?.src === 'string' ? basic.favicon.src : undefined
 	const methods = useForm<contactTypes>({
 		mode: 'onSubmit',
 		reValidateMode: 'onChange',

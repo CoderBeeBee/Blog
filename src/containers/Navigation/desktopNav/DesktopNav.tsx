@@ -4,7 +4,7 @@ import { useLocation } from 'react-router'
 import MenuElement from '../../../components/organism/menuElement/MenuElement'
 import type { MenuTypes } from '../dataNavigation/dataNavigation'
 import useWindowSize from '../../../hooks/useWindowSize'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 interface DesktopProps {
 	dataMenu: MenuTypes[]
 	navRef: RefObject<HTMLDivElement | null>
@@ -15,7 +15,7 @@ const DesktopNav = ({ navRef, dataMenu }: DesktopProps) => {
 	const desktopRef = useRef<HTMLDivElement>(null)
 	const [timeOutListIn, setTimeOutListIn] = useState<ReturnType<typeof setTimeout>[]>([])
 	const [timeOutListOut, setTimeOutListOut] = useState<ReturnType<typeof setTimeout>[]>([])
-	const { mobileMenu } = useMenuContext()
+	const { mobileMenu } = useGlobalContext()
 	const { close, isVisible } = mobileMenu
 	const size = useWindowSize()
 	const width = size.width > 900

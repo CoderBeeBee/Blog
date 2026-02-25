@@ -1,15 +1,15 @@
 /* Kontener */
 .privacyPolicyContainer {
-	max-width: 800px; /* ogranicza szerokość dla czytelności */
-	margin: 15rem auto; /* centrowanie i odstęp od góry */
-	padding: 1.5rem; /* wewnętrzne marginesy */
-	line-height: 1.7; /* poprawia czytelność akapitów */
+	max-width: 800px; 
+	margin: 15rem auto; 
+	padding: 1.5rem; 
+	line-height: 1.7; 
 	font-family: var(--font-2);
-	font-size: 16px;
+	font-size:var(--textSize_16);
 	color: #333;
-	background-color: #fdfdfd; /* delikatne tło dla lepszego kontrastu */
+	background-color: #fdfdfd; 
 	border-radius: 8px;
-	box-shadow: 0px 0px 6px 6px var(--bgcLightGrey);
+	box-shadow: 0px 0px 6px 6px var(--lightGrayColor);
 
 	/* Nagłówki */
 	h1 {

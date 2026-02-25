@@ -4,7 +4,7 @@ import CommentsContent from '../../organism/CommentsContent/CommentsContent'
 import styles from './SinglePostTemplate.module.scss'
 import { useEffect } from 'react'
 import { useIncrementPostViewsMutation } from '../../../slices/api/statisticsApi'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 import useIncrementViews from '../../../hooks/useIncrementViews'
 
 const SinglePostTemplate = () => {
@@ -13,7 +13,7 @@ const SinglePostTemplate = () => {
 	const postId = params.get('id')
 	const { handleIncrementPostViews } = useIncrementViews()
 	const [incrementPostViews] = useIncrementPostViewsMutation()
-	const { analytics } = useMenuContext()
+	const { analytics } = useGlobalContext()
 
 	useEffect(() => {
 		if (!postId) return
@@ -25,19 +25,7 @@ const SinglePostTemplate = () => {
 		}
 	}, [analytics, handleIncrementPostViews, incrementPostViews, postId])
 
-	// useEffect(() => {
-	// 	let timeout: ReturnType<typeof setTimeout>
-
-	// 	const tick = () => {
-	// 		incrementPostViews({ postId })
-
-	// 		timeout = setTimeout(tick, 10)
-	// 	}
-
-	// 	tick()
-
-	// 	return () => clearTimeout(timeout)
-	// }, [incrementPostViews, postId])
+	
 
 	return (
 		<div className={styles.postContainer}>

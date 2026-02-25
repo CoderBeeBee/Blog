@@ -1,138 +1,44 @@
 .sideBarContainer {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
 	position: sticky;
-	top: 0;
-	gap: 2rem;
+	top: 6rem;
 	min-width: 250px;
 	width: 10%;
-	height: 100dvh;
-	padding: 2rem 0;
+	height: calc(100dvh - var(--navPanelHeight));
+	padding: 0 0 2rem;
 	background-color: var(--whiteColor);
 	transition: all 0.3s;
-	z-index: 1001;
-
+	overflow-y: auto;
+	scrollbar-width: none;
 	.sideBarMenu {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		width: 100%;
-		.logo {
-			margin-bottom: 2rem;
-			height: 60px;
-			width: auto;
-			background-color: transparent;
-			z-index: 101;
-
-			img {
-				height: 100%;
-				width: 100%;
-				object-fit: cover;
-				transition: all 0.3s ease-in-out;
-				&:hover {
-					
-					scale: 1.05;
-				}
-			}
-		}
-		.sideBarLinks {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-		}
 	}
-
-	.controlPanelUser {
+	.sideBarLinks {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		margin-bottom: 1rem;
-		gap: 2rem;
-
 		width: 100%;
-		transition: all 0.3s ease-in-out;
-
-		.authorAvatar {
-			background-color: var(--whiteColor);
-			width: 40px;
-			height: 40px;
-			border-radius: 50%;
-		}
-
-		.sideBarBtns {
-			display: flex;
-			align-items: center;
-			background: transparent;
-			border: none;
-			cursor: pointer;
-			fill: var(--sideBarColor);
-
-			.logoutSvg {
-				height: 25px;
-				width: 25px;
-				transition: all 0.3s;
-
-				&:hover {
-					fill: var(--mainColor);
-				}
-			}
-			.dashboardIcon {
-				width: 20px;
-				height: 20px;
-
-				path {
-					transition: all 0.3s;
-				}
-				&:hover path {
-					fill: var(--mainColor);
-				}
-			}
-			.profileIcon {
-				margin: auto;
-				width: 25px;
-				height: 25px;
-			}
-		}
 	}
+
+	
 }
 
 @media (width < 800px) {
 	.sideBarContainer {
 		position: fixed;
-		top: 0;
+		top: 6rem;
 		left: 0;
-		height: 100%;
 		transform: translateX(-101%);
 		min-width: 200px;
 		width: 25%;
+		height: 100%;
 		padding: 0 0 2rem 0;
 		transition: transform 0.3s;
 		overflow-y: auto;
-
-		.sideBarMenu {
-			.btn {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				// margin-bottom: 1rem;
-				width: 55px;
-				height: 55px;
-				background-color: transparent;
-				border: none;
-				transition: all 1s ease-in-out;
-				cursor: pointer;
-				z-index: 1000;
-				.icon {
-					width: 35px;
-					height: 35px;
-					path {
-						stroke-width: 1px;
-					}
-				}
-			}
-		}
+		z-index: 2000;
 	}
 
 	.activeSideBar {

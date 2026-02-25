@@ -185,8 +185,10 @@ const ListOfPosts = () => {
 
 	return (
 		<div className={styles.listWrapper}>
-			<h3 className={styles.listTitle}>List of Posts</h3>
-			<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+			<div className={styles.listWrapperHeader}>
+				<h3 className={styles.listTitle}>List of Posts</h3>
+				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+			</div>
 
 			<div className={styles.listContainer}>
 				<div className={styles.tableContainer}>
@@ -253,11 +255,11 @@ const ListOfPosts = () => {
 								<div key={index} className={`${styles.tr} ${post.status === 'draft' ? styles.draft : ''}`}>
 									<div className={styles.td}>
 										<AnchorLink
-											className={styles.tabelTitle}
+											className={styles.listPostTitle}
 											href={createUrl({ categories: post.categories, seo: post.seo, _id: post._id })}>
 											{post.title}
-											{timePass(post.createdAt, 3) && <NotificationNew />}
 										</AnchorLink>
+											{timePass(post.createdAt, 3) && <NotificationNew />}
 									</div>
 									<div className={styles.td}>{post.author.name}</div>
 									<div className={styles.td}>

@@ -9,7 +9,7 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { useConfirmNewEmailMutation } from '../../../slices/api/userApi'
 import useDebounce from '../../../hooks/useDebounce'
 import { Navigate, useLocation } from 'react-router'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 import WrapperBox from '../../atoms/WrapperBox/WrapperBox'
 import AccountInputBox from '../../modules/AccountInputBox/AccountInputBox'
 const ChangeEmail = () => {
@@ -18,7 +18,7 @@ const ChangeEmail = () => {
 	const [errorMessage, setErrorMessage] = useState<string>('')
 	const [enabledButton, setEnabledButton] = useState<boolean>(false)
 	const [confirmNewEmail, { isLoading }] = useConfirmNewEmailMutation()
-	const { signOut } = useMenuContext()
+	const { signOut } = useGlobalContext()
 	const debounce = useDebounce(newEmail, 1000)
 
 	const { search } = useLocation()
@@ -93,8 +93,8 @@ const ChangeEmail = () => {
 	if (!token) return <Navigate to="/" replace />
 
 	return (
-		<div className={styles.changeEmailContainer}>
-			<h3 className={styles.title}>Change Email</h3>
+		<div className={styles.changeEmailWrapper}>
+			<h3 className={styles.title}>Change Email Address</h3>
 
 			<WrapperBox>
 				{(successMessage || errorMessage) && (
@@ -103,15 +103,14 @@ const ChangeEmail = () => {
 					</APIResponseMessage>
 				)}
 				<form onSubmit={e => handleSubmit(e)} className={styles.formWrapper} aria-busy={isLoading}>
-					
 					<AccountInputBox
 						onChangeInput={e => onChangeInput(e)}
 						value={newEmail}
 						id="newEmail"
-						label='Confirm New Email'
+						label="Confirm New Email Address"
 						type="email"
 						isSubmitting={isLoading}
-						placeholder='new@example.com'
+						placeholder="new@example.com"
 					/>
 					<div className={styles.formBtns}>
 						<FormBtn

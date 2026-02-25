@@ -1,15 +1,13 @@
 import { useEffect, useRef } from 'react'
 import styles from './MenuIcon.module.scss'
 import useWindowSize from '../../../hooks/useWindowSize'
-import useMenuContext from '../../../hooks/useMenuContext'
-
-
+import useGlobalContext from '../../../hooks/useGlobalContext'
 
 const MenuIcon = () => {
 	const size = useWindowSize()
 	const refBtn = useRef<HTMLButtonElement>(null)
-	const {mobileMenu } = useMenuContext()
-	const {toggle} = mobileMenu
+	const { mobileMenu } = useGlobalContext()
+	const { toggle } = mobileMenu
 	useEffect(() => {
 		if (size.width <= 900) {
 			refBtn.current?.classList.add(styles.toggle)

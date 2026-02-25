@@ -1,14 +1,14 @@
-// import { useLocation, useNavigate } from 'react-router'
-import useMenuContext from '../../../hooks/useMenuContext'
+
+import useGlobalContext from '../../../hooks/useGlobalContext'
 import AnchorLink from '../AnchorLink/AnchorLink'
 interface LogoProps {
 	styles: Record<string, string>
 }
 const Logo = ({ styles }: LogoProps) => {
-	const { general } = useMenuContext()
-	const logoSrc = typeof general?.logo?.src === 'string' ? general.logo.src : undefined
+	const { basic } = useGlobalContext()
+	const logoSrc = typeof basic?.logo?.src === 'string' ? basic.logo.src : undefined
 	return (
-		<AnchorLink href="/" ariaLabel="Logo" className={styles.logo}>
+		<AnchorLink href="/" ariaLabel="Logo" title="Logo" className={styles.logo}>
 			<img src={logoSrc} alt="Logo" />
 		</AnchorLink>
 	)

@@ -10,14 +10,14 @@ import RHFCheckbox from '../../atoms/RHFCheckbox/RHFCheckbox'
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { useUpdateInteractionSettingsMutation } from '../../../slices/api/settingsApi'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 
 const InteractionsSettings = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
 
 	const [updateSettings] = useUpdateInteractionSettingsMutation()
 
-	const { interactions } = useMenuContext()
+	const { interactions } = useGlobalContext()
 
 	const methods = useForm<interactionTypes>({
 		mode: 'onSubmit',
@@ -98,61 +98,63 @@ const InteractionsSettings = () => {
 	}, [clearErrors, interactions, errors.root?.message, reset, successMessage])
 
 	return (
-		<FormProvider {...methods}>
-			<WrapperBox>
-				<p className={styles.boxTitle}>Interaction Settings</p>
-				<form onSubmit={handleSubmit(onSubmit)} aria-busy={isSubmitting} className={styles.formWrapper}>
-					<RHFCheckbox
-						name="commentsEnabled"
-						id="comments"
-						label="Comments"
-						styles={styles}
-						isSubmitting={isSubmitting}>
-						<SwitchButton switchButton={commentsEnabled} isSubmitting={isSubmitting} />
-					</RHFCheckbox>
+		<div className={styles.interactionsSettingsWrapper}>
+			<FormProvider {...methods}>
+				<WrapperBox>
+					<p className={styles.boxTitle}>Interaction Settings</p>
+					<form onSubmit={handleSubmit(onSubmit)} aria-busy={isSubmitting} className={styles.formWrapper}>
+						<RHFCheckbox
+							name="commentsEnabled"
+							id="comments"
+							label="Comments"
+							styles={styles}
+							isSubmitting={isSubmitting}>
+							<SwitchButton switchButton={commentsEnabled} isSubmitting={isSubmitting} />
+						</RHFCheckbox>
 
-					<RHFCheckbox
-						name="moderation"
-						id="moderation"
-						label="Comments moderation"
-						styles={styles}
-						isSubmitting={isSubmitting}>
-						<SwitchButton switchButton={moderation} isSubmitting={isSubmitting} />
-					</RHFCheckbox>
-					<RHFCheckbox name="likesEnabled" id="likes" label="Likes" styles={styles} isSubmitting={isSubmitting}>
-						<SwitchButton switchButton={likesEnabled} isSubmitting={isSubmitting} />
-					</RHFCheckbox>
+						<RHFCheckbox
+							name="moderation"
+							id="moderation"
+							label="Comments moderation"
+							styles={styles}
+							isSubmitting={isSubmitting}>
+							<SwitchButton switchButton={moderation} isSubmitting={isSubmitting} />
+						</RHFCheckbox>
+						<RHFCheckbox name="likesEnabled" id="likes" label="Likes" styles={styles} isSubmitting={isSubmitting}>
+							<SwitchButton switchButton={likesEnabled} isSubmitting={isSubmitting} />
+						</RHFCheckbox>
 
-					{(errors.root?.message || successMessage) && (
-						<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
-							{errors.root?.message ? errors.root.message : successMessage}
-						</APIResponseMessage>
-					)}
-					<div className={styles.submitBtns}>
-						<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.saveSettings : ''}>
-							{isSubmitting ? (
-								<>
-									Saving
-									<span className={styles.animate1}>.</span>
-									<span className={styles.animate2}>.</span>
-									<span className={styles.animate3}>.</span>
-								</>
-							) : (
-								'Save'
-							)}
-						</FormBtn>
+						{(errors.root?.message || successMessage) && (
+							<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
+								{errors.root?.message ? errors.root.message : successMessage}
+							</APIResponseMessage>
+						)}
+						<div className={styles.submitBtns}>
+							<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.saveSettings : ''}>
+								{isSubmitting ? (
+									<>
+										Saving
+										<span className={styles.animate1}>.</span>
+										<span className={styles.animate2}>.</span>
+										<span className={styles.animate3}>.</span>
+									</>
+								) : (
+									'Save'
+								)}
+							</FormBtn>
 
-						<FormBtn
-							type="button"
-							isSubmitting={isSubmitting}
-							className={styles.clearButton}
-							handleResetFields={handleResetFields}>
-							Clear
-						</FormBtn>
-					</div>
-				</form>
-			</WrapperBox>
-		</FormProvider>
+							<FormBtn
+								type="button"
+								isSubmitting={isSubmitting}
+								className={styles.clearButton}
+								handleResetFields={handleResetFields}>
+								Clear
+							</FormBtn>
+						</div>
+					</form>
+				</WrapperBox>
+			</FormProvider>
+		</div>
 	)
 }
 

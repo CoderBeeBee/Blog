@@ -5,14 +5,14 @@ import type { MenuTypes } from '../dataNavigation/dataNavigation'
 import styles from './MobileNav.module.scss'
 import { useEffect } from 'react'
 import ControlPanel from '../../../components/organism/ControlPanel/ControlPanel'
-import useMenuContext from '../../../hooks/useMenuContext'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 
 interface MobileRefProps {
 	dataMenu: MenuTypes[]
 }
 
 const MobileNav = ({ dataMenu }: MobileRefProps) => {
-	const { navRef, scrollMenu, mobileMenu, handleOpenCloseDropdown, activeIndex } = useMenuContext()
+	const { navRef, scrollMenu, mobileMenu, handleOpenCloseDropdown, activeIndex } = useGlobalContext()
 	const { pathname } = useLocation()
 	const { toggle, isOpen, isVisible } = mobileMenu
 

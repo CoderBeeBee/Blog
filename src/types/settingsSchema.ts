@@ -3,7 +3,7 @@ import validateImageRHF from '../hooks/validateImageRHF'
 
 const imageSrcSchema = z.instanceof(File).or(z.string()).nullable()
 
-export const generalSchema = z.object({
+export const basicSchema = z.object({
 	siteName: z.string().trim().min(1, { message: 'Field is required' }),
 	siteUrl: z.string().trim().min(1, { message: 'Field is required' }),
 	logo: z.object({
@@ -78,14 +78,14 @@ export const differentSchema = z.object({
 	subscriptions:z.boolean()
 })
 
-export type generalTypes = z.infer<typeof generalSchema>
+export type basicTypes = z.infer<typeof basicSchema>
 export type securityTypes = z.infer<typeof securitySchema>
 export type postsTypes = z.infer<typeof postsSchema>
 export type interactionTypes = z.infer<typeof interactionSchema>
 export type analyticsTypes = z.infer<typeof analyticsSchema>
 export type differentTypes = z.infer<typeof differentSchema>
 
-export const generalDefaults: generalTypes = {
+export const basicDefaults: basicTypes = {
 	siteName: '',
 	siteUrl: '',
 	logo: {
