@@ -1,12 +1,10 @@
 .popupContainer {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	display: none;
-	align-items: center;
 	justify-content: center;
 	min-height: 100dvh;
-	height: 100%;
 	width: 100%;
 	background-color: var(--popupBgcOpacity);
 	z-index: 3000;
@@ -16,8 +14,10 @@
 		position: relative;
 		display: flex;
 		flex-direction: column;
+		top: 10rem;
 		max-width: 560px;
 		width: 100%;
+		height: 100%;
 		border-radius: var(--borderRadius16);
 		background-color: var(--whiteColor);
 		overflow: hidden;

@@ -189,3 +189,30 @@ export const MobileMenuState = {
 	CLOSING: 'CLOSING',
 } as const
 export type MobileMenuTypes = (typeof MobileMenuState)[keyof typeof MobileMenuState]
+
+export interface attemptsProps {
+	_id: string
+	action: string
+	result: string
+	user: Record<string, string>
+	createdAt: string
+	ipAddress: string
+	location: string
+	userAgent: {
+		device: string
+		os: string
+		browser: string
+	}
+	source: string
+	metadata?: Record<string, string>
+}
+export interface auditlogsProps {
+	_id: string
+	action: string
+	performedBy: string
+	createdAt: string
+	role: string
+	changes: Record<string, string>
+	source: string
+	metadata?: Record<string, string>
+}

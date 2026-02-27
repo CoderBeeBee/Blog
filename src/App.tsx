@@ -42,11 +42,11 @@ const ListOfCommentsPage = lazy(
 
 const CommentsHistory = lazy(() => import('./components/pages/AdminPanel/Comments/ChangeHistory/CommentsHistory'))
 
-const LoginAttempts = lazy(() => import('./components/pages/AdminPanel/Security/LoginAttempts/LoginAttempts'))
-const UnauthorizedAccess = lazy(
-	() => import('./components/pages/AdminPanel/Security/UnauthorizedAccess/UnauthorizedAccess'),
+const UserAttemptsPage = lazy(() => import('./components/pages/AdminPanel/Security/UserAttemptsPage/UserAttemptsPage'))
+const AdminAttemptsPage = lazy(
+	() => import('./components/pages/AdminPanel/Security/AdminAttemptsPage/AdminAttemptsPage'),
 )
-const PasswordEvents = lazy(() => import('./components/pages/AdminPanel/Security/PasswordEvents/PasswordEvents'))
+
 
 const BasicSettingsPage = lazy(() => import('./components/pages/AdminPanel/Settings/Basic/BasicSettingsPage'))
 const EmailSettingsPage = lazy(() => import('./components/pages/AdminPanel/Settings/Email/EmailSettingsPage'))
@@ -159,9 +159,9 @@ const App = () => {
 						<Route path="comments-history" element={<CommentsHistory />} />
 					</Route>
 					<Route path="security">
-						<Route path="login" element={<LoginAttempts />} />
-						<Route path="access" element={<UnauthorizedAccess />} />
-						<Route path="passwords" element={<PasswordEvents />} />
+						<Route path="user-attempts" element={<UserAttemptsPage />} />
+						<Route path="admin-attempts" element={<AdminAttemptsPage />} />
+						
 					</Route>
 					<Route path="settings">
 						<Route path="basic" element={<BasicSettingsPage />} />

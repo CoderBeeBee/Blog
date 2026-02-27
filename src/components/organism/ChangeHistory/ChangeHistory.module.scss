@@ -1,8 +1,9 @@
-.listWrapper {
+.changeHistoryWrapper {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
+
 	.listWrapperHeader {
 		display: flex;
 		flex-direction: row;
@@ -24,6 +25,7 @@
 			gap: 1rem;
 			max-width: 400px;
 			width: 100%;
+
 			.searchTitle {
 				font-size: 2rem;
 				font-family: var(--font-2);
@@ -40,10 +42,11 @@
 					padding: 0.5rem 1rem;
 					width: 100%;
 					font-size: var(--textSize_16);
+					color: var(--sideBarColor);
 					font-family: var(--font-2);
 					outline: none;
 					border: none;
-					color: var(--sideBarColor);
+
 					background: none;
 				}
 				.searchBtn {
@@ -69,7 +72,6 @@
 		overflow: auto;
 
 		.tableContainer {
-			position: relative;
 			display: inline-block;
 			min-width: 100%;
 
@@ -87,24 +89,20 @@
 						gap: 1rem;
 						min-width: 150px;
 						width: 100%;
-
 						font-family: var(--font-2);
 						color: var(--blackColor);
 
 						&:first-child {
 							padding-left: 2rem;
-							max-width: 300px;
-							min-width: 200px;
+							// min-width: 250px;
 						}
-						&:nth-child(2) {
-							min-width: 350px;
-						}
-						&:nth-child(3) {
+						&:nth-child(-n + 2) {
 							min-width: 250px;
 						}
-						&:nth-child(n + 3) {
+						&:nth-child(n + 2) {
 							max-width: 150px;
 						}
+						
 					}
 				}
 			}
@@ -114,6 +112,7 @@
 				background-color: var(--whiteColor);
 				box-shadow: 0px 0px 2px 2px var(--lightGrayColor);
 				font-size: var(--textSize_18);
+
 				.tr {
 					.th {
 						position: relative;
@@ -121,6 +120,41 @@
 						cursor: pointer;
 						&:hover {
 							background-color: var(--bgcTabelHover);
+						}
+
+						.theadDropDown {
+							position: absolute;
+							left: 0;
+							top: 100%;
+							display: flex;
+							flex-direction: column;
+							width: 100%;
+							transform-origin: top;
+							transform: scaleY(0);
+							opacity: 0;
+							visibility: hidden;
+							background-color: var(--whiteColor);
+							box-shadow: 0px 5px 20px var(--blackColor);
+							transition: all 0.3s;
+							overflow-y: auto;
+							div {
+								padding: 1rem;
+								font-size: var(--textSize_14);
+								display: -webkit-box;
+								-webkit-box-orient: vertical;
+								-webkit-line-clamp: 1;
+								text-overflow: ellipsis;
+								line-clamp: 1;
+								overflow: hidden;
+								&:hover {
+									background-color: var(--bgcTabelHover);
+								}
+							}
+						}
+						.scaleUp {
+							transform: scaleY(1);
+							opacity: 1;
+							visibility: visible;
 						}
 						.chevronRotate {
 							rotate: 180deg;
@@ -130,9 +164,9 @@
 			}
 			.tbody {
 				height: 100%;
-				background-color: var(--pagesBgc);
 				font-size: var(--textSize_16);
 				line-height: 2.2rem;
+				background-color: var(--pagesBgc);
 				.tr {
 					padding: 1rem 0;
 					transition: all 0.3s;
@@ -141,39 +175,42 @@
 						background-color: var(--whiteColor);
 					}
 					.td {
-						position: relative;
+						padding-right: 1rem;
 
-						&:nth-child(-n + 2) {
-							justify-content: flex-start;
+						&:nth-child(1) {
+							display: -webkit-box;
+							-webkit-box-orient: vertical;
+							-webkit-line-clamp: 1;
+							text-overflow: ellipsis;
+							line-clamp: 1;
+							overflow: hidden;
+							justify-content: start;
 						}
-						&:nth-child(2) {
-							display: flex;
-							justify-content: space-between;
-							padding-right: 3rem;
-							.comment {
-								display: -webkit-box;
-								-webkit-box-orient: vertical;
-								-webkit-line-clamp: 1;
-								line-clamp: 1;
-								overflow: hidden;
-							}
-						}
-						&:nth-child(1),
-						&:nth-child(3) {
-							cursor: pointer;
-							&:hover > a {
-								color: var(--whiteColor);
-							}
-						}
-						&:nth-child(n + 3):nth-child(-n + 5) {
+
+						&:nth-child(n + 2):nth-child(-n + 3) {
 							text-align: center;
 						}
-						&:last-child {
-							padding-right: 0;
 
-							a {
+						.searchIconWrapper {
+							background-color: transparent;
+							border: none;
+							.searchIcon {
 								display: flex;
 								align-items: center;
+								justify-content: center;
+								width: 20px;
+								height: 20px;
+								cursor: pointer;
+								path {
+									transition: 0.3s all ease-in-out;
+									fill: var(--mainColor);
+								}
+
+								&:hover {
+									path {
+										fill: var(--whiteColor);
+									}
+								}
 							}
 						}
 					}
@@ -197,63 +234,17 @@
 			background-color: var(--scrollBarBgc);
 		}
 	}
-
-	.popupInfo {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		padding: 2.4rem 3.4rem;
-		span {
-			color: var(--blackColor);
-			font-size: var(--textSize_16);
-			line-height: 2.4rem;
-			span:first-child {
-				display: inline;
-
-				font-weight: 600;
-			}
-		}
-		span:last-child {
-			display: -webkit-box;
-			-webkit-box-orient: vertical;
-			-webkit-line-clamp: 3;
-			line-clamp: 3;
-			overflow: hidden;
-		}
-	}
-
-	.openPopup {
-		display: flex;
-	}
 }
 
-.tabelTitle {
-	display: flex;
-	color: var(--blackColor);
-	cursor: pointer;
-	&:hover {
-		color: #251c1c;
-	}
-}
-
-@media (width <= 800px) {
-	.listWrapper {
-		.listWrapperHeader {
-			.searchContainer {
-				max-width: none;
-			}
-		}
-	}
-}
 @media (width <= 700px) {
-	.listWrapper {
+	.changeHistoryWrapper {
 		.pagination {
 			padding: 2rem;
 		}
 	}
 }
 @media (width <= 500px) {
-	.listWrapper {
+	.changeHistoryWrapper {
 		.listWrapperHeader {
 			flex-direction: column;
 			gap: 1rem;

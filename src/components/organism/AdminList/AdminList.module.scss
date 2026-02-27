@@ -132,7 +132,7 @@
 					padding: 1rem 0;
 					transition: all 0.3s;
 
-					&:nth-child(odd) {
+					&:nth-child(even) {
 						background-color: var(--whiteColor);
 					}
 					.td {

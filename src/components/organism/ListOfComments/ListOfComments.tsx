@@ -22,6 +22,7 @@ import { ChevronDownSVG } from '../../../assets/icons/Icons'
 
 const ListOfComments = () => {
 	const popupRef = useRef<HTMLDivElement | null>(null)
+	const listRef = useRef<HTMLDivElement | null>(null)
 	const [popUpMessage, setPopUpMessage] = useState<string>('')
 	const [focusedChevron, setFocusedChevron] = useState<string>('')
 	const [userData, setUserData] = useState({
@@ -113,6 +114,7 @@ const ListOfComments = () => {
 				setCurrentPage(prev => prev + 1)
 			}
 		}
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
 	const handleOpenPopup = (e: MouseEvent<HTMLDivElement>) => {
@@ -164,7 +166,7 @@ const ListOfComments = () => {
 				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
 			</div>
 
-			<div className={styles.listContainer}>
+			<div ref={listRef} className={styles.listContainer}>
 				<div className={styles.tableContainer}>
 					<div className={styles.thead}>
 						<div className={styles.tr}>

@@ -1,10 +1,7 @@
-
-
+import UsersHistoryTemplate from '../../../../templates/AdminPanelTemplates/Users/UsersHistoryTemplate/UsersHistoryTemplate'
 
 const UsersHistory = () => {
-  return (
-    <div>Users History</div>
-  )
+	return <UsersHistoryTemplate />
 }
 
 export default UsersHistory

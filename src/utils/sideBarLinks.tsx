@@ -77,9 +77,9 @@ const adminLinks: sideBarLinksProps[] = [
 		href: '',
 		icon: <SecuritySVG />,
 		children: [
-			{ title: 'Login Attempts', href: '/admin/security/login' },
-			{ title: 'Unauthorized Access', href: '/admin/security/access' },
-			{ title: 'Password Events', href: '/admin/security/passwords' },
+			{ title: 'User Attempts', href: '/admin/security/user-attempts' },
+			{ title: 'Admin Attempts', href: '/admin/security/admin-attempts' },
+			
 		],
 	},
 	{

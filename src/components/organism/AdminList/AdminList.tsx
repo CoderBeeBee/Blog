@@ -14,12 +14,12 @@ import TabelSearch from '../../modules/TabelSearch/TabelSearch'
 import { useAdminDeleteUserMutation, useFetchAdminsAndModeratorsQuery } from '../../../slices/api/userApi'
 import Popup from '../../atoms/Popup/Popup'
 
-import dateConverter from '../../../hooks/dateConverter'
 import longDateConverter from '../../../hooks/longDateConverter'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 
 const AdminList = () => {
 	const popupRef = useRef<HTMLDivElement | null>(null)
+	const listRef = useRef<HTMLDivElement | null>(null)
 	const [popUpMessage, setPopUpMessage] = useState<string>('')
 	const [focusedChevron, setFocusedChevron] = useState<string>('')
 	const [userData, setUserData] = useState({
@@ -106,6 +106,7 @@ const AdminList = () => {
 				setCurrentPage(prev => prev + 1)
 			}
 		}
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
 	const handleOpenPopup = (e: MouseEvent<HTMLDivElement>) => {
@@ -150,7 +151,7 @@ const AdminList = () => {
 				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
 			</div>
 
-			<div className={styles.listContainer}>
+			<div ref={listRef} className={styles.listContainer}>
 				<div className={styles.tableContainer}>
 					<div className={styles.thead}>
 						<div className={styles.tr}>
@@ -186,7 +187,7 @@ const AdminList = () => {
 									</div>
 
 									<div className={styles.td}>{user.email}</div>
-									<div className={styles.td}>{new Date(user.createdAt).toLocaleDateString(...dateConverter())}</div>
+									<div className={styles.td}>{new Date(user.createdAt).toLocaleDateString(...longDateConverter())}</div>
 
 									<div className={styles.td}>{user.commentsCount}</div>
 									<div className={styles.td}>{user.postCount}</div>

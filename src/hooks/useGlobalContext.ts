@@ -5,7 +5,7 @@ const useGlobalContext = () => {
 	const context = use(GlobalContext)
 
 	if (!context) {
-		throw new Error('Must be use with a ExampleProvider')
+		throw new Error('Must be use with a GlobalProvider')
 	}
 
 	return context

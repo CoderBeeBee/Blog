@@ -1,7 +1,7 @@
-
+import CommentsHistoryTemplate from '../../../../templates/AdminPanelTemplates/Comments/CommentsHistoryTemplate/CommentsHistoryTemplate'
 
 const CommentsHistory = () => {
-	return <div>Change History</div>
+	return <CommentsHistoryTemplate />
 }
 
 export default CommentsHistory

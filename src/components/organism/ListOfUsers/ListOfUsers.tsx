@@ -16,12 +16,13 @@ import timePass from '../../../hooks/timePass'
 import Popup from '../../atoms/Popup/Popup'
 import NotificationNew from '../../atoms/NotificationNew/NotificationNew'
 import longDateConverter from '../../../hooks/longDateConverter'
-import dateConverter from '../../../hooks/dateConverter'
+
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 const ListOfUsers = () => {
 	const popupRef = useRef<HTMLDivElement | null>(null)
+	const listRef = useRef<HTMLDivElement | null>(null)
 	const [popUpMessage, setPopUpMessage] = useState<string>('')
 	const [focusedChevron, setFocusedChevron] = useState<string>('')
 	const [userData, setUserData] = useState({
@@ -112,6 +113,7 @@ const ListOfUsers = () => {
 				setCurrentPage(prev => prev + 1)
 			}
 		}
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
 	const handleOpenPopup = (e: MouseEvent<HTMLDivElement>) => {
@@ -168,7 +170,7 @@ const ListOfUsers = () => {
 				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
 			</div>
 
-			<div className={styles.listContainer}>
+			<div ref={listRef} className={styles.listContainer}>
 				<div className={styles.tableContainer}>
 					<div className={styles.thead}>
 						<div className={styles.tr}>
@@ -204,7 +206,7 @@ const ListOfUsers = () => {
 									</div>
 
 									<div className={styles.td}>{user.email}</div>
-									<div className={styles.td}>{new Date(user.createdAt).toLocaleDateString(...dateConverter())}</div>
+									<div className={styles.td}>{new Date(user.createdAt).toLocaleDateString(...longDateConverter())}</div>
 									<div className={styles.td}>{user.isVerified.toString()}</div>
 
 									<div className={styles.td}>{user.commentsCount}</div>

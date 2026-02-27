@@ -8,7 +8,7 @@ import { useEffect, useRef, useState, type ChangeEvent, type MouseEvent } from '
 import useDebounce from '../../../hooks/useDebounce'
 
 import { defaultCategories, rowsNumbers, status, thead } from '../../../utils/data'
-// import { categories } from '../../../containers/Navigation/dataNavigation/dataNavigation'
+
 import TabelSearch from '../../modules/TabelSearch/TabelSearch'
 import TabelPagination from '../../modules/TabelPagination/TabelPagination'
 import Popup from '../../atoms/Popup/Popup'
@@ -18,11 +18,13 @@ import NotificationNew from '../../atoms/NotificationNew/NotificationNew'
 import { useFetchAllCategoriesQuery } from '../../../slices/api/categoriesApi'
 import createUrl from '../../../hooks/createUrl'
 
-import dateConverter from '../../../hooks/dateConverter'
+
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
+import longDateConverter from '../../../hooks/longDateConverter'
 
 const ListOfPosts = () => {
 	const popupRef = useRef<HTMLDivElement | null>(null)
+	const listRef = useRef<HTMLDivElement | null>(null)
 	const [popUpMessage, setPopUpMessage] = useState<string>('')
 	const [focusedChevron, setFocusedChevron] = useState<string>('')
 	const [postData, setPostData] = useState({
@@ -136,6 +138,7 @@ const ListOfPosts = () => {
 				setCurrentPage(prev => prev + 1)
 			}
 		}
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
 	const handleDeletePost = async () => {
@@ -190,7 +193,7 @@ const ListOfPosts = () => {
 				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
 			</div>
 
-			<div className={styles.listContainer}>
+			<div ref={listRef} className={styles.listContainer}>
 				<div className={styles.tableContainer}>
 					<div className={styles.thead}>
 						{posts && (
@@ -259,16 +262,16 @@ const ListOfPosts = () => {
 											href={createUrl({ categories: post.categories, seo: post.seo, _id: post._id })}>
 											{post.title}
 										</AnchorLink>
-											{timePass(post.createdAt, 3) && <NotificationNew />}
+										{timePass(post.createdAt, 3) && <NotificationNew />}
 									</div>
 									<div className={styles.td}>{post.author.name}</div>
 									<div className={styles.td}>
 										{post.categories.length > 1 ? post.categories.join(', ') : post.categories}
 									</div>
-									<div className={styles.td}>{new Date(post.createdAt).toLocaleDateString(...dateConverter())}</div>
+									<div className={styles.td}>{new Date(post.createdAt).toLocaleDateString(...longDateConverter())}</div>
 									<div className={`${styles.td} ${post.publishedAt ? '' : styles.publish}`}>
 										{post.publishedAt ? (
-											new Date(post.publishedAt).toLocaleDateString(...dateConverter())
+											new Date(post.publishedAt).toLocaleDateString(...longDateConverter())
 										) : (
 											<p data-id={post._id} onClick={e => handlePublishPost(e)}>
 												Publish

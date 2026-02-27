@@ -1,7 +1,7 @@
-
+import PostHistoryTemplate from '../../../../templates/AdminPanelTemplates/Posts/PostHistoryTemplate/PostHistoryTemplate'
 
 const PostHistory = () => {
-	return <div>Posts History</div>
+	return <PostHistoryTemplate />
 }
 
 export default PostHistory
