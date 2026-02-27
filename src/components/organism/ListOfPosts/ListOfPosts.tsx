@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, type ChangeEvent, type MouseEvent } from '
 
 import useDebounce from '../../../hooks/useDebounce'
 
-import { defaultCategories, rowsNumbers, status, thead } from '../../../utils/data'
+import { defaultCategories, rowsNumbers, postStatus, theadPost } from '../../../utils/data'
 
 import TabelSearch from '../../modules/TabelSearch/TabelSearch'
 import TabelPagination from '../../modules/TabelPagination/TabelPagination'
@@ -18,14 +18,14 @@ import NotificationNew from '../../atoms/NotificationNew/NotificationNew'
 import { useFetchAllCategoriesQuery } from '../../../slices/api/categoriesApi'
 import createUrl from '../../../hooks/createUrl'
 
-
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 import longDateConverter from '../../../hooks/longDateConverter'
 
 const ListOfPosts = () => {
-	const popupRef = useRef<HTMLDivElement | null>(null)
 	const listRef = useRef<HTMLDivElement | null>(null)
+	const [openPopup, setOpenPopup] = useState<boolean>(false)
 	const [popUpMessage, setPopUpMessage] = useState<string>('')
+
 	const [focusedChevron, setFocusedChevron] = useState<string>('')
 	const [postData, setPostData] = useState({
 		postId: '',
@@ -33,11 +33,12 @@ const ListOfPosts = () => {
 	})
 	const [rows, setRows] = useState<number>(10)
 	const [currentPage, setCurrentPage] = useState<number>(1)
+	const [action, setAction] = useState<string>('')
 	const [sort, setSort] = useState({
 		sortBy: '',
 		order: '',
 	})
-	const [category, setCategory] = useState<string>('')
+
 	const [start, setStart] = useState<number>(0)
 	const [end, setEnd] = useState<number>(0)
 	const [inputValue, setInputValue] = useState<string>('')
@@ -48,7 +49,8 @@ const ListOfPosts = () => {
 		search: search,
 		sortBy: sort.sortBy,
 		order: sort.order,
-		category: category,
+
+		action,
 	})
 	const [deletePost] = useDeletePostMutation()
 
@@ -72,7 +74,7 @@ const ListOfPosts = () => {
 	useEffect(() => {
 		if (inputValue === '') {
 			setSort({ sortBy: '', order: '' })
-			setCategory('')
+			setAction('')
 		}
 	}, [inputValue])
 
@@ -97,7 +99,9 @@ const ListOfPosts = () => {
 			setFocusedChevron('')
 		}
 		if (el === 'status' || el === 'categories') return
-		if (el === 'createdAt' || el === 'publishedAt' || el === 'comments' || el === 'views') {
+		setAction('')
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+		if (el === 'createdAt' || el === 'publishedAt' || el === 'scheduledAt' || el === 'comments' || el === 'views') {
 			setSort(prev => {
 				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
 
@@ -112,10 +116,13 @@ const ListOfPosts = () => {
 			return { sortBy: el, order: newOrder }
 		})
 	}
-	const handleSetCategory = (item: string) => {
-		setCategory(item)
-		setSort({ sortBy: 'categories', order: 'desc' })
+
+	const handleSetAction = ({ sort, action }: { sort: string; action: string }) => {
+		setSort({ sortBy: sort, order: 'asc' })
+		setAction(action)
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
+
 	useEffect(() => {
 		const start = (currentPage - 1) * rows + 1
 		if (currentPage > totalPages) {
@@ -162,14 +169,10 @@ const ListOfPosts = () => {
 				postTitle,
 			})
 
-		if (!popupRef.current?.classList.contains(styles.openPopup)) {
-			popupRef.current?.classList.add(styles.openPopup)
-		}
+		setOpenPopup(true)
 	}
 	const handleClosePopup = () => {
-		if (popupRef.current?.classList.contains(styles.openPopup)) {
-			popupRef.current?.classList.remove(styles.openPopup)
-		}
+		setOpenPopup(false)
 		setPopUpMessage('')
 	}
 
@@ -198,7 +201,7 @@ const ListOfPosts = () => {
 					<div className={styles.thead}>
 						{posts && (
 							<div className={styles.tr}>
-								{thead.map((item, index) => {
+								{theadPost.map((item, index) => {
 									if (item !== 'actions') {
 										if (item === 'categories' || item === 'status') {
 											return (
@@ -207,7 +210,10 @@ const ListOfPosts = () => {
 													{item === 'categories' && (
 														<div className={styles.theadDropDown}>
 															{allCategories?.map((c, index) => (
-																<div onClick={() => handleSetCategory(c.name)} data-element={c} key={index}>
+																<div
+																	onClick={() => handleSetAction({ sort: item, action: c.name })}
+																	data-element={c}
+																	key={index}>
 																	{c.name}
 																</div>
 															))}
@@ -215,19 +221,15 @@ const ListOfPosts = () => {
 													)}
 													{item === 'status' && (
 														<div className={styles.theadDropDown}>
-															{status &&
-																status.map((item: string, index) => (
+															{postStatus &&
+																postStatus.map((status: string, index) => (
 																	<div
 																		onClick={() => {
-																			if (item.toLowerCase() === 'draft') {
-																				setSort({ sortBy: item.toLowerCase(), order: 'asc' })
-																			} else {
-																				setSort({ sortBy: item.toLowerCase(), order: 'desc' })
-																			}
+																			handleSetAction({ sort: item, action: status })
 																		}}
 																		key={index}
-																		data-element={item}>
-																		{item}
+																		data-element={status}>
+																		{status}
 																	</div>
 																))}
 														</div>
@@ -255,7 +257,7 @@ const ListOfPosts = () => {
 					<div className={styles.tbody}>
 						{posts &&
 							posts?.map((post: ExtendedArticleContentProps, index: number) => (
-								<div key={index} className={`${styles.tr} ${post.status === 'draft' ? styles.draft : ''}`}>
+								<div key={index} className={`${styles.tr} ${post.status === 'Draft' ? styles.draft : ''}`}>
 									<div className={styles.td}>
 										<AnchorLink
 											className={styles.listPostTitle}
@@ -277,6 +279,11 @@ const ListOfPosts = () => {
 												Publish
 											</p>
 										)}
+									</div>
+									<div className={styles.td}>
+										{post.scheduledAt
+											? new Date(post.scheduledAt).toLocaleDateString(...longDateConverter())
+											: '------'}
 									</div>
 									<div className={styles.td}>{post.commentsCount}</div>
 									<div className={styles.td}>{post.postViews}</div>
@@ -304,22 +311,20 @@ const ListOfPosts = () => {
 				handleChangePage={handleChangePage}
 			/>
 
-			<Popup
-				popupRef={popupRef}
-				handleClosePopup={handleClosePopup}
-				handleDelete={handleDeletePost}
-				popUpMessage={popUpMessage}>
-				{!popUpMessage && (
-					<div className={styles.popupInfo}>
-						<span>
-							Post Title: <span>{postData.postTitle}</span>
-						</span>
-						<span>
-							Post Id: <span>{postData.postId}</span>
-						</span>
-					</div>
-				)}
-			</Popup>
+			{openPopup && (
+				<Popup handleClosePopup={handleClosePopup} handleDelete={handleDeletePost} popUpMessage={popUpMessage}>
+					{!popUpMessage && (
+						<div className={styles.popupInfo}>
+							<span>
+								Post Title: <span>{postData.postTitle}</span>
+							</span>
+							<span>
+								Post Id: <span>{postData.postId}</span>
+							</span>
+						</div>
+					)}
+				</Popup>
+			)}
 		</div>
 	)
 }

@@ -86,6 +86,7 @@ const Attempts = ({
 			setFocusedChevron('')
 		}
 		if (el === 'action' || el === 'result' || el === 'device') return
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 		if (el === 'createdAt') {
 			setSort(prev => {
 				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
@@ -106,6 +107,8 @@ const Attempts = ({
 		setAction(attempt)
 
 		setSort({ sortBy: item, order: 'asc' })
+
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
 	useEffect(() => {
@@ -224,7 +227,10 @@ const Attempts = ({
 									<div className={styles.td}>{attempt.location}</div>
 									<div className={styles.td}>{attempt.userAgent.device}</div>
 									<div className={styles.td}>
-										<button type="button" onClick={() => handleOpenData(attempt._id)} className={styles.searchIconWrapper}>
+										<button
+											type="button"
+											onClick={() => handleOpenData(attempt._id)}
+											className={styles.searchIconWrapper}>
 											<SearchSVG className={styles.searchIcon} />
 										</button>
 									</div>

@@ -21,7 +21,7 @@ import longDateConverter from '../../../hooks/longDateConverter'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 
 const ListOfComments = () => {
-	const popupRef = useRef<HTMLDivElement | null>(null)
+	const [openPopup, setOpenPopup] = useState<boolean>(false)
 	const listRef = useRef<HTMLDivElement | null>(null)
 	const [popUpMessage, setPopUpMessage] = useState<string>('')
 	const [focusedChevron, setFocusedChevron] = useState<string>('')
@@ -76,7 +76,7 @@ const ListOfComments = () => {
 		} else {
 			setFocusedChevron('')
 		}
-
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 		if (el === 'createdAt') {
 			setSort(prev => {
 				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
@@ -133,14 +133,10 @@ const ListOfComments = () => {
 				postId,
 			})
 
-		if (!popupRef.current?.classList.contains(styles.openPopup)) {
-			popupRef.current?.classList.add(styles.openPopup)
-		}
+		setOpenPopup(true)
 	}
 	const handleClosePopup = () => {
-		if (popupRef.current?.classList.contains(styles.openPopup)) {
-			popupRef.current?.classList.remove(styles.openPopup)
-		}
+		setOpenPopup(false)
 		setPopUpMessage('')
 	}
 
@@ -241,25 +237,23 @@ const ListOfComments = () => {
 				setRows={setRows}
 				handleChangePage={handleChangePage}
 			/>
-			<Popup
-				popupRef={popupRef}
-				handleClosePopup={handleClosePopup}
-				handleDelete={handleDeleteComment}
-				popUpMessage={popUpMessage}>
-				{!popUpMessage && (
-					<div className={styles.popupInfo}>
-						<span>
-							Comment Id: <span>{userData.commentId}</span>
-						</span>
-						<span>
-							Author: <span>{userData.author}</span>
-						</span>
-						<span>
-							Content: <span>{userData.commentContent}</span>
-						</span>
-					</div>
-				)}
-			</Popup>
+			{openPopup && (
+				<Popup handleClosePopup={handleClosePopup} handleDelete={handleDeleteComment} popUpMessage={popUpMessage}>
+					{!popUpMessage && (
+						<div className={styles.popupInfo}>
+							<span>
+								Comment Id: <span>{userData.commentId}</span>
+							</span>
+							<span>
+								Author: <span>{userData.author}</span>
+							</span>
+							<span>
+								Content: <span>{userData.commentContent}</span>
+							</span>
+						</div>
+					)}
+				</Popup>
+			)}
 		</div>
 	)
 }

@@ -45,6 +45,7 @@ export interface ArticleContentProps {
 export type ExtendedArticleContentProps = {
 	createdAt: string
 	publishedAt: string
+	scheduledAt:string
 	postViews: string
 	commentsCount: string
 } & ArticleContentProps

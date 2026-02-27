@@ -18,8 +18,9 @@ import longDateConverter from '../../../hooks/longDateConverter'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 
 const AdminList = () => {
-	const popupRef = useRef<HTMLDivElement | null>(null)
 	const listRef = useRef<HTMLDivElement | null>(null)
+
+	const [openPopup, setOpenPopup] = useState<boolean>(false)
 	const [popUpMessage, setPopUpMessage] = useState<string>('')
 	const [focusedChevron, setFocusedChevron] = useState<string>('')
 	const [userData, setUserData] = useState({
@@ -38,6 +39,7 @@ const AdminList = () => {
 	const [end, setEnd] = useState<number>(0)
 	const [inputValue, setInputValue] = useState<string>('')
 	const search = useDebounce(inputValue, 500)
+
 	const { data, refetch } = useFetchAdminsAndModeratorsQuery({
 		limit: rows,
 		page: currentPage,
@@ -68,6 +70,7 @@ const AdminList = () => {
 		} else {
 			setFocusedChevron('')
 		}
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 		if (el === 'comments' || el === 'posts' || el === 'createdAt' || el === 'lastLogin') {
 			setSort(prev => {
 				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
@@ -119,14 +122,11 @@ const AdminList = () => {
 				userName,
 			})
 
-		if (!popupRef.current?.classList.contains(styles.openPopup)) {
-			popupRef.current?.classList.add(styles.openPopup)
-		}
+		setOpenPopup(true)
 	}
 	const handleClosePopup = () => {
-		if (popupRef.current?.classList.contains(styles.openPopup)) {
-			popupRef.current?.classList.remove(styles.openPopup)
-		}
+		setOpenPopup(false)
+
 		setPopUpMessage('')
 	}
 
@@ -221,22 +221,20 @@ const AdminList = () => {
 				total={total}
 				handleChangePage={handleChangePage}
 			/>
-			<Popup
-				popupRef={popupRef}
-				handleClosePopup={handleClosePopup}
-				handleDelete={handleDeleteUser}
-				popUpMessage={popUpMessage}>
-				{!popUpMessage && (
-					<div className={styles.popupInfo}>
-						<span>
-							User Name: <span>{userData.userName}</span>
-						</span>
-						<span>
-							User Id: <span>{userData.userId}</span>
-						</span>
-					</div>
-				)}
-			</Popup>
+			{openPopup && (
+				<Popup handleClosePopup={handleClosePopup} handleDelete={handleDeleteUser} popUpMessage={popUpMessage}>
+					{!popUpMessage && (
+						<div className={styles.popupInfo}>
+							<span>
+								User Name: <span>{userData.userName}</span>
+							</span>
+							<span>
+								User Id: <span>{userData.userId}</span>
+							</span>
+						</div>
+					)}
+				</Popup>
+			)}
 		</div>
 	)
 }

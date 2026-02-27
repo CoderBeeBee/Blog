@@ -9,7 +9,8 @@ type FetchPostsParams = {
 	search?: string
 	sortBy?: string
 	order?: string
-	category?: string
+	// category?: string
+	action?:string
 }
 
 type FetchPostsResponse = {

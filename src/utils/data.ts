@@ -12,12 +12,13 @@ export const defaultCategories = [
 	{ name: 'Family' },
 ]
 
-export const thead = [
+export const theadPost = [
 	'title',
 	'author',
 	'categories',
 	'createdAt',
 	'publishedAt',
+	'scheduledAt',
 	'comments',
 	'views',
 	'status',
@@ -46,12 +47,12 @@ export const theadAdminsAndModerators = [
 	'actions',
 ]
 export const theadComments = ['author', 'content', 'postTitle', 'createdAt', 'actions']
-export const status = ['Draft', 'Published', 'Archived']
+
 export const adminsAndModerators = ['Admin', 'Moderator']
 export const role = ['Admin', 'Moderator', 'User']
 export const rowsNumbers = [10, 25, 50]
 
-export const statusOptions = ['draft', 'published']
+export const postStatus = ['Draft', 'Published','Scheduled']
 
 export const theadAttempts = ['action', 'result', 'user', 'createdAt', 'source', 'ipAddress','location', 'device', 'data']
 export const theadHistory = ['action', 'performedBy', 'role', 'createdAt', 'source', 'data']

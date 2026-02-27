@@ -21,9 +21,9 @@ import { ChevronDownSVG } from '../../../assets/icons/Icons'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 const ListOfUsers = () => {
-	const popupRef = useRef<HTMLDivElement | null>(null)
 	const listRef = useRef<HTMLDivElement | null>(null)
 	const [popUpMessage, setPopUpMessage] = useState<string>('')
+	const [openPopup, setOpenPopup] = useState<boolean>(false)
 	const [focusedChevron, setFocusedChevron] = useState<string>('')
 	const [userData, setUserData] = useState({
 		userId: '',
@@ -74,7 +74,7 @@ const ListOfUsers = () => {
 		} else {
 			setFocusedChevron('')
 		}
-
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 		if (el === 'comments' || el === 'lastLogin' || el === 'status') {
 			setSort(prev => {
 				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
@@ -126,14 +126,10 @@ const ListOfUsers = () => {
 				userName,
 			})
 
-		if (!popupRef.current?.classList.contains(styles.openPopup)) {
-			popupRef.current?.classList.add(styles.openPopup)
-		}
+		setOpenPopup(true)
 	}
 	const handleClosePopup = () => {
-		if (popupRef.current?.classList.contains(styles.openPopup)) {
-			popupRef.current?.classList.remove(styles.openPopup)
-		}
+		setOpenPopup(false)
 		setPopUpMessage('')
 	}
 
@@ -243,22 +239,21 @@ const ListOfUsers = () => {
 				setRows={setRows}
 				handleChangePage={handleChangePage}
 			/>
-			<Popup
-				popupRef={popupRef}
-				handleClosePopup={handleClosePopup}
-				handleDelete={handleDeleteUser}
-				popUpMessage={popUpMessage}>
-				{!popUpMessage && (
-					<div className={styles.popupInfo}>
-						<span>
-							User Name: <span>{userData.userName}</span>
-						</span>
-						<span>
-							User Id: <span>{userData.userId}</span>
-						</span>
-					</div>
-				)}
-			</Popup>
+
+			{openPopup && (
+				<Popup handleClosePopup={handleClosePopup} handleDelete={handleDeleteUser} popUpMessage={popUpMessage}>
+					{!popUpMessage && (
+						<div className={styles.popupInfo}>
+							<span>
+								User Name: <span>{userData.userName}</span>
+							</span>
+							<span>
+								User Id: <span>{userData.userId}</span>
+							</span>
+						</div>
+					)}
+				</Popup>
+			)}
 		</div>
 	)
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FormProvider, useFieldArray, useForm, type SubmitHandler } from 'react-hook-form'
+import { FormProvider, useFieldArray, useForm, useWatch, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { postSchema, defaultValues, type postSchemaTypes } from '../../../types/formSchema'
 import RHFInput from '../../atoms/RHFInput/RHFInput'
@@ -10,7 +10,7 @@ import RHFSelect from '../../atoms/RHFSelect/RHFSelect'
 import { useCreatePostMutation, useUpdatePostMutation } from '../../../slices/api/postApi'
 import styles from './PostForm.module.scss'
 import uploadToCloudinary from '../../../hooks/useUploadToCloudinary'
-import { defaultCategories, statusOptions } from '../../../utils/data'
+import { defaultCategories, postStatus } from '../../../utils/data'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { useFetchAllCategoriesQuery } from '../../../slices/api/categoriesApi'
 import {
@@ -30,6 +30,7 @@ interface PostFormProps {
 const PostForm = ({ editValues, postId }: PostFormProps) => {
 	const uploadFolder = import.meta.env.VITE_UPLOAD_PRESET
 	const buttons = ['title', 'text', 'image'] as const
+	const [scheduled, setScheduled] = useState<boolean>(false)
 	const fileRef = useRef<(HTMLInputElement | null)[]>([])
 	const [imagesToDestroy, setImagesToDestroy] = useState<string[]>([])
 	const [oldDefaultValues, setOldDefaultValues] = useState({})
@@ -60,6 +61,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 		formState: { isSubmitting, isSubmitSuccessful, isDirty },
 	} = methods
 	const { fields: articleContent, insert, remove } = useFieldArray({ control, name: 'articleContent' })
+	const [status] = useWatch({ control, name: ['status'] })
 
 	const handleResetFields = () => {
 		if (oldDefaultValues && Object.keys(oldDefaultValues).length > 0) {
@@ -69,7 +71,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 			if (fileRef.current) fileRef.current.forEach(el => el && (el.value = ''))
 			reset()
 		}
-		console.log(oldDefaultValues)
+
 		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
@@ -94,7 +96,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	const onSumbit: SubmitHandler<postSchemaTypes> = async (data: postSchemaTypes) => {
 		try {
 			if (!isDirty) return
-
+			console.log(data)
 			const filesToUpload: { file: File; type: 'main' | 'content'; index?: number; publicId?: string }[] = []
 
 			// Main image
@@ -197,6 +199,11 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 			setError('root', { message: 'An unexpected error has occured' })
 		}
 	}
+
+	useEffect(() => {
+		if (status === 'Scheduled') setScheduled(true)
+		else setScheduled(false)
+	}, [status])
 
 	useEffect(() => {
 		let frame: number
@@ -451,9 +458,20 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 									id="status"
 									label="Status"
 									isSubmitting={isSubmitting}
-									options={statusOptions}
+									options={postStatus}
 									styles={styles}
 								/>
+
+								{scheduled && (
+									<RHFInput
+										type="datetime-local"
+										name="publicationDate"
+										id="publicationDate"
+										label="Date of Publication"
+										isSubmitting={isSubmitting}
+										styles={styles}
+									/>
+								)}
 							</div>
 						</div>
 					</div>
@@ -504,7 +522,9 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 					<div className={styles.updateWrapper}>
 						<div className={styles.updateBox}>
 							<p className={styles.updateInfo}>{postMessage}</p>
-							<AnchorLink href='/admin/posts/listofposts' className={styles.updatePostLink}>List of Posts</AnchorLink>
+							<AnchorLink href="/admin/posts/listofposts" className={styles.updatePostLink}>
+								List of Posts
+							</AnchorLink>
 						</div>
 					</div>
 				)}

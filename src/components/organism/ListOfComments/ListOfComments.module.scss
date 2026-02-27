@@ -100,10 +100,10 @@
 							min-width: 350px;
 						}
 						&:nth-child(3) {
-							min-width: 250px;
+							max-width: 350px;
 						}
-						&:nth-child(n + 3) {
-							max-width: 150px;
+						&:nth-child(n + 4) {
+							max-width: 200px;
 						}
 					}
 				}
@@ -222,9 +222,7 @@
 		}
 	}
 
-	.openPopup {
-		display: flex;
-	}
+	
 }
 
 .tabelTitle {

@@ -235,9 +235,10 @@
 					.selectContainer {
 						display: flex;
 						align-items: center;
+						margin-bottom: 2rem;
 						.selectTitle {
 							font-family: var(--font-2);
-							font-size: 2rem;
+							font-size: var(--textSize_20);
 							font-weight: 500;
 							margin-right: 1rem;
 						}
@@ -273,6 +274,8 @@
 							}
 						}
 					}
+
+
 				}
 			}
 		}

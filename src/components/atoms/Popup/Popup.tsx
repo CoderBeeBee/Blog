@@ -2,17 +2,21 @@ import APIResponseMessage from '../APIResponseMessage/APIResponseMessage'
 import CloseButton from '../CloseButton/CloseButton'
 import FormBtn from '../FormBtn/FormBtn'
 import styles from './Popup.module.scss'
-import { type ReactNode, type RefObject } from 'react'
+import { type ReactNode } from 'react'
 interface PopupProps {
 	children: ReactNode
-	popupRef: RefObject<HTMLDivElement | null>
+	
 	handleClosePopup: () => void
 	popUpMessage: string
 	handleDelete: () => void
 }
-const Popup = ({ children, popupRef, popUpMessage, handleClosePopup, handleDelete }: PopupProps) => {
+const Popup = ({ children, popUpMessage, handleClosePopup, handleDelete }: PopupProps) => {
+
+
+
+
 	return (
-		<div ref={popupRef} className={styles.popupContainer}>
+		<div  className={styles.popupContainer}>
 			<div className={styles.popupWrapper}>
 				<p className={styles.popupTitle}>Confirm Deletion</p>
 				{children}
