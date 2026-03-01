@@ -67,7 +67,11 @@ export const postSchema = z.object({
 		metaDescription: z.string().min(1, { message: 'Please fill field' }),
 	}),
 	status: z.string(),
-	scheduledAt:z.date().nullable().refine(d=> d === null || d >= new Date(),'The date must be in the future.')
+
+	scheduledAt: z
+		.date()
+		.nullable()
+		.refine(d => d === null || d >= new Date(), 'The date must be in the future.'),
 })
 
 export type postSchemaTypes = z.infer<typeof postSchema>
@@ -104,5 +108,5 @@ export const defaultValues: postSchemaTypes = {
 		metaDescription: '',
 	},
 	status: 'Draft',
-	scheduledAt:null
+	scheduledAt: null,
 }

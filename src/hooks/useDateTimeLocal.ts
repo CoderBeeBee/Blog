@@ -1,5 +1,5 @@
 const useDateTimeLocal = () => {
-	const dateToDateTimeLocal = (date: Date | null) => {
+	const dateToDateTimeLocal = (date: Date | null | string) => {
 		if (!date) return ''
 
 		// jeśli string → zamień na Date
