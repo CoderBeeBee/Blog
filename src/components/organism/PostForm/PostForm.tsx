@@ -62,7 +62,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	} = methods
 	const { fields: articleContent, insert, remove } = useFieldArray({ control, name: 'articleContent' })
 	const [status] = useWatch({ control, name: ['status'] })
-
+	
 	const handleResetFields = () => {
 		if (oldDefaultValues && Object.keys(oldDefaultValues).length > 0) {
 			reset(oldDefaultValues)
@@ -94,9 +94,9 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	}
 
 	const onSumbit: SubmitHandler<postSchemaTypes> = async (data: postSchemaTypes) => {
+		console.log(data)
 		try {
 			if (!isDirty) return
-			console.log(data)
 			const filesToUpload: { file: File; type: 'main' | 'content'; index?: number; publicId?: string }[] = []
 
 			// Main image
@@ -201,9 +201,9 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	}
 
 	useEffect(() => {
-		if (status === 'Scheduled') setScheduled(true)
+		if (status === 'Scheduled' ||  editValues?.scheduledAt != null) setScheduled(true)
 		else setScheduled(false)
-	}, [status])
+	}, [editValues?.scheduledAt, status])
 
 	useEffect(() => {
 		let frame: number
@@ -465,8 +465,8 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 								{scheduled && (
 									<RHFInput
 										type="datetime-local"
-										name="publicationDate"
-										id="publicationDate"
+										name="scheduledAt"
+										id="scheduledAt"
 										label="Date of Publication"
 										isSubmitting={isSubmitting}
 										styles={styles}
