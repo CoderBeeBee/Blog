@@ -29,7 +29,9 @@ const AdminRoomPage = lazy(() => import('./components/pages/AdminPanel/AdminRoom
 const ListOfPostPage = lazy(() => import('./components/pages/AdminPanel/Posts/ListOfPostPage/ListOfPostPage'))
 const AddPostPage = lazy(() => import('./components/pages/AdminPanel/Posts/AddPostPage/AddPostPage'))
 const EditPostPage = lazy(() => import('./components/pages/AdminPanel/Posts/EditPostPage/EditPostPage'))
-const PostCategoryPage = lazy(() => import('./components/pages/AdminPanel/Posts/PostCategoryPage/PostCategoryPage'))
+const PostCategoryTagPage = lazy(
+	() => import('./components/pages/AdminPanel/Posts/PostCategoryTagPage/PostCategoryTagPage'),
+)
 const PostHistory = lazy(() => import('./components/pages/AdminPanel/Posts/PostHistory/PostHistory'))
 const ListPage = lazy(() => import('./components/pages/AdminPanel/Users/ListPage/ListPage'))
 const AddUserPage = lazy(() => import('./components/pages/AdminPanel/Users/AddUserPage/AddUserPage'))
@@ -46,7 +48,6 @@ const UserAttemptsPage = lazy(() => import('./components/pages/AdminPanel/Securi
 const AdminAttemptsPage = lazy(
 	() => import('./components/pages/AdminPanel/Security/AdminAttemptsPage/AdminAttemptsPage'),
 )
-
 
 const BasicSettingsPage = lazy(() => import('./components/pages/AdminPanel/Settings/Basic/BasicSettingsPage'))
 const EmailSettingsPage = lazy(() => import('./components/pages/AdminPanel/Settings/Email/EmailSettingsPage'))
@@ -85,7 +86,7 @@ import PageNotFound from './components/pages/PageNotFound/PageNotFound'
 import SubscriptionPage from './components/pages/SubscriptionPage/SubscriptionPage'
 import UnsubscriptionPage from './components/pages/UnsubscriptionPage/UnsubscriptionPage'
 import NewsletterPage from './components/pages/AdminPanel/Newsletter/NewsletterPage'
-
+import SubscribersPage from './components/pages/AdminPanel/Subscribers/SubscribersPage'
 
 const App = () => {
 	return (
@@ -109,9 +110,8 @@ const App = () => {
 						<Route path="privacy-policy" element={<PrivacyPolicy />} />
 						<Route path="terms-and-conditions" element={<TermsAndConditions />} />
 					</Route>
-						<Route path="/verify-subscription" element={<SubscriptionPage />} />
-						<Route path="/unsubscribe" element={<UnsubscriptionPage />} />
-						
+					<Route path="/verify-subscription" element={<SubscriptionPage />} />
+					<Route path="/unsubscribe" element={<UnsubscriptionPage />} />
 
 					{/* User Routes */}
 					<Route
@@ -144,7 +144,7 @@ const App = () => {
 						<Route path="listofposts" element={<ListOfPostPage />} />
 						<Route path="addpost" element={<AddPostPage />} />
 						<Route path="editpost" element={<EditPostPage />} />
-						<Route path="categories" element={<PostCategoryPage />} />
+						<Route path="categories-tags" element={<PostCategoryTagPage />} />
 						<Route path="posts-history" element={<PostHistory />} />
 					</Route>
 					<Route path="users/">
@@ -161,7 +161,6 @@ const App = () => {
 					<Route path="security">
 						<Route path="user-attempts" element={<UserAttemptsPage />} />
 						<Route path="admin-attempts" element={<AdminAttemptsPage />} />
-						
 					</Route>
 					<Route path="settings">
 						<Route path="basic" element={<BasicSettingsPage />} />
@@ -177,7 +176,8 @@ const App = () => {
 						<Route path="terms-and-conditions" element={<LegalTermsPage />} />
 						<Route path="acknowledgments" element={<LegalAcknowledgmentsPage />} />
 					</Route>
-					<Route path='newsletter' element={<NewsletterPage/>}/>
+					<Route path="newsletter" element={<NewsletterPage />} />
+					<Route path="subscribers" element={<SubscribersPage />} />
 				</Route>
 
 				{/* Settings */}

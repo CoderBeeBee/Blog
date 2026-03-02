@@ -24,22 +24,12 @@ export const postSchema = z.object({
 
 	articleContent: z.array(
 		z.discriminatedUnion('type', [
-			z.object({
-				type: z.literal('title'),
-				value: z.string().min(1, 'Please fill field'),
-			}),
+			
 			z.object({
 				type: z.literal('text'),
 				value: z.string().min(1, 'Please fill field'),
 			}),
-			z.object({
-				type: z.literal('completion'),
-				value: z.string().min(1, 'Please fill field'),
-			}),
-			z.object({
-				type: z.literal('callToAction'),
-				value: z.string().min(1, 'Please fill field'),
-			}),
+			
 			z.object({
 				type: z.literal('image'),
 				value: z.object({
@@ -61,6 +51,8 @@ export const postSchema = z.object({
 	),
 
 	categories: z.array(z.string()).min(1, { message: 'Min 1 Category' }).max(2, { message: 'Max 2 Categories' }),
+	tags: z.array(z.string()).min(1, { message: 'Min 1 Tag' }),
+	
 	seo: z.object({
 		slug: z.string().min(1, { message: 'Please fill field' }),
 		metaTitle: z.string().min(1, { message: 'Please fill field' }),
@@ -86,22 +78,11 @@ export const defaultValues: postSchemaTypes = {
 		public_id: '',
 	},
 	articleContent: [
-		{ type: 'title', value: '' },
-		{ type: 'text', value: '' },
-		{
-			type: 'image',
-			value: {
-				src: null,
-				alt: '',
-				caption: '',
-				public_id: '',
-			},
-		},
-		{ type: 'completion', value: '' },
-		{ type: 'callToAction', value: '' },
+		
 	],
 
 	categories: [],
+	tags:[],
 	seo: {
 		slug: '',
 		metaTitle: '',

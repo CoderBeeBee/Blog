@@ -2,7 +2,6 @@ import type { ChangeEvent, MouseEvent } from 'react'
 import { Controller, useFormContext, type FieldValues, type Path } from 'react-hook-form'
 import type { CategoryProps } from '../../../types/types'
 
-import CheckMark from '../Checkmark/CheckMark'
 
 interface RHFCategorySelectProps<T extends FieldValues> {
 	name: Path<T>
@@ -46,25 +45,16 @@ const RHFCategorySelect = <T extends FieldValues>({
 			name={name}
 			render={({ field: { value = [] as string[], onChange }, fieldState: { error } }) => (
 				<div className={styles.categoriesContainer}>
-					<div className={styles.selectedCategoriesContainer}>
-						<span className={styles.selectedCategoriesTitle}>{label}:</span>
-
-						{value.length > 0 && (
-							<div className={styles.selectedCategories}>
-								{value.map((v: string, index) => (
-									<span key={index}>{v}</span>
-								))}
-							</div>
-						)}
-						{error && <span className={styles.error}>{error.message}</span>}
-					</div>
-					<div className={`${styles.categoriesOptions} ${value.length <= 0 ? styles.categoryMargin : ''}`}>
+					<span className={styles.selectedCategoriesTitle}>{label}:</span>
+					{error && <span className={styles.error}>{error.message}</span>}
+					
+					<div className={`${styles.categoriesOptions}`}>
 						{options.map((option, index) => {
-							const disabled = value.length > 2 && !value.includes(option.name)
+							const disabled = value.length > max && !value.includes(option.name)
 							const isChecked = value.includes(option.name)
 
 							return (
-								<label htmlFor={option.name} key={index} className={styles.checkbox}>
+								<label htmlFor={option.name} key={index} className={`${styles.checkbox} ${isChecked ? styles.checked : ''}`}>
 									<input
 										id={option.name}
 										value={option.name}
@@ -73,11 +63,7 @@ const RHFCategorySelect = <T extends FieldValues>({
 										disabled={isSubmitting ? isSubmitting : disabled}
 										onChange={e => handleSelectCategory(e, value, onChange)}
 									/>
-
-									<CheckMark
-										className={`${styles.checkmark} ${isChecked ? styles.scaleCheckmark : ''}`}
-										isChecked={isChecked}
-									/>
+									
 									{option.name}
 								</label>
 							)

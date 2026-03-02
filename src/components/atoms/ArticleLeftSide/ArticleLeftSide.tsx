@@ -5,8 +5,8 @@ interface ArticleLefSideProps {
 }
 
 const ArticleLeftSide = ({ styles }: ArticleLefSideProps) => {
-	const { author, categories } = usePostContext()
-	
+	const { author, categories, tags } = usePostContext()
+
 	return (
 		<div className={styles.articleLeftSideContainer}>
 			<div className={styles.authorContent}>
@@ -19,18 +19,26 @@ const ArticleLeftSide = ({ styles }: ArticleLefSideProps) => {
 				</div>
 			</div>
 			<div className={styles.metaBottom}>
-				<div className={styles.catLinksBox}>
+				<div className={styles.metaInfo}>
 					<div className={styles.catLinks}>
-						<span>In </span>
+						<p>In </p>
 						{categories.map((item, index) => (
 							<a key={index} href={`/categories/${item.split(' ').join('-').toLowerCase()}`}>
-								{item}
+								{item} 
 							</a>
 						))}
 					</div>
-					<span>On</span> 22/10/2025
+					<div className={styles.onInfo}>
+						<p>On</p>
+						<span>{new Date(author.createdAt).toLocaleDateString('en-GB')}</span>
+					</div>
+					<div className={styles.tagsInfo}>
+						<p>Tags</p>
+						{tags.map((tag, index) => (
+							<span key={index}>{tag}</span>
+						))}
+					</div>
 				</div>
-				
 			</div>
 		</div>
 	)

@@ -1,8 +1,9 @@
-.addCategoryWrapper {
+.addTagsWrapper {
 	display: flex;
 	flex-direction: column;
-
-	.addCategoryTitle {
+	
+	
+	.addTagsTitle {
 		font-size: var(--textSize_20);
 		font-weight: 400;
 		line-height: 4rem;
@@ -71,7 +72,6 @@
 			color: var(--whiteColor);
 			background-color: var(--mainColor);
 			cursor: pointer;
-
 			&:hover {
 				background-color: var(--mainColorHover);
 			}
@@ -106,7 +106,7 @@
 }
 
 @media (width < 800px) {
-	.addCategoryWrapper {
+	.addTagsWrapper {
 		margin-left: auto;
 		margin-right: auto;
 	}

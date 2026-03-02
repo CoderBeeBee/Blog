@@ -13,8 +13,8 @@ const PostCategories = () => {
 
 		try {
 			if (!categoryId) return
-			const res = await deleteCategory(categoryId)
-			console.log(res)
+			 await deleteCategory(categoryId)
+			
 		} catch (error) {
 			console.log(error)
 		}

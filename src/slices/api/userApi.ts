@@ -112,7 +112,7 @@ export const userApi = createApi({
 			query: params => {
 				const queryString = new URLSearchParams(
 					Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)])),
-				)
+				).toString()
 
 				return `${USERS_URL}/get-users-by-limit/?${queryString}`
 			},

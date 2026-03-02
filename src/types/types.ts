@@ -5,8 +5,6 @@ export interface Size {
 	height: number
 }
 
-// export type MenuElement = (data: MenuTypes, id: number, key: number) => JSX.Element
-
 export interface SearchProps {
 	isOpen?: boolean
 	handleIsOpen?: () => void
@@ -24,13 +22,14 @@ export interface ArticleContentProps {
 	title: string
 	introduction: string
 	mainImage: { src: string; alt: string; caption: string; public_id?: string }
-	author: { name: string; avatar: { src: string; public_id: string } }
+	author: { name: string; avatar: { src: string; public_id: string },createdAt:string }
 	articleContent?: [
-		{ type: 'title' | 'text' | 'completion' | 'callToAction' | 'add'; value: string },
+		{ type: 'text' | 'add'; value: string },
 
 		{ type: 'image'; value: { src: string; alt: string; caption: string } },
 	]
 	categories: string[]
+	tags:string[]
 	id?: string
 	seo?: { slug: string; metaTitle: string; metaDescription: string }
 	status?: string

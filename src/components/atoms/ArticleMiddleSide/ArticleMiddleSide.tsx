@@ -19,7 +19,7 @@ interface ArticleMiddleSideProps {
 }
 
 type ArticleBlock =
-	| { type: 'title' | 'text' | 'completion' | 'callToAction' | 'add'; value: string }
+	| { type: 'text'  | 'add'; value: string }
 	| { type: 'image'; value: { src: string; alt: string; caption: string } }
 
 const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
@@ -85,13 +85,7 @@ const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 			<div className={styles.articleContentContainer}>
 				<div className={styles.articleContent}>
 					{articleWithAds.map((item: ArticleBlock, index: number) => {
-						if (item.type === 'title') {
-							return (
-								<h2 key={index} className={styles.articleContentTitle}>
-									{item.value}
-								</h2>
-							)
-						}
+						
 						if (item.type === 'text') {
 							return (
 								
@@ -119,22 +113,7 @@ const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 								</div>
 							)
 						}
-						if (item.type === 'completion') {
-							return (
-								
-								<ReactMarkdown key={index} remarkPlugins={[remarkGfm]}>
-									{item.value}
-								</ReactMarkdown>
-							)
-						}
-						if (item.type === 'callToAction') {
-							return (
-								
-								<ReactMarkdown key={index} remarkPlugins={[remarkGfm]}>
-									{item.value}
-								</ReactMarkdown>
-							)
-						}
+						
 						return null
 					})}
 				</div>

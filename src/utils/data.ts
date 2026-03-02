@@ -1,5 +1,3 @@
-
-
 export const defaultCategories = [
 	{ name: 'LifeStyle' },
 	{ name: 'Culture' },
@@ -11,6 +9,7 @@ export const defaultCategories = [
 	{ name: 'Health' },
 	{ name: 'Family' },
 ]
+export const defaultTags = [{ name: 'life' }, { name: 'travel' }, { name: 'work' }, { name: 'home' }]
 
 export const theadPost = [
 	'title',
@@ -52,10 +51,22 @@ export const adminsAndModerators = ['Admin', 'Moderator']
 export const role = ['Admin', 'Moderator', 'User']
 export const rowsNumbers = [10, 25, 50]
 
-export const postStatus = ['Draft', 'Published','Scheduled']
+export const postStatus = ['Draft', 'Published', 'Scheduled']
 
-export const theadAttempts = ['action', 'result', 'user', 'createdAt', 'source', 'ipAddress','location', 'device', 'data']
+export const theadAttempts = [
+	'action',
+	'result',
+	'user',
+	'createdAt',
+	'source',
+	'ipAddress',
+	'location',
+	'device',
+	'data',
+]
 export const theadHistory = ['action', 'performedBy', 'role', 'createdAt', 'source', 'data']
+
+export const theadSubscribers = ['email', 'isVerified', 'createdAt', 'lastSent', 'nextSent', 'actions']
 
 export const userAttempActions = [
 	'LOGIN_ATTEMPT',
@@ -103,4 +114,4 @@ export const resultAttempt = [
 	'MISSING_EMAIL',
 	'USER_IS_ACTIVE',
 ]
-export const userAgentDevice = ['DESKTOP','MOBILE','TABLET']
+export const userAgentDevice = ['DESKTOP', 'MOBILE', 'TABLET']

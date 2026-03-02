@@ -1,0 +1,8 @@
+.subscribersContainer {
+	display: flex;
+	justify-content: center;
+	height: calc(100dvh - var(--navPanelHeight));
+	width: 100%;
+	background-color: var(--pagesBgc);
+	overflow: hidden;
+}

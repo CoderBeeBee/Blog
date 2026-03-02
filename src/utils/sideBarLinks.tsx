@@ -31,7 +31,7 @@ const adminLinks: sideBarLinksProps[] = [
 		children: [
 			{ title: 'List of Posts', href: '/admin/posts/listofposts' },
 			{ title: 'Add Posts', href: '/admin/posts/addpost' },
-			{ title: 'Categories', href: '/admin/posts/categories' },
+			{ title: 'Categories/Tags', href: '/admin/posts/categories-tags' },
 			{ title: 'Change History', href: '/admin/posts/posts-history' },
 		],
 	},
@@ -69,8 +69,13 @@ const adminLinks: sideBarLinksProps[] = [
 	},
 	{
 		title: 'Newsletter',
-		href: '/admin/newsletter',
+		href: '',
 		icon: <NewsletterSVG />,
+		children: [
+			{ title: 'Newsletter Campaign', href: '/admin/newsletter' },
+			{ title: 'Subscribers ', href: '/admin/subscribers' },
+			
+		],
 	},
 	{
 		title: 'Security',

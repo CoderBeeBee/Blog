@@ -10,7 +10,7 @@ import RHFSelect from '../../atoms/RHFSelect/RHFSelect'
 import { useCreatePostMutation, useUpdatePostMutation } from '../../../slices/api/postApi'
 import styles from './PostForm.module.scss'
 import uploadToCloudinary from '../../../hooks/useUploadToCloudinary'
-import { defaultCategories, postStatus } from '../../../utils/data'
+import { defaultCategories, defaultTags, postStatus } from '../../../utils/data'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { useFetchAllCategoriesQuery } from '../../../slices/api/categoriesApi'
 import {
@@ -21,6 +21,7 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 import { adminLinks } from '../../../utils/sideBarLinks'
 import { CloseSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
+import { useFetchAllTagsQuery } from '../../../slices/api/tagsApi'
 
 interface PostFormProps {
 	editValues?: postSchemaTypes
@@ -29,7 +30,7 @@ interface PostFormProps {
 
 const PostForm = ({ editValues, postId }: PostFormProps) => {
 	const uploadFolder = import.meta.env.VITE_UPLOAD_PRESET
-	const buttons = ['title', 'text', 'image'] as const
+	const buttons = ['text', 'image'] as const
 	const [scheduled, setScheduled] = useState<boolean>(false)
 	const fileRef = useRef<(HTMLInputElement | null)[]>([])
 	const [imagesToDestroy, setImagesToDestroy] = useState<string[]>([])
@@ -39,8 +40,11 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	const [updatePost] = useUpdatePostMutation()
 	const [destroyCloudinaryImage] = useDestroyCloudinaryImageMutation()
 	const { data } = useFetchAllCategoriesQuery()
+	const {data:tags} = useFetchAllTagsQuery({})
 	const [postMessage, setPostMessage] = useState<string>('')
 	const allCategories = data && data?.length > 0 ? data : defaultCategories
+	const allTags = tags && tags?.length > 0 ? tags : defaultTags
+	
 	const [progress, setProgress] = useState<number>(0)
 
 	const [animatedProgress, setAnimatedProgress] = useState<number>(0)
@@ -62,7 +66,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	} = methods
 	const { fields: articleContent, insert, remove } = useFieldArray({ control, name: 'articleContent' })
 	const [status] = useWatch({ control, name: ['status'] })
-	
+
 	const handleResetFields = () => {
 		if (oldDefaultValues && Object.keys(oldDefaultValues).length > 0) {
 			reset(oldDefaultValues)
@@ -94,7 +98,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	}
 
 	const onSumbit: SubmitHandler<postSchemaTypes> = async (data: postSchemaTypes) => {
-		console.log(data)
+		
 		try {
 			if (!isDirty) return
 			const filesToUpload: { file: File; type: 'main' | 'content'; index?: number; publicId?: string }[] = []
@@ -201,7 +205,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	}
 
 	useEffect(() => {
-		if (status === 'Scheduled' ||  editValues?.scheduledAt != null) setScheduled(true)
+		if (status === 'Scheduled' || editValues?.scheduledAt != null) setScheduled(true)
 		else setScheduled(false)
 	}, [editValues?.scheduledAt, status])
 
@@ -246,7 +250,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 								className={styles.postFormBtns}
 								key={index}
 								onClick={() => {
-									const newIndex = articleContent.length - 2
+									const newIndex = articleContent.length
 									if (btn === 'image') {
 										insert(newIndex, {
 											type: btn,
@@ -312,26 +316,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 								articleContent?.length > 0 &&
 								articleContent.map((field, index) => (
 									<div key={field.id}>
-										{field.type === 'title' && (
-											<div key={field.id} className={styles.fieldBox}>
-												<RHFInput<postSchemaTypes>
-													type="text"
-													id={`title-${index}`}
-													name={`articleContent.${index}.value`}
-													label="Subtitle"
-													styles={styles}
-													isSubmitting={isSubmitting}
-												/>
-												{index >= 3 && (
-													<div
-														data-index={index}
-														onClick={() => handleDeleteField(index)}
-														className={styles.deleteBtnWrapper}>
-														<CloseSVG className={styles.icon} />
-													</div>
-												)}
-											</div>
-										)}
+										
 										{field.type === 'text' && (
 											<div key={field.id} className={styles.fieldBox}>
 												<RHFTextArea<postSchemaTypes>
@@ -341,7 +326,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 													id={`text-${index}`}
 													isSubmitting={isSubmitting}
 												/>
-												{index >= 3 && (
+												{index >= 0 && (
 													<div
 														data-index={index}
 														onClick={() => handleDeleteField(index)}
@@ -355,7 +340,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 											<div key={field.id} className={styles.fieldBox}>
 												<RHFAddFile<postSchemaTypes>
 													name={`articleContent.${index}.value.src`}
-													label="Content Image"
+													label="Image"
 													styles={styles}
 													fileRef={fileRef}
 													fileIndex={index}
@@ -380,7 +365,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 														/>
 													</div>
 												</RHFAddFile>
-												{index >= 3 && (
+												{index >= 0 && (
 													<div
 														data-index={index}
 														onClick={() => handleDeleteField(index)}
@@ -389,25 +374,6 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 													</div>
 												)}
 											</div>
-										)}
-										{field.type === 'completion' && (
-											<RHFTextArea
-												name={`articleContent.${index}.value`}
-												label="Completion"
-												styles={styles}
-												id={`text-${index}`}
-												isSubmitting={isSubmitting}
-											/>
-										)}
-
-										{field.type === 'callToAction' && (
-											<RHFTextArea
-												name={`articleContent.${index}.value`}
-												label="Call to action"
-												styles={styles}
-												id={`text-${index}`}
-												isSubmitting={isSubmitting}
-											/>
 										)}
 									</div>
 								))}
@@ -419,6 +385,14 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 									options={allCategories}
 									label="Categories"
 									max={3}
+									styles={styles}
+									isSubmitting={isSubmitting}
+								/>
+								<RHFCategorySelect<postSchemaTypes>
+									name="tags"
+									options={allTags}
+									label="Tags"
+									max={10}
 									styles={styles}
 									isSubmitting={isSubmitting}
 								/>
