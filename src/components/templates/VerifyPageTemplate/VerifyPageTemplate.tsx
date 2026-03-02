@@ -81,7 +81,7 @@ const VerifyPageTemplate = () => {
 				}
 
 				if (fetchError.data && typeof fetchError.data === 'object' && 'error' in fetchError.data) {
-					console.log(fetchError.data.error)
+					
 					setSuccessMessage('')
 					setErrorMessage(fetchError.data.error as string)
 				}

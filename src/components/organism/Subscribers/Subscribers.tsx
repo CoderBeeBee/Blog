@@ -109,7 +109,7 @@ const Subscribers = () => {
 		const target = e.currentTarget as HTMLDivElement
 		const subId = target.dataset.id
 		const email = target.dataset.email
-		console.log(subId)
+		
 		if (subId && email)
 			setSubscriber({
 				email,

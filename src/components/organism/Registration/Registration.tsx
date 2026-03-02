@@ -66,7 +66,7 @@ const Registration = () => {
 	const onSubmit: SubmitHandler<registrationFields> = async data => {
 		try {
 			if (!data) return
-			console.log(data)
+			
 			const res = await createAccount({
 				name: data.name,
 				email: data.email,

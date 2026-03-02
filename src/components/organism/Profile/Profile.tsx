@@ -62,7 +62,7 @@ const Profile = () => {
 
 	const onChangeInputProfile = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.currentTarget
-		console.log('ok')
+		
 		const { type } = target
 
 		if (type === 'file') {
@@ -107,7 +107,7 @@ const Profile = () => {
 	const onSubmit: SubmitHandler<profileTypes> = async data => {
 		let updatedAvatar = {}
 
-		console.log(data)
+	
 		try {
 			if (!isDirty) return
 			if (data.avatar instanceof File) {

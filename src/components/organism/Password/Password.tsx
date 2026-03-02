@@ -64,7 +64,7 @@ const Password = ({ handleAccountPopup }: PasswordProps) => {
 	const isEmailInPassword = emailPrefix && newPassword.toLowerCase().includes(emailPrefix.toLowerCase())
 
 	const onSubmit: SubmitHandler<passwordTypes> = async data => {
-		console.log(data)
+		
 		try {
 			const { newPassword, currentPassword } = data
 

@@ -8,10 +8,7 @@ const SingleCategoryPage = () => {
 
 	const { data: category } = useFetchSingleCategoryQuery(categorySlug!)
 	
-	// const { data } = useFetchAllCategoriesQuery()
-	// console.log(data)
-	// if (!data) return
-	// const category = data.find(item => item.name!.split(' ').join('-').toLowerCase() === categorySlug)
+	
 
 	if (!category) return
 	return (

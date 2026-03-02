@@ -33,7 +33,7 @@ const IntegrationsSocialLinks = () => {
 		try {
 			if (!data) return
 			if (!isDirty) return
-			console.log(data)
+			
 			const res = await updateIntegrations({ integrations: data }).unwrap()
 
 			if (res) {
