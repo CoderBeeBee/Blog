@@ -40,7 +40,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	const [updatePost] = useUpdatePostMutation()
 	const [destroyCloudinaryImage] = useDestroyCloudinaryImageMutation()
 	const { data } = useFetchAllCategoriesQuery()
-	const {data:tags} = useFetchAllTagsQuery({})
+	const {data:tags} = useFetchAllTagsQuery()
 	const [postMessage, setPostMessage] = useState<string>('')
 	const allCategories = data && data?.length > 0 ? data : defaultCategories
 	const allTags = tags && tags?.length > 0 ? tags : defaultTags

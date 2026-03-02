@@ -34,7 +34,7 @@ const ArticleLeftSide = ({ styles }: ArticleLefSideProps) => {
 					</div>
 					<div className={styles.tagsInfo}>
 						<p>Tags</p>
-						{tags.map((tag, index) => (
+						{tags?.map((tag, index) => (
 							<span key={index}>{tag}</span>
 						))}
 					</div>

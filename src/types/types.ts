@@ -29,7 +29,7 @@ export interface ArticleContentProps {
 		{ type: 'image'; value: { src: string; alt: string; caption: string } },
 	]
 	categories: string[]
-	tags:string[]
+	tags?:string[]
 	id?: string
 	seo?: { slug: string; metaTitle: string; metaDescription: string }
 	status?: string
