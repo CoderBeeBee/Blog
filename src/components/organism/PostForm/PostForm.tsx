@@ -40,11 +40,11 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	const [updatePost] = useUpdatePostMutation()
 	const [destroyCloudinaryImage] = useDestroyCloudinaryImageMutation()
 	const { data } = useFetchAllCategoriesQuery()
-	const {data:tags} = useFetchAllTagsQuery()
+	const { data: tags } = useFetchAllTagsQuery()
 	const [postMessage, setPostMessage] = useState<string>('')
 	const allCategories = data && data?.length > 0 ? data : defaultCategories
 	const allTags = tags && tags?.length > 0 ? tags : defaultTags
-	
+
 	const [progress, setProgress] = useState<number>(0)
 
 	const [animatedProgress, setAnimatedProgress] = useState<number>(0)
@@ -61,7 +61,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 		control,
 		reset,
 		getValues,
-
+		setValue,
 		formState: { isSubmitting, isSubmitSuccessful, isDirty },
 	} = methods
 	const { fields: articleContent, insert, remove } = useFieldArray({ control, name: 'articleContent' })
@@ -98,7 +98,6 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	}
 
 	const onSumbit: SubmitHandler<postSchemaTypes> = async (data: postSchemaTypes) => {
-		
 		try {
 			if (!isDirty) return
 			const filesToUpload: { file: File; type: 'main' | 'content'; index?: number; publicId?: string }[] = []
@@ -205,9 +204,13 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	}
 
 	useEffect(() => {
-		if (status === 'Scheduled' || editValues?.scheduledAt != null) setScheduled(true)
-		else setScheduled(false)
-	}, [editValues?.scheduledAt, status])
+		if (status === 'Scheduled' ) {
+			setScheduled(true)
+		} else {
+			setScheduled(false)
+			setValue('scheduledAt', null)
+		}
+	}, [editValues?.scheduledAt, setValue, status])
 
 	useEffect(() => {
 		let frame: number
@@ -316,7 +319,6 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 								articleContent?.length > 0 &&
 								articleContent.map((field, index) => (
 									<div key={field.id}>
-										
 										{field.type === 'text' && (
 											<div key={field.id} className={styles.fieldBox}>
 												<RHFTextArea<postSchemaTypes>
