@@ -206,6 +206,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	useEffect(() => {
 		if (status === 'Scheduled' ) {
 			setScheduled(true)
+			
 		} else {
 			setScheduled(false)
 			setValue('scheduledAt', null)
