@@ -41,7 +41,7 @@
 						bottom: 0;
 						width: 100dvw;
 						height: 100dvh;
-						
+
 						img {
 							height: 100%;
 							width: 100%;
@@ -82,9 +82,9 @@
 							gap: 1rem;
 							.heroMeta {
 								display: flex;
-								
+
 								gap: 1.5rem;
-								
+
 								font-size: var(--textSpan);
 
 								.heroCategories {
@@ -263,6 +263,12 @@
 			.heroSlider {
 				.heroSlide {
 					.heroSlideBox {
+						.heroImageWrapper {
+							img {
+								object-fit: cover;
+							}
+						}
+
 						.heroContent {
 							.heroText {
 								.heroMeta {

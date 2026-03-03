@@ -31,7 +31,7 @@ const AddUserForm = () => {
 			name: '',
 			email: '',
 			password: '',
-			role: '',
+			role: 'User',
 		},
 	})
 	const {
