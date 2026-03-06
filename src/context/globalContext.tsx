@@ -30,6 +30,8 @@ import type {
 	securityTypes,
 } from '../types/settingsSchema'
 import type { socialTypes } from '../types/integrationsSchema'
+import { useFetchAdsQuery } from '../slices/api/adApi'
+import type { AdsTypes } from '../types/adsSchema'
 
 interface MenuContextProps {
 	children: ReactNode
@@ -54,6 +56,7 @@ interface GlobalContextProps {
 	analytics: analyticsTypes
 	different: differentTypes
 	integrations: socialTypes
+	ads:AdsTypes
 }
 
 const GlobalContext = createContext<GlobalContextProps | null>(null)
@@ -74,6 +77,9 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 	const { close } = sideBarMenu
 	const { data: settings, isLoading } = useFetchSettingsQuery({})
 	const { basic, security, posts, interactions, analytics, different, integrations } = settings ?? {}
+
+	const {data:ads} = useFetchAdsQuery({})
+	
 
 	// Open close mobile dropdown
 	const handleOpenCloseDropdown = (e: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>) => {
@@ -156,6 +162,7 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 		analytics,
 		different,
 		integrations,
+		ads
 	}
 	if (isLoading) {
 		return null

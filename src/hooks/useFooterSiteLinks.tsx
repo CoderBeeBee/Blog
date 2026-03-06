@@ -5,7 +5,7 @@ const useFooterSiteLinks = () => {
 		{ name: 'About us', url: '/about' },
 		{ name: 'FAQ', url: '/faq' },
 		{ name: 'Terms and Conditions', url: '/terms-and-conditions' },
-		{ name: 'Privacy Police', url: '/privacy-policy' },
+		{ name: 'Privacy Policy', url: '/privacy-policy' },
 		
 	]
 

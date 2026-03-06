@@ -80,15 +80,23 @@ const LegalAcknowledgmentsPage = lazy(
 	() => import('./components/pages/AdminPanel/LegalDocuments/LegalAcknowledgmentsPage/LegalAcknowledgmentsPage'),
 )
 
+const SubscriptionPage = lazy(() => import('./components/pages/SubscriptionPage/SubscriptionPage'))
+const UnsubscriptionPage = lazy(() => import('./components/pages/UnsubscriptionPage/UnsubscriptionPage'))
+const NewsletterPage = lazy(() => import('./components/pages/AdminPanel/Newsletter/NewsletterPage'))
+const SubscribersPage = lazy(() => import('./components/pages/AdminPanel/Subscribers/SubscribersPage'))
+const AdsPage = lazy(() => import('./components/pages/AdminPanel/AdsPage/AdsPage'))
+
 import Loader from './components/atoms/loader/Loader'
 import PageNotFound from './components/pages/PageNotFound/PageNotFound'
 
-import SubscriptionPage from './components/pages/SubscriptionPage/SubscriptionPage'
-import UnsubscriptionPage from './components/pages/UnsubscriptionPage/UnsubscriptionPage'
-import NewsletterPage from './components/pages/AdminPanel/Newsletter/NewsletterPage'
-import SubscribersPage from './components/pages/AdminPanel/Subscribers/SubscribersPage'
+import useAdsense from './hooks/useAdsense'
+import { useFetchAdsQuery } from './slices/api/adApi'
 
 const App = () => {
+	const { data: ads } = useFetchAdsQuery({})
+
+	useAdsense(ads?.client)
+
 	return (
 		<Router basename="/">
 			<Routes>
@@ -178,6 +186,7 @@ const App = () => {
 					</Route>
 					<Route path="newsletter" element={<NewsletterPage />} />
 					<Route path="subscribers" element={<SubscribersPage />} />
+					<Route path="advertisements" element={<AdsPage />} />
 				</Route>
 
 				{/* Settings */}

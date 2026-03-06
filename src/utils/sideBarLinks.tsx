@@ -1,5 +1,6 @@
 import {
 	AdminSVG,
+	AdsSVG,
 	CommentsSVG,
 	DashboardSVG,
 	LawSVG,
@@ -74,6 +75,16 @@ const adminLinks: sideBarLinksProps[] = [
 		children: [
 			{ title: 'Newsletter Campaign', href: '/admin/newsletter' },
 			{ title: 'Subscribers ', href: '/admin/subscribers' },
+			
+		],
+	},
+	{
+		title: 'Ads',
+		href: '',
+		icon: <AdsSVG />,
+		children: [
+			{ title: 'Ads', href: '/admin/advertisements' },
+			
 			
 		],
 	},
