@@ -156,7 +156,7 @@ const ListOfUsers = () => {
 			}
 		}
 	}
-
+	console.log(users)
 	// if (isFetching) return <Loader />
 	return (
 		<div className={styles.listWrapper}>

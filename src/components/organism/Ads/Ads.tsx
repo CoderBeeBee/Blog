@@ -17,7 +17,7 @@ const Ads = () => {
 
 	const [createAd] = useCreateAdsMutation()
 	const { data } = useFetchAdsQuery({})
-	console.log(data)
+	
 	const methods = useForm({
 		mode: 'onSubmit',
 		reValidateMode: 'onChange',

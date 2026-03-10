@@ -26,7 +26,7 @@ type ArticleBlock =
 
 const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 	const isDev = import.meta.env.VITE_NODE_ENV === 'development'
-	
+
 	const slot = ''
 	const { articleContent, introduction } = usePostContext()
 	const [likeMessage, setLikeMessage] = useState<string>('')
@@ -41,7 +41,7 @@ const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 	const { data: likedPost } = useFetchUserLikedPostQuery({ postId, userId: id }, { skip: !isLogged || !postId || !id })
 
 	const { data: postLikes } = useFetchLivePostLikesQuery(postId!, { skip: !postId })
-	const {ads} = useGlobalContext()
+	const { ads } = useGlobalContext()
 	
 	const articleWithAds = useMemo<ArticleBlock[]>(() => {
 		if (!articleContent) return []
@@ -106,16 +106,13 @@ const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 								</ReactMarkdown>
 							)
 						}
+
 						if (item.type === 'add') {
-							return (
-								// <img
-								// 	src="https://placehold.co/800x150/EEE/D3D3D3D3?font=open-sans&text=Google%20Adds"
-								// 	alt="Google Adds"
-								// 	key={index}
-								// 	className={styles.articleAdd}
-								// />
+							return ads.slots.singlePost.enableAd ? (
 								<GoogleAds className={styles.articleAdd} key={pathname + index} client={item.client} slot={item.slot} />
-							)
+							) : null
+								
+							
 						}
 						if (item.type === 'image') {
 							return (

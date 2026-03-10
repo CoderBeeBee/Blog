@@ -64,7 +64,7 @@ const TabelPagination = ({
 	return (
 		<div className={styles.pagination}>
 			<div className={styles.paginationRows}>
-				<span>Rows per page:</span>
+				
 				<div className={styles.selectRows}>
 					<div className={styles.inputBox} onClick={() => handleOpenRows()}>
 						<input className={styles.selectInput} value={rows} type="text" name="rows" readOnly />

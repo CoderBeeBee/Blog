@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 
 interface GoogleAdProps {
-	client: string | undefined 
-	slot: string | undefined 
-	style?: React.CSSProperties 
-	format?: string 
-	responsive?: boolean 
+	client: string | undefined
+	slot: string | undefined
+	style?: React.CSSProperties
+	format?: string
+	responsive?: boolean
 	className: string
 }
 
@@ -29,9 +29,6 @@ const GoogleAds = ({
 		if (!client || !slot) return
 		if (!adRef.current) return
 
-		
-
-		
 		if (adRef.current?.getAttribute('data-ads-loaded') === 'true') {
 			return
 		}
@@ -46,6 +43,7 @@ const GoogleAds = ({
 	if (!client) return null
 	return (
 		<ins
+			data-aos="fade-up"
 			ref={adRef}
 			className={`adsbygoogle ${className}`}
 			style={style}
@@ -53,7 +51,6 @@ const GoogleAds = ({
 			data-ad-slot={slot}
 			data-ad-format={format}
 			data-full-width-responsive={responsive ? 'true' : 'false'}
-			
 		/>
 	)
 }

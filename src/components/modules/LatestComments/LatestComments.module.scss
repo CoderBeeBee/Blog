@@ -68,9 +68,9 @@
 			.latestCommentsComment {
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
-				-webkit-line-clamp: 3;
+				-webkit-line-clamp: 2;
 				text-overflow: ellipsis;
-				line-clamp: 3;
+				line-clamp: 2;
 				line-height: 2.4rem;
 				color: var(--blackColor);
 				overflow: hidden;

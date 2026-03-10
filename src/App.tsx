@@ -89,13 +89,9 @@ const AdsPage = lazy(() => import('./components/pages/AdminPanel/AdsPage/AdsPage
 import Loader from './components/atoms/loader/Loader'
 import PageNotFound from './components/pages/PageNotFound/PageNotFound'
 
-import useAdsense from './hooks/useAdsense'
-import { useFetchAdsQuery } from './slices/api/adApi'
 
 const App = () => {
-	const { data: ads } = useFetchAdsQuery({})
-
-	useAdsense(ads?.client)
+	
 
 	return (
 		<Router basename="/">
