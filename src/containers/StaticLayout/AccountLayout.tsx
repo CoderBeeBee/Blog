@@ -5,13 +5,16 @@ import styles from './AccountLayout.module.scss'
 import { GlobalProvider } from '../../context/globalContext'
 import { accountLinks } from '../../utils/sideBarLinks'
 import SideBarLink from '../../components/atoms/SidebarLink/SideBarLink'
+import UserNavigation from '../../components/atoms/UserNavigation/UserNavigation'
+import { useSelector } from 'react-redux'
+import type { RootState } from '../../store'
 
-import NavPanel from '../../components/atoms/NavPanel/NavPanel'
 const AccountLayout = () => {
+	const { role } = useSelector((state: RootState) => state.auth)
 	return (
 		<GlobalProvider>
 			<div className={styles.accountLayoutContainer}>
-				<NavPanel />
+				{role === 'User' && <UserNavigation />}
 				<div className={styles.accountPanelWrapper}>
 					<SideBar>
 						{accountLinks.map((data, index) => (

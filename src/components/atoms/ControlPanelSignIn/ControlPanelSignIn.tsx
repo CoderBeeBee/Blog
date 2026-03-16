@@ -1,5 +1,7 @@
 import AnchorLink from '../AnchorLink/AnchorLink'
 import useGlobalContext from '../../../hooks/useGlobalContext'
+import useWindowSize from '../../../hooks/useWindowSize'
+import { ChevronDownSVG } from '../../../assets/icons/Icons'
 
 interface ControlPanelSignInProps {
 	styles: Record<string, string>
@@ -7,11 +9,17 @@ interface ControlPanelSignInProps {
 
 const ControlPanelSignIn = ({ styles }: ControlPanelSignInProps) => {
 	const { userRef, openCloseUserMenu, toggleMenu } = useGlobalContext()
+	const { width } = useWindowSize()
 	return (
 		<div ref={userRef} className={styles.signInWrapper}>
-			<button type="button" onClick={() => openCloseUserMenu()} className={styles.signInBtn}>
-				Sign In
-			</button>
+			<div className={styles.signinBox} onClick={() => openCloseUserMenu()}>
+				<button type="button" className={styles.signInButton}>
+					Sign In
+				</button>
+				{width < 900 && (
+					<ChevronDownSVG className={`${styles.chevronDownSVG} ${toggleMenu ? styles.rotateArrow : ''}`} />
+				)}
+			</div>
 
 			<div className={`${styles.linksWrapper} ${toggleMenu ? styles.displayVisibility : ''}`}>
 				<AnchorLink className={styles.anchorLink} href="/login">

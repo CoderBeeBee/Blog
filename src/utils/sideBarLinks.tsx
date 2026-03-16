@@ -125,7 +125,7 @@ const accountLinks: sideBarLinksProps[] = [
 		icon: <ProfileSVG />,
 		children: [
 			{ title: 'Profile Info', href: '/account' },
-			// { title: 'Security', href: '/account/profile/security' },
+			
 		],
 	},
 ]

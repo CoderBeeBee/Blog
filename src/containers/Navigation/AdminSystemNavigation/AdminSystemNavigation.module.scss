@@ -1,0 +1,171 @@
+.adminSystemNavigationContainer {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	height: 30px;
+	width: 100%;
+	background-color: var(--blackColorHover);
+	padding: 0 3rem;
+
+	.menuElementContainer {
+		position: relative;
+		display: flex;
+		align-items: center;
+		height: 100%;
+		padding: 0 1rem;
+		font-size: var(--textSize_14);
+		font-weight: 400;
+		color: var(--whiteColor);
+		cursor: pointer;
+		transition: color 0.3s ease-in-out;
+		&:hover {
+			color: var(--lightGrayColor);
+		}
+		&:hover .chevron {
+			rotate: 180deg;
+		}
+		.menuElement {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			pointer-events: none;
+			.title {
+				padding-right: 1rem;
+				pointer-events: none;
+			}
+
+			.chevron {
+				transition: all 0.3s ease-in-out;
+				pointer-events: none;
+			}
+		}
+
+		.subMenu {
+			position: absolute;
+			flex-direction: column;
+			top: 100%;
+			left: 0;
+			width: 100%;
+
+			background: var(--blackColorHover);
+			transform: scaleY(0);
+			transform-origin: top;
+			opacity: 0;
+			visibility: hidden;
+			z-index: 1000;
+			list-style: none;
+			transition: all 0.3s ease-in-out;
+			.subMenuLi {
+				.subLink {
+					display: block;
+					width: 100%;
+					white-space: nowrap;
+					line-height: 1.8rem;
+					padding: 0.7rem 3rem 0.7rem 2rem;
+					color: var(--lightGrayColor);
+					font-size: var(--subMenu-TextSize);
+					font-weight: 400;
+					transition: all 0.3s;
+
+					&:hover {
+						color: var(--whiteColor);
+						background-color: var(--blackColor);
+					}
+				}
+			}
+			.activeSubMenuLi {
+				color: var(--whiteColor);
+			}
+		}
+
+		.active {
+			transform: scaleY(1);
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+	.adminSystem {
+		margin-left: auto;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: 100%;
+		transition: all 0.3s ease-in-out;
+		cursor: pointer;
+
+		.adminInfoWrapper {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 100%;
+			padding: 0 1rem;
+			color: var(--whiteColor);
+			font-size: var(--textSize_14);
+			font-weight: 400;
+
+			&:hover {
+				color: var(--lightGrayColor);
+			}
+			.systemName {
+				padding-right: 1rem;
+			}
+			.chevronDownSVG {
+				transition: all 0.3s ease-in-out;
+				pointer-events: none;
+			}
+			.rotateArrow {
+				rotate: 180deg;
+			}
+		}
+
+		.adminDropdown {
+			position: absolute;
+			top: 100%;
+			right: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 200px;
+
+			background-color: var(--whiteColor);
+			font-weight: 400;
+			transition: all 0.3s ease-in-out;
+			visibility: hidden;
+			opacity: 0;
+			transform-origin: top;
+			transform: scaleY(0);
+			overflow-y: auto;
+			z-index: 2001;
+
+			.adminLinks {
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				white-space: nowrap;
+				line-height: 40px;
+				color: var(--blackColor);
+				background-color: var(--whiteColor);
+				border: none;
+				border-bottom: 1px solid var(--blackColor);
+				font-size: var(--textSize_14);
+				font-weight: 400;
+				transition: all 0.3s ease-in-out;
+				cursor: pointer;
+				&:hover {
+					color: var(--whiteColor);
+					background-color: var(--blackColor);
+				}
+				&:last-child {
+					border: none;
+				}
+			}
+		}
+		.displayVisibility {
+			visibility: visible;
+			opacity: 1;
+
+			transform: scaleY(1);
+		}
+	}
+}

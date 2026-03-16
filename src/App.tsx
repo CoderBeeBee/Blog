@@ -21,7 +21,7 @@ const SingleCategoryPage = lazy(() => import('./components/pages/CategoryPage/Si
 // User pages
 const LoginPage = lazy(() => import('./components/pages/LoginPage/LoginPage'))
 const RegistrationPage = lazy(() => import('./components/pages/RegistrationPage/RegistrationPage'))
-const VerifyPage = lazy(() => import('./components/pages/VerifyPage/VerifyPage'))
+const VerifyAccountPage = lazy(() => import('./components/pages/VerifyAccountPage/VerifyAccountPage'))
 
 // Admin pages
 const DashboardPage = lazy(() => import('./components/pages/AdminPanel/Dashboard/DashboardPage'))
@@ -56,7 +56,6 @@ const IntegrationsSettingsPage = lazy(
 )
 // Account pages
 const ProfilePage = lazy(() => import('./components/pages/AccountPages/ProfilePage/ProfilePage'))
-const ResetPasswordPage = lazy(() => import('./components/pages/AccountPages/ResetPasswordPage/ResetPasswordPage'))
 const DeleteAccountPage = lazy(() => import('./components/pages/AccountPages/DeleteAccountPage/DeleteAccountPage'))
 const ChangeEmailPage = lazy(() => import('./components/pages/AccountPages/ChangeEmailPage/ChangeEmailPage'))
 
@@ -88,11 +87,11 @@ const AdsPage = lazy(() => import('./components/pages/AdminPanel/AdsPage/AdsPage
 
 import Loader from './components/atoms/loader/Loader'
 import PageNotFound from './components/pages/PageNotFound/PageNotFound'
-
+import ForgotPasswordPage from './components/pages/ForgotPasswordPage/ForgotPasswordPage'
+import ConfirmResetPasswordPage from './components/pages/ConfirmResetPasswordPage/ConfirmResetPasswordPage'
+import AdminLoginPage from './components/pages/AdminPanel/AdminLoginPage/AdminLoginPage'
 
 const App = () => {
-	
-
 	return (
 		<Router basename="/">
 			<Routes>
@@ -116,6 +115,8 @@ const App = () => {
 					</Route>
 					<Route path="/verify-subscription" element={<SubscriptionPage />} />
 					<Route path="/unsubscribe" element={<UnsubscriptionPage />} />
+					<Route path="/reset-password" element={<ForgotPasswordPage />} />
+					<Route path="/confirm-reset-password" element={<ConfirmResetPasswordPage />} />
 
 					{/* User Routes */}
 					<Route
@@ -126,11 +127,12 @@ const App = () => {
 						}>
 						<Route path="/login" element={<LoginPage />} />
 						<Route path="/registration" element={<RegistrationPage />} />
-						<Route path="/verify" element={<VerifyPage />} />
+						<Route path="/verify" element={<VerifyAccountPage />} />
 					</Route>
 				</Route>
 
 				{/* Admin Panel */}
+				<Route path="/admin/login" element={<AdminLoginPage />} />
 				<Route
 					path="/admin"
 					element={
@@ -196,7 +198,6 @@ const App = () => {
 						</AuthGuard>
 					}>
 					<Route index element={<ProfilePage />} />
-					<Route path="reset-password" element={<ResetPasswordPage />} />
 					<Route path="delete" element={<DeleteAccountPage />} />
 					<Route path="change-email" element={<ChangeEmailPage />} />
 				</Route>

@@ -16,6 +16,14 @@ export const userApi = createApi({
 				body: { email, password },
 			}),
 		}),
+		adminLogin: builder.mutation({
+			query: ({ email, password }) => ({
+				url: `${USERS_URL}/admin/login`,
+				method: 'POST',
+				headers: { 'Content-type': 'application/json' },
+				body: { email, password },
+			}),
+		}),
 
 		createAccount: builder.mutation({
 			query: ({name,email,password,consents}) => ({
@@ -163,4 +171,5 @@ export const {
 	useChangeEmailAddressMutation,
 	useConfirmNewEmailMutation,
 	useUpdateProfileMutation,
+	useAdminLoginMutation
 } = userApi

@@ -68,9 +68,9 @@
 			width: 100%;
 			padding-left: 2.6rem;
 			color: var(--whiteColor);
-			font-weight: 600;
+			font-weight: 400;
 			font-size: var(--menu-TextSize);
-			border-top: 1px dotted rgba(255, 255, 255, 0.1);
+			border-top: 1px dotted rgba(255, 255, 255, 0.2);
 			line-height: var(--lineHeight);
 			&:hover {
 				color: rgba(255, 255, 255, 0.7);
@@ -86,14 +86,14 @@
 				color: rgba(255, 255, 255, 0.25);
 			}
 			&:last-child {
-				border-bottom: 1px dotted rgba(255, 255, 255, 0.1);
+				border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
 			}
 		}
 		.menuElementContainer {
 			width: 100%;
 			min-height: var(--lineHeight);
 			height: var(--lineHeight);
-			border-top: 1px dotted rgba(255, 255, 255, 0.1);
+			border-top: 1px dotted rgba(255, 255, 255, 0.2);
 			line-height: var(--lineHeight);
 			transition: all 0.3s ease-in-out;
 			overflow: hidden;
@@ -113,7 +113,8 @@
 				justify-content: space-between;
 				width: 100%;
 				font-size: var(--menu-TextSize);
-				font-weight: 600;
+
+				font-weight: 400;
 				color: var(--whiteColor);
 				pointer-events: none;
 
@@ -131,7 +132,7 @@
 						left: 0;
 						font-size: calc((1.8rem / 1.2) / 1.2);
 						font-weight: 300;
-						color: rgba(255, 255, 255, 0.25);
+						color: rgba(255, 255, 255, 0.3);
 					}
 				}
 
@@ -185,26 +186,45 @@
 			width: 100%;
 			min-height: var(--lineHeight);
 			height: var(--lineHeight);
-			border-top: 1px dotted rgba(255, 255, 255, 0.1);
 			line-height: var(--lineHeight);
+			border-top: 1px dotted rgba(255, 255, 255, 0.2);
 			transition: all 0.3s ease-in-out;
 			overflow: hidden;
-
 			cursor: pointer;
-			&:hover .signInBtn,
+
+			&:hover .signInButton,
 			&:hover .authorInfo .author {
 				color: var(--lightGrayColor);
 			}
 
 			.signInWrapper {
-				.signInBtn {
-					padding-left: 2.6rem;
-					font-size: var(--menu-TextSize);
-					font-weight: 600;
-					color: var(--whiteColor);
-					background-color: transparent;
-					border: none;
-					cursor: pointer;
+				.signinBox {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					min-height: var(--lineHeight);
+					line-height: var(--lineHeight);
+					transition: all 0.3s ease-in-out;
+					.signInButton {
+						padding-left: 2.6rem;
+						font-size: var(--menu-TextSize);
+						font-weight: 400;
+						color: var(--whiteColor);
+						background-color: transparent;
+						border: none;
+						cursor: pointer;
+					}
+					&:hover .signInButton {
+						color: var(--lightGrayColor);
+					}
+					.chevronDownSVG {
+						color: var(--whiteColor);
+						font-weight: 400;
+						pointer-events: none;
+					}
+					.rotateArrow {
+						transform: rotate(180deg);
+					}
 				}
 
 				.linksWrapper {
@@ -246,17 +266,36 @@
 			}
 
 			.controlPanelUser {
-				.authorInfo {
-					padding-left: 2rem;
-					.authorAvatar {
-						display: none;
+				.userInfoWrapper {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+
+					.userInfo {
+						display: flex;
+						align-items: center;
+						gap: 1rem;
+						.userAvatar {
+							display: flex;
+							max-width: 40px;
+							max-height: 40px;
+							border-radius: 50%;
+						}
+						.username {
+							font-size: var(--menu-TextSize);
+							font-weight: 400;
+							color: var(--whiteColor);
+							background-color: transparent;
+							cursor: pointer;
+						}
 					}
-					.author {
-						font-size: var(--menu-TextSize);
-						font-weight: 600;
+					.chevronDownSVG {
 						color: var(--whiteColor);
-						background-color: transparent;
-						cursor: pointer;
+						font-weight: 400;
+						pointer-events: none;
+					}
+					.rotateArrow {
+						transform: rotate(180deg);
 					}
 				}
 
@@ -278,7 +317,7 @@
 							background-color: #7b7b7bd3;
 						}
 					}
-					.signOut {
+					.logout {
 						display: flex;
 						align-items: center;
 						justify-content: center;

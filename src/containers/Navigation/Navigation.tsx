@@ -1,4 +1,4 @@
-import styles from './Nav.module.scss'
+import styles from './Navigation.module.scss'
 import Logo from '../../components/atoms/logo/Logo'
 import useWindowSize from '../../hooks/useWindowSize'
 import DesktopNav from './desktopNav/DesktopNav'
@@ -14,14 +14,15 @@ import ControlPanel from '../../components/organism/ControlPanel/ControlPanel'
 import useGlobalContext from '../../hooks/useGlobalContext'
 import { useLocation } from 'react-router'
 import { useFetchAllCategoriesQuery } from '../../slices/api/categoriesApi'
+import AdminSystemNavigation from './AdminSystemNavigation/AdminSystemNavigation'
 
 const Navigation = () => {
 	const size = useWindowSize()
 	const { pathname } = useLocation()
-
 	const { navRef } = useGlobalContext()
-
 	const { isOpen } = useSelector((state: RootState) => state.theme)
+	const { role, isLogged } = useSelector((state: RootState) => state.auth)
+	
 	useEffect(() => {
 		const handleScroll = () => {
 			if (pathname === '/') {
@@ -62,15 +63,22 @@ const Navigation = () => {
 	})
 
 	return (
-		<nav ref={navRef} className={styles.navContainer}>
-			<Logo styles={styles} />
-			{size.width > 900 ? <DesktopNav navRef={navRef} dataMenu={newDataMenu} /> : <MobileNav dataMenu={newDataMenu} />}
-			<div className={styles.navPanel}>
-				<SearchButton />
-				{size.width > 900 ? <ControlPanel index={0} styles={styles} /> : <MenuIcon />}
-			</div>
+		<nav className={styles.navigationContainer}>
+			{role !== 'User' && isLogged && <AdminSystemNavigation />}
+			<div ref={navRef} className={styles.websiteNavigation}>
+				<Logo styles={styles} />
+				{size.width > 900 ? (
+					<DesktopNav navRef={navRef} dataMenu={newDataMenu} />
+				) : (
+					<MobileNav dataMenu={newDataMenu} />
+				)}
+				<div className={styles.navPanel}>
+					<SearchButton />
+					{size.width > 900 ? <ControlPanel index={0} styles={styles} /> : <MenuIcon />}
+				</div>
 
-			{isOpen && <SearchContainer isOpen={isOpen} />}
+				{isOpen && <SearchContainer isOpen={isOpen} />}
+			</div>
 		</nav>
 	)
 }

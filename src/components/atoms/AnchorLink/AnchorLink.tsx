@@ -16,13 +16,12 @@ interface AnchorLink {
 	handleClose?: () => void
 	onKeyDown?: (e: KeyboardEvent) => void
 	handleOpenCloseDropdown?: (e: MouseEvent<HTMLDivElement | HTMLAnchorElement>) => void
-	
 }
 
 const AnchorLink = ({
 	children,
 	href,
-	rel,
+	rel = 'noopener noreferrer',
 	target,
 	count,
 	className,

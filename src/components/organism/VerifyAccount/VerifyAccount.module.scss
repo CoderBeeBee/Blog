@@ -1,0 +1,93 @@
+.verifyAccountWrapper {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 600px;
+	min-height: 100dvh;
+	height: 100%;
+	background-color: var(--pagesBgc);
+	overflow: hidden;
+	padding: 2rem 4rem;
+	.brandWrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.logo {
+			width: 250px;
+			height: 80px;
+			margin: 2rem 0;
+
+			img {
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+				transition: all 0.3s ease-in-out;
+				&:hover {
+					scale: 1.05;
+				}
+			}
+		}
+	}
+
+	.verifyTitle {
+		padding: 2.4rem 3.2rem;
+		color: var(--blackColor);
+
+		text-align: center;
+		font-size: var(--textSize_26);
+		font-family: var(--font-2);
+		font-weight: 400;
+	}
+
+	.verificationInfo {
+		color: var(--blackColor);
+		text-align: center;
+		font-size: var(--textSize_20);
+		font-family: var(--font-2);
+	}
+
+	.errorTitle {
+		margin-top: 2rem;
+		text-align: center;
+		font-size: var(--textSize_20);
+		font-family: var(--font-2);
+	}
+
+	.apiResponse {
+		display: flex;
+		justify-content: center;
+		margin: 2rem  0;
+	}
+	.resendButton {
+		margin: 2rem 0;
+		width: 100%;
+		font-size: var(--textSize_20);
+		border: none;
+		color: var(--whiteColor);
+		font-family: var(--font-2);
+		background-color: var(--mainColor);
+		cursor: pointer;
+		transition: all 0.3s;
+
+		&:hover {
+			background-color: var(--mainColorHover);
+		}
+	}
+	.disabledResend {
+		cursor: not-allowed;
+		background-color: var(--lightGrayColor);
+		&:hover {
+			background-color: var(--lightGrayColor);
+		}
+	}
+
+
+	.bottomInfo {
+		margin: auto auto 0;
+		padding: 0 2rem 2rem;
+		font-size: var(--textSize_16);
+		color: var(--darkerGrayColor);
+		text-align: center;
+	}
+}

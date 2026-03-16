@@ -1,11 +1,11 @@
 .desktopNavWrapper {
 	display: flex;
-	width: 92%;
+	align-items: center;
+	width: 100%;
+	height: 100%;
 	max-width: 1400px;
 	margin: 0 auto;
 	gap: 2rem;
-	padding: 0 2.4rem;
-	line-height: 20px;
 
 	.link {
 		font-size: var(--menu-TextSize);
@@ -48,16 +48,18 @@
 
 		.subMenu {
 			position: absolute;
-			display: none;
 			flex-direction: column;
 			top: calc(50% + (var(--headerHeight) / 2));
 			left: 0;
-			padding: 1.8rem 0;
+			width: 100%;
 			background: var(--blackColorHover);
 			opacity: 0;
+			transform: scaleY(0);
+			transform-origin: top;
 			visibility: hidden;
-			z-index: 1000;
 			list-style: none;
+			transition: all 0.3s ease-in-out;
+			z-index: 1000;
 
 			.subLink {
 				display: block;
@@ -72,6 +74,7 @@
 
 				&:hover {
 					color: var(--whiteColor);
+					background-color: var(--blackColor);
 				}
 			}
 			.activeSubMenuLi {
@@ -80,9 +83,9 @@
 		}
 
 		.active {
-			display: block;
 			opacity: 1;
 			visibility: visible;
+			transform: scaleY(1);
 		}
 	}
 }
@@ -93,7 +96,6 @@
 
 @media (max-width: 1700px) {
 	.desktopNavWrapper {
-		max-width: 1400px;
-		margin-left: calc(var(--logo-width) * 2);
+		margin-left: calc(var(--logo-width));
 	}
 }

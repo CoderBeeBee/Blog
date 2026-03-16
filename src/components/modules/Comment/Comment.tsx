@@ -141,13 +141,13 @@ const Comment = ({ _id, postId, parentId, author, comment, createdAt, children }
 									</span>
 									<div ref={crudRef} className={styles.deleteUpdateBtns}>
 										<button
-											className={styles.updateBtn}
+											className={styles.editBtn}
 											onClick={() => {
 												setShowReply(true)
 												setIsUpdating(true)
 												setUpdatingText(textRef?.current?.textContent)
 											}}>
-											update
+											edit
 										</button>
 										<button className={styles.deleteBtn} onClick={() => handleDeleteComment()}>
 											delete

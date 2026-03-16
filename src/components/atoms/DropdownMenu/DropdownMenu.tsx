@@ -8,10 +8,10 @@ interface DropdownMenuProps {
 	data: MenuTypes
 	handleMouseInDropdown?: (e: MouseEvent<HTMLElement>) => void
 	handleMouseOutDropdown?: (e: MouseEvent<HTMLElement>) => void
-	handleCloseDropDown?: (e: MouseEvent<HTMLLIElement>) => void
+	onClickCloseDropDown?: () => void
 	styles: { [key: string]: string }
 	toggle?: () => void
-	onkeyToogle?: number | null
+	activeIndex?: number | null
 	index?: number
 }
 
@@ -20,21 +20,21 @@ const DropdownMenu = ({
 	styles,
 	handleMouseInDropdown,
 	handleMouseOutDropdown,
-	handleCloseDropDown,
+	onClickCloseDropDown,
 	toggle,
-	onkeyToogle,
+	activeIndex,
 	index,
 }: DropdownMenuProps) => {
 	const { pathname } = useLocation()
 
-	const handleMenuItemClick = (e: MouseEvent<HTMLLIElement>) => {
-		handleCloseDropDown?.(e)
+	const handleMenuItemClick = () => {
+		onClickCloseDropDown?.()
 		toggle?.()
 	}
 
 	return (
 		<ul
-			className={`${styles.subMenu} ${onkeyToogle === index ? styles.active : ''}`}
+			className={`${styles.subMenu} ${activeIndex === index ? styles.active : ''}`}
 			onMouseEnter={e => handleMouseInDropdown?.(e)}
 			onMouseLeave={e => handleMouseOutDropdown?.(e)}>
 			{data.children?.map((item, index: number) => {
@@ -49,7 +49,7 @@ const DropdownMenu = ({
 
 				return (
 					<li
-						onClick={e => handleMenuItemClick(e)}
+						onClick={() => handleMenuItemClick()}
 						className={`${styles.subMenuLi} ${active2 ? styles.activeSubMenuLi : ''}`}
 						key={index}>
 						{

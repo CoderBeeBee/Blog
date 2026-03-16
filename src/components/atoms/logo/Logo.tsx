@@ -1,4 +1,3 @@
-
 import useGlobalContext from '../../../hooks/useGlobalContext'
 import AnchorLink from '../AnchorLink/AnchorLink'
 interface LogoProps {
@@ -7,10 +6,13 @@ interface LogoProps {
 const Logo = ({ styles }: LogoProps) => {
 	const { basic } = useGlobalContext()
 	const logoSrc = typeof basic?.logo?.src === 'string' ? basic.logo.src : undefined
+
 	return (
-		<AnchorLink href="/" ariaLabel="Logo" title="Logo" className={styles.logo}>
-			<img src={logoSrc} alt="Logo" />
-		</AnchorLink>
+		<div className={styles.brandWrapper}>
+			<AnchorLink href="/" ariaLabel="Logo" title="Logo" className={styles.logo}>
+				<img src={logoSrc} alt="Logo" />
+			</AnchorLink>
+		</div>
 	)
 }
 

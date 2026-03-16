@@ -1,0 +1,283 @@
+.userNavigationWrapper {
+	position: sticky;
+	top: 0;
+	height: var(--headerHeight);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem 3rem;
+	background-color: var(--whiteColor);
+	z-index: 1000;
+	box-shadow: 0px 0px 2px 2px var(--lightGrayColor);
+
+	.brandWrapper {
+		display: flex;
+		height: 100%;
+		.logo {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+			background-color: transparent;
+			z-index: 101;
+
+			img {
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+				transition: all 0.3s ease-in-out;
+				&:hover {
+					scale: 1.05;
+				}
+			}
+		}
+	}
+	.sideBarMenuButtons {
+		position: relative;
+		width: 35px;
+		height: 35px;
+		.sideBarMenuButton {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 30px;
+			height: 100%;
+			background-color: transparent;
+			border: none;
+			opacity: 1;
+			transform: translateX(0);
+			transition: all 0.3s;
+			cursor: pointer;
+			z-index: 1000;
+
+			.span {
+				display: block;
+				position: relative;
+				width: 100%;
+				height: 2px;
+				background-color: var(--sideBarColor);
+				cursor: pointer;
+				&::after,
+				&::before {
+					content: '';
+					position: absolute;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background-color: var(--sideBarColor);
+				}
+				&::after {
+					top: -10px;
+				}
+				&::before {
+					top: 10px;
+				}
+			}
+			&:hover {
+				transform: scale(1.05);
+			}
+		}
+		.toggleMenuButton {
+			display: none;
+		}
+		.hideMenuButton {
+			opacity: 0;
+			transform: translateX(-100%);
+		}
+		.sideBarCloseButton {
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: none;
+			align-items: center;
+			justify-content: center;
+			width: 35px;
+			height: 35px;
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+			
+			.icon {
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+				scale: 0;
+				transition: all 0.3s;
+				path {
+					stroke-width: 1px;
+				}
+			}
+		}
+		.toggleCloseButton {
+			display: flex;
+		}
+		.displayCloseButton {
+			transition: all 0.3s;
+			.icon {
+				opacity: 1;
+				scale: 1;
+				transform: rotate(360deg);
+			}
+		}
+	}
+	.userNavigationMenu {
+		transition: all 0.3s ease-in-out;
+		height: 100%;
+
+		.userInfo {
+			display: flex;
+			align-items: center;
+			padding: 0.5rem;
+			gap: 1rem;
+			height: 100%;
+			cursor: pointer;
+
+			.userAvatar {
+				background-color: var(--whiteColor);
+				max-width: 40px;
+				max-height: 40px;
+				height: 100%;
+				width: 100%;
+				border-radius: 50%;
+				cursor: pointer;
+			}
+
+			.username {
+				width: 100%;
+				white-space: nowrap;
+				color: var(--blackColor);
+				font-size: var(--textSize_16);
+				font-family: var(--font-2);
+				font-weight: 400;
+				transition: all 0.3s ease-in-out;
+			}
+		}
+
+		.userNavigationDropdown {
+			position: absolute;
+			top: 100%;
+			right: 1rem;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 200px;
+			max-height: 300px;
+			background-color: var(--whiteColor);
+			box-shadow: 0px 0px 1px 1px var(--lightGrayColor);
+			font-weight: 400;
+			transition: all 0.3s ease-in-out;
+			visibility: hidden;
+			opacity: 0;
+			transform-origin: top;
+			transform: scaleY(0);
+			overflow-y: auto;
+			z-index: 2001;
+
+			.userNavigationLinks {
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				white-space: nowrap;
+				line-height: 40px;
+				color: var(--blackColor);
+				background-color: var(--whiteColor);
+				border: none;
+				border-bottom: 1px solid var(--blackColor);
+				font-size: var(--textSize_14);
+				font-weight: 400;
+				transition: all 0.3s ease-in-out;
+				cursor: pointer;
+				&:hover {
+					color: var(--whiteColor);
+					background-color: var(--blackColor);
+				}
+				&:last-child{
+					border: none;
+				}
+				
+			}
+		}
+		.displayVisibility {
+			visibility: visible;
+			opacity: 1;
+
+			transform: scaleY(1);
+		}
+		
+	}
+}
+
+@media (width < 800px) {
+	.userNavigationWrapper {
+		padding: 1rem 3.5rem;
+	}
+}
+@media (width < 600px) {
+	.userNavigationWrapper {
+		.userNavigationMenu {
+			.userNavigationDropdown {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				min-height: 100dvh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				background-color: var(--blackColor);
+				transition: all 0.5s ease-in-out;
+				z-index: 1002;
+				visibility: visible;
+				opacity: 0;
+				transform-origin: center;
+				transform: scaleY(1) translateX(-100%);
+
+				.close {
+					margin: 4rem 0;
+					background-color: transparent;
+					border: unset;
+					cursor: pointer;
+
+					.closeSVG {
+						width: 28px;
+						height: 28px;
+						stroke-width: 1px;
+						color: var(--whiteColor);
+						transition: 0.3s all ease-in-out;
+					}
+
+					&:hover {
+						.closeSVG {
+							color: var(--lightGrayColor);
+							scale: 1.1;
+						}
+					}
+				}
+
+				.userNavigationLinks {
+					width: 100%;
+					min-height: var(--lineHeight);
+					height: var(--lineHeight);
+					color: var(--whiteColor);
+					background-color: var(--blackColor);
+					font-size: var(--textSize_22);
+					line-height: var(--lineHeight);
+					border-top: 1px dotted rgba(255, 255, 255, 0.2);
+					transition: all 0.3s ease-in-out;
+					overflow: hidden;
+					&:hover {
+						color: var(--whiteColor);
+						background-color: var(--blackColorHover);
+					}
+					&:last-child {
+						border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
+					}
+				}
+			}
+			.displayVisibility {
+				transform: translateX(0%);
+				opacity: 1;
+			}
+		}
+	}
+}
