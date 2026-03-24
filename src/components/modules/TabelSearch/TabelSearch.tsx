@@ -1,14 +1,14 @@
 import { type ChangeEvent } from 'react'
 import { SearchSVG } from '../../../assets/icons/Icons'
-
+import styles from './TabelSearch.module.scss'
 interface TabelSearchProps {
-	styles: Record<string, string>
 	handleSetInputValue: (e: ChangeEvent<HTMLInputElement>) => void
+	className?: string
 }
 
-const TabelSearch = ({ styles, handleSetInputValue }: TabelSearchProps) => {
+const TabelSearch = ({ handleSetInputValue, className }: TabelSearchProps) => {
 	return (
-		<div className={styles.searchContainer}>
+		<div className={`${styles.searchWrapper} ${className ? className : ''}`}>
 			<label htmlFor="search" className={styles.searchBox}>
 				<input
 					id="search"
@@ -17,7 +17,7 @@ const TabelSearch = ({ styles, handleSetInputValue }: TabelSearchProps) => {
 					placeholder="Search..."
 					onChange={e => handleSetInputValue(e)}
 				/>
-				<button aria-label="search button" className={styles.searchBtn}>
+				<button type="button" aria-label="Search button" className={styles.searchBtn}>
 					<SearchSVG className={styles.searchIcon} />
 				</button>
 			</label>

@@ -12,43 +12,37 @@ export const defaultCategories = [
 export const defaultTags = [{ name: 'life' }, { name: 'travel' }, { name: 'work' }, { name: 'home' }]
 
 export const theadPost = [
+	'checkmark',
+	'ID',
+	'image',
 	'title',
-	'author',
 	'categories',
-	'createdAt',
-	'publishedAt',
-	'scheduledAt',
-	'comments',
+	'author',
 	'views',
+	'comments',
+	'created At',
+	'scheduled At',
+	'published At',
 	'status',
-	'actions',
+	'operations',
 ]
 export const theadUsers = [
+	'checkmark',
+	'ID',
+	'image',
 	'name',
 	'email',
-	'createdAt',
-	'isVerified',
-	'comments',
-	'role',
+	'created At',
+	'last Login',
+	'is Verified',
 	'status',
-	'lastLogin',
-	'actions',
+	'operations',
 ]
-export const theadAdminsAndModerators = [
-	'name',
-	'email',
-	'createdAt',
 
-	'comments',
-	'posts',
-	'role',
-	'lastLogin',
-	'actions',
-]
-export const theadComments = ['author', 'content', 'postTitle', 'createdAt', 'actions']
+export const theadComments = ['checkmark', 'ID', 'comment', 'post Title', 'author', 'created At', 'operations']
 
-export const adminsAndModerators = ['Admin', 'Moderator']
-export const role = ['Admin', 'Moderator', 'User']
+export const adminsAndModerators = ['Admin', 'Moderator','Editor']
+export const role = ['Admin', 'Moderator','Editor', 'User']
 export const rowsNumbers = [10, 25, 50]
 
 export const postStatus = ['Draft', 'Published', 'Scheduled']
@@ -64,9 +58,11 @@ export const theadAttempts = [
 	'device',
 	'data',
 ]
-export const theadHistory = ['action', 'performedBy', 'role', 'createdAt', 'source', 'data']
+export const theadHistory = ['ID','action', 'performed By', 'created At', 'source', 'details']
 
-export const theadSubscribers = ['email', 'isVerified', 'createdAt', 'lastSent', 'nextSent', 'actions']
+export const theadSubscribers = ['email', 'isVerified', 'createdAt', 'lastSent', 'nextSent', 'operations']
+
+export const noChevron = [ 'details','ID','operations', 'checkmark', 'image']
 
 export const userAttempActions = [
 	'LOGIN_ATTEMPT',

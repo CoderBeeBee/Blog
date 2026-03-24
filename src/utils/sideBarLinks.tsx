@@ -26,14 +26,14 @@ const adminLinks: sideBarLinksProps[] = [
 		children: [{ title: 'Admins&Moderators', href: '/admin/room' }],
 	},
 	{
-		title: 'Posts',
+		title: 'Blog',
 		href: '',
 		icon: <PostsSVG />,
 		children: [
-			{ title: 'List of Posts', href: '/admin/posts/listofposts' },
-			{ title: 'Add Posts', href: '/admin/posts/addpost' },
-			{ title: 'Categories/Tags', href: '/admin/posts/categories-tags' },
-			{ title: 'Change History', href: '/admin/posts/posts-history' },
+			{ title: 'Posts', href: '/admin/blog/posts' },
+			{ title: 'Categories', href: '/admin/blog/categories' },
+			{ title: 'Tags', href: '/admin/blog/tags' },
+			{ title: 'Change History', href: '/admin/blog/change-history' },
 		],
 	},
 	{
@@ -42,8 +42,6 @@ const adminLinks: sideBarLinksProps[] = [
 		icon: <UsersSVG />,
 		children: [
 			{ title: 'List', href: '/admin/users/list' },
-			{ title: 'Add User', href: '/admin/users/adduser' },
-			{ title: 'Roles & Permissions', href: '/admin/users/permissions' },
 			{ title: 'Change History', href: '/admin/users/users-history' },
 		],
 	},

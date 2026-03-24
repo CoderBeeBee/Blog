@@ -1,9 +1,9 @@
-import { useLocation } from 'react-router'
+
 import CloseButton from '../../../components/atoms/CloseButton/CloseButton'
 import MenuElement from '../../../components/organism/menuElement/MenuElement'
 import type { MenuTypes } from '../dataNavigation/dataNavigation'
 import styles from './MobileNav.module.scss'
-import { useEffect } from 'react'
+
 import ControlPanel from '../../../components/organism/ControlPanel/ControlPanel'
 import useGlobalContext from '../../../hooks/useGlobalContext'
 
@@ -12,18 +12,9 @@ interface MobileRefProps {
 }
 
 const MobileNav = ({ dataMenu }: MobileRefProps) => {
-	const { navRef, scrollMenu, mobileMenu, handleOpenCloseDropdown, activeIndex, setActiveIndex } = useGlobalContext()
-
-	const { pathname } = useLocation()
+	const { scrollMenu, mobileMenu, handleOpenCloseDropdown, activeIndex, setActiveIndex } = useGlobalContext()
 	const { toggle, isOpen, isVisible } = mobileMenu
 
-	useEffect(() => {
-		if (pathname !== '/') {
-			navRef.current?.classList.add(styles.navBgcDark)
-		} else {
-			navRef.current?.classList.remove(styles.navBgcDark)
-		}
-	}, [pathname, navRef])
 
 	return (
 		<div

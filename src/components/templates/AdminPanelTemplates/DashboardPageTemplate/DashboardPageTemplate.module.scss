@@ -3,7 +3,7 @@
 	width: 100%;
 	height: 100%;
 	background-color: var(--pagesBgc);
-	padding:2rem 3rem;
+	padding: 2rem;
 
 	.dashboardTitle {
 		margin-bottom: 2rem;
@@ -15,4 +15,8 @@
 	}
 }
 
-
+// @media (width <= 600px) {
+// 	.dashboardPageTemplateContainer {
+// 		padding:2rem 0;
+// 	}
+// }

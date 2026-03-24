@@ -1,8 +1,15 @@
-.roomConatiner {
+.adminConatiner {
 	display: flex;
 	justify-content: center;
 	height: calc(100dvh - var(--navPanelHeight));
 	width: 100%;
+	padding: 2rem;
 	background-color: var(--pagesBgc);
 	overflow: hidden;
+}
+
+@media (width < 700px) {
+	.adminConatiner {
+		padding: 0;
+	}
 }

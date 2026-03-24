@@ -1,42 +1,31 @@
 import styles from './DesktopNav.module.scss'
-import { useEffect, useRef, type RefObject } from 'react'
-import { useLocation } from 'react-router'
+import { useEffect } from 'react'
+
 import MenuElement from '../../../components/organism/menuElement/MenuElement'
 import type { MenuTypes } from '../dataNavigation/dataNavigation'
 import useWindowSize from '../../../hooks/useWindowSize'
 import useGlobalContext from '../../../hooks/useGlobalContext'
 interface DesktopProps {
 	dataMenu: MenuTypes[]
-	navRef: RefObject<HTMLDivElement | null>
+	
 }
 
-const DesktopNav = ({ navRef, dataMenu }: DesktopProps) => {
-	const location = useLocation()
-	const desktopRef = useRef<HTMLDivElement>(null)
-
+const DesktopNav = ({  dataMenu }: DesktopProps) => {
 	const { mobileMenu, handleMouseIn, handleMouseOut, handleMouseInDropdown, handleMouseOutDropdown } = useGlobalContext()
 	const { close, isVisible } = mobileMenu
-	const size = useWindowSize()
-	const width = size.width > 900
+	const {widthGreater900} = useWindowSize()
+	
 
 	useEffect(() => {
-		if (isVisible && width) {
+		if (isVisible && widthGreater900) {
 			close()
 		}
-	}, [isVisible, close, width])
+	}, [isVisible, close, widthGreater900])
 
-	useEffect(() => {
-		if (location.pathname !== '/') {
-			navRef.current?.classList.add(styles.navBgcDark)
-			desktopRef.current?.classList.add(styles.navWrapper)
-		} else {
-			navRef.current?.classList.remove(styles.navBgcDark)
-			desktopRef.current?.classList.remove(styles.navWrapper)
-		}
-	}, [location.pathname, navRef])
+	
 
 	return (
-		<div ref={desktopRef} className={`${styles.desktopNavWrapper}`}>
+		<div  className={`${styles.desktopNavWrapper}`}>
 			{dataMenu.map((item: MenuTypes, index: number) => {
 				return (
 					<MenuElement

@@ -499,8 +499,8 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 					<div className={styles.updateWrapper}>
 						<div className={styles.updateBox}>
 							<p className={styles.updateInfo}>{postMessage}</p>
-							<AnchorLink href="/admin/posts/listofposts" className={styles.updatePostLink}>
-								List of Posts
+							<AnchorLink href="/admin/blog/posts" className={styles.updatePostLink}>
+								Posts
 							</AnchorLink>
 						</div>
 					</div>

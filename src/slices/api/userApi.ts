@@ -6,7 +6,7 @@ const USERS_URL = import.meta.env.VITE_USERS_URL
 export const userApi = createApi({
 	reducerPath: 'login',
 	baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}`, credentials: 'include' }),
-	tagTypes: ['UpdateProfile'],
+	tagTypes: ['User'],
 	endpoints: builder => ({
 		login: builder.mutation({
 			query: ({ email, password }) => ({
@@ -26,12 +26,13 @@ export const userApi = createApi({
 		}),
 
 		createAccount: builder.mutation({
-			query: ({name,email,password,consents}) => ({
+			query: ({ name, email, password, consents }) => ({
 				url: `${USERS_URL}/registration`,
 				method: 'POST',
 				headers: { 'Content-type': 'application/json' },
-				body: {name,email,password,consents},
+				body: { name, email, password, consents },
 			}),
+			invalidatesTags: () => [{ type: 'User' }],
 		}),
 		deleteAccount: builder.mutation({
 			query: confirmPassword => ({
@@ -104,7 +105,7 @@ export const userApi = createApi({
 		}),
 		fetchUserProfile: builder.query({
 			query: () => `${USERS_URL}/get-user-profile`,
-			providesTags: () => [{ type: 'UpdateProfile' }],
+			providesTags: () => [{ type: 'User' }],
 			// providesTags: _result => (_result ? [{ type: 'UpdateProfile', id: _result.id }] : []),
 		}),
 		updateProfile: builder.mutation({
@@ -113,7 +114,7 @@ export const userApi = createApi({
 				method: 'PUT',
 				body: { name, updatedAvatar },
 			}),
-			invalidatesTags: () => [{ type: 'UpdateProfile' }],
+			invalidatesTags: () => [{ type: 'User' }],
 			// invalidatesTags: _result => (_result ? [{ type: 'UpdateProfile', id: _result.id }] : []),
 		}),
 		fetchUserByLimit: builder.query({
@@ -124,6 +125,7 @@ export const userApi = createApi({
 
 				return `${USERS_URL}/get-users-by-limit/?${queryString}`
 			},
+			providesTags: () => [{ type: 'User' }],
 		}),
 		fetchAdminsAndModerators: builder.query({
 			query: params => {
@@ -133,6 +135,7 @@ export const userApi = createApi({
 
 				return `${USERS_URL}/get-admins-moderators/?${queryString}`
 			},
+			providesTags: () => [{ type: 'User' }],
 		}),
 		adminCreateUser: builder.mutation({
 			query: data => ({
@@ -141,13 +144,16 @@ export const userApi = createApi({
 				headers: { 'Content-type': 'application/json' },
 				body: data,
 			}),
+			invalidatesTags: () => [{ type: 'User' }],
 		}),
 		adminDeleteUser: builder.mutation({
-			query: userId => ({
-				url: `${USERS_URL}/admin-delete-user/?userId=${userId}`,
+			query: usersId => ({
+				url: `${USERS_URL}/admin-delete-user`,
 				method: 'DELETE',
 				headers: { 'Content-type': 'application/json' },
+				body:{usersId}
 			}),
+			invalidatesTags: () => [{ type: 'User' }],
 		}),
 	}),
 })
@@ -171,5 +177,5 @@ export const {
 	useChangeEmailAddressMutation,
 	useConfirmNewEmailMutation,
 	useUpdateProfileMutation,
-	useAdminLoginMutation
+	useAdminLoginMutation,
 } = userApi

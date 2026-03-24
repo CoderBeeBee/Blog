@@ -21,7 +21,7 @@ interface AnchorLink {
 const AnchorLink = ({
 	children,
 	href,
-	rel = 'noopener noreferrer',
+	rel,
 	target,
 	count,
 	className,

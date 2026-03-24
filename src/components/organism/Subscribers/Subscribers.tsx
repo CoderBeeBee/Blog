@@ -148,7 +148,7 @@ const Subscribers = () => {
 					<div className={styles.thead}>
 						<div className={styles.tr}>
 							{theadSubscribers.map((item, index) => {
-								if (item !== 'actions') {
+								if (item !== 'operations') {
 									return (
 										<div data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
 											{item} <ChevronDownSVG className={`${item === focusedChevron ? styles.chevronRotate : ''}`} />

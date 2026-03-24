@@ -12,9 +12,8 @@ import AnchorLink from '../../../components/atoms/AnchorLink/AnchorLink'
 import { WebsiteSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 const AdminNavigation = () => {
-	const size = useWindowSize()
-	const isMobile = size.width < 800
-	const isMobilePanel = size.width < 600
+	const { isMobilePanel, widthLess1100 } = useWindowSize()
+
 	const { sideBarMenu, toggleMenu, userRef, openCloseUserMenu } = useGlobalContext()
 	const { open, close, isOpen, isVisible } = sideBarMenu
 	const { avatar, name, role } = useSelector((state: RootState) => state.auth)
@@ -26,7 +25,7 @@ const AdminNavigation = () => {
 	}
 	return (
 		<div className={styles.adminNavigationWrapper}>
-			{isMobile && (
+			{widthLess1100 && (
 				<div className={styles.sideBarMenuButtons}>
 					<button
 						type="button"
@@ -59,7 +58,7 @@ const AdminNavigation = () => {
 					</button>
 				</div>
 			)}
-			<Logo styles={styles} />
+			{!isMobilePanel && <Logo styles={styles} />}
 
 			<div ref={userRef} className={styles.adminNavigationMenu}>
 				<div className={styles.adminMenu}>
@@ -70,7 +69,7 @@ const AdminNavigation = () => {
 						ariaLabel="Website"
 						className={styles.adminViewWebsite}>
 						<WebsiteSVG />
-						View Website
+						View website
 					</AnchorLink>
 					<div
 						tabIndex={0}
@@ -87,7 +86,10 @@ const AdminNavigation = () => {
 
 				<div className={`${styles.adminNavigationDropdown} ${toggleMenu ? styles.displayVisibility : ''} `}>
 					{isMobilePanel && <CloseButton styles={styles} handleClose={openCloseUserMenu} />}
-					<LogoutButton ariaLabel="Sign Out button" className={styles.userNavigationLinks}>
+					<AnchorLink className={styles.adminNavigationLinks} href="/admin/profile">
+						Profile
+					</AnchorLink>
+					<LogoutButton ariaLabel="Sign Out button" className={styles.adminNavigationLinks}>
 						Logout
 					</LogoutButton>
 				</div>

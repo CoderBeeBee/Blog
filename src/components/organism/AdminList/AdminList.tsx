@@ -1,13 +1,11 @@
-import { PencilSVG, TrashSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
-
 import type { UsersProps } from '../../../types/types'
 import styles from './AdminList.module.scss'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
-import { useEffect, useRef, useState, type ChangeEvent, type MouseEvent } from 'react'
+import { useEffect, useState, type ChangeEvent, type MouseEvent } from 'react'
 
 import useDebounce from '../../../hooks/useDebounce'
 
-import { rowsNumbers, theadAdminsAndModerators } from '../../../utils/data'
+import { rowsNumbers } from '../../../utils/data'
 
 import TabelPagination from '../../modules/TabelPagination/TabelPagination'
 import TabelSearch from '../../modules/TabelSearch/TabelSearch'
@@ -16,31 +14,35 @@ import Popup from '../../atoms/Popup/Popup'
 
 import longDateConverter from '../../../hooks/longDateConverter'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
+import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
+import CreateButton from '../../atoms/CreateButton/CreateButton'
+import FilterButton from '../../atoms/FilterButton/FilterButton'
+
+import useCheckMark from '../../../hooks/useCheckMark'
+import useOpenClosePopup from '../../../hooks/useOpenClosePopup'
+import useFilters from '../../../hooks/useFilters'
+import useSort from '../../../hooks/useSort'
+import DeleteAllButton from '../../atoms/DeleteAllButton/DeleteAllButton'
+import CheckMark from '../../atoms/Checkmark/CheckMark'
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 const AdminList = () => {
-	const listRef = useRef<HTMLDivElement | null>(null)
+	const filtersOption = ['name', 'created At', 'last Login', 'total posts', 'total comments']
+	const { handleCheckMark, checked, isCheckedAll, handleClearCheckedSet } = useCheckMark()
+	const { filters, setFilters } = useFilters()
+	const { openPopup, popUpMessage, setPopUpMessage, handleOpenPopup, handleClosePopup } = useOpenClosePopup()
+	const { sort, listRef, handleSetSort, focusedChevron, handleResetSort } = useSort()
 
-	const [openPopup, setOpenPopup] = useState<boolean>(false)
-	const [popUpMessage, setPopUpMessage] = useState<string>('')
-	const [focusedChevron, setFocusedChevron] = useState<string>('')
-	const [userData, setUserData] = useState({
-		userId: '',
-		userName: '',
-	})
 	const [rows, setRows] = useState<number>(10)
 	const [currentPage, setCurrentPage] = useState<number>(1)
 	const [adminDeleteUser] = useAdminDeleteUserMutation()
-	const [sort, setSort] = useState({
-		sortBy: '',
-		order: '',
-	})
 
 	const [start, setStart] = useState<number>(0)
 	const [end, setEnd] = useState<number>(0)
 	const [inputValue, setInputValue] = useState<string>('')
 	const search = useDebounce(inputValue, 500)
 
-	const { data, refetch } = useFetchAdminsAndModeratorsQuery({
+	const { data } = useFetchAdminsAndModeratorsQuery({
 		limit: rows,
 		page: currentPage,
 		search: search,
@@ -50,41 +52,10 @@ const AdminList = () => {
 
 	const { users = [], totalPages = 1, total = 1 } = data ?? {}
 
-	useEffect(() => {
-		refetch()
-	}, [data, refetch])
-
 	const handleSetInputValue = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.target as HTMLInputElement
 		const value = target.value
 		setInputValue(value)
-	}
-
-	const handleSetSort = (e: MouseEvent<HTMLDivElement>) => {
-		const target = e.currentTarget as HTMLDivElement
-		const el = target.dataset.element
-
-		if (!el) return
-		if (el !== focusedChevron) {
-			setFocusedChevron(el)
-		} else {
-			setFocusedChevron('')
-		}
-		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-		if (el === 'comments' || el === 'posts' || el === 'createdAt' || el === 'lastLogin') {
-			setSort(prev => {
-				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
-
-				return { sortBy: el, order: newOrder }
-			})
-			return
-		}
-
-		setSort(prev => {
-			const newOrder = prev.sortBy === el ? (prev.order === 'desc' ? 'asc' : 'desc') : 'asc'
-
-			return { sortBy: el, order: newOrder }
-		})
 	}
 
 	useEffect(() => {
@@ -112,125 +83,145 @@ const AdminList = () => {
 		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
-	const handleOpenPopup = (e: MouseEvent<HTMLDivElement>) => {
-		const target = e.currentTarget as HTMLDivElement
-		const userId = target.dataset.id
-		const userName = target.dataset.name
-		if (userId && userName)
-			setUserData({
-				userId,
-				userName,
-			})
-
-		setOpenPopup(true)
-	}
-	const handleClosePopup = () => {
-		setOpenPopup(false)
-
-		setPopUpMessage('')
-	}
-
 	const handleDeleteUser = async () => {
 		try {
-			if (userData.userId) {
-				const res = await adminDeleteUser(userData.userId).unwrap()
+			const res = await adminDeleteUser([...checked]).unwrap()
 
-				setPopUpMessage(res.message)
-			}
-
-			refetch()
+			if (res) setPopUpMessage(res.message)
+			handleClearCheckedSet()
 		} catch (error) {
-			console.log(error)
+			if (typeof error === 'object' && error !== null) {
+				const fetchError = error as FetchBaseQueryError
+				const message =
+					fetchError.data && typeof fetchError.data === 'object' && 'message' in fetchError.data
+						? (fetchError.data.message as string)
+						: 'An unexpected error has occurder'
+
+				setPopUpMessage(message)
+			} else {
+				setPopUpMessage('An unexpected error has occurder')
+			}
 		}
 	}
 
 	return (
-		<div className={styles.listWrapper}>
-			<div className={styles.listWrapperHeader}>
-				<h3 className={styles.listTitle}>Admins & Moderators</h3>
-				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+		<div className={styles.listContainer}>
+			<Breadcrumbs />
+			<div className={styles.listWrapperTools}>
+				<div className={styles.listTools}>
+					<CreateButton href="/admin/users/adduser" ariaLabel="Create new user" className={styles.createNew} />
+					<TabelSearch handleSetInputValue={handleSetInputValue} />
+					<FilterButton setFilters={setFilters} handleResetSort={handleResetSort} />
+					{(isCheckedAll || checked.size >= 1) && <DeleteAllButton handleOpenPopup={handleOpenPopup} />}
+					<TabelPagination
+						rows={rows}
+						rowsNumbers={rowsNumbers}
+						start={start}
+						end={end}
+						total={total}
+						setRows={setRows}
+						handleChangePage={handleChangePage}
+					/>
+				</div>
+
+				{filters && (
+					<div className={styles.filtersWrapper}>
+						{filtersOption.map(option => {
+							return (
+								<button
+									key={option}
+									data-element={option}
+									type="button"
+									aria-label="Filter button"
+									onClick={e => handleSetSort(e)}
+									onKeyDown={e => {
+										if ('key' in e && e.key === 'Enter') {
+											handleSetSort(e)
+										}
+									}}
+									className={styles.filterButton}>
+									{option}{' '}
+									<ChevronDownSVG
+										className={`${styles.chevronSVG} ${option === focusedChevron ? styles.chevronRotate : ''}`}
+									/>
+								</button>
+							)
+						})}
+					</div>
+				)}
 			</div>
 
-			<div ref={listRef} className={styles.listContainer}>
-				<div className={styles.tableContainer}>
-					<div className={styles.thead}>
-						<div className={styles.tr}>
-							{theadAdminsAndModerators.map((item, index) => {
-								if (item !== 'actions') {
-									return (
-										<div data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
-											{item} <ChevronDownSVG className={`${item === focusedChevron ? styles.chevronRotate : ''}`} />
+			<div ref={listRef} className={styles.listWrapper}>
+				{users &&
+					users?.map((user: UsersProps, index: number) => {
+						const isChecked = checked.has(user._id)
+						
+						return (
+							<div key={index} className={`${styles.adminCard} `}>
+								<div className={styles.adminCardHeader}>
+									{user.role !== 'Admin' && (
+										<div onClick={() => handleCheckMark(user._id)} className={styles.checkedBox}>
+											<CheckMark isChecked={isChecked} />
 										</div>
-									)
-								} else {
-									return (
-										<div className={styles.th} key={index}>
-											{item}
-										</div>
-									)
-								}
-							})}
-						</div>
-					</div>
-					<div className={styles.tbody}>
-						{users &&
-							users?.map((user: UsersProps, index: number) => (
-								<div
-									key={index}
-									className={`${styles.tr} ${user.role === 'Admin' ? styles.admin : ''} ${
-										user.role === 'Moderator' ? styles.moderator : ''
-									} `}>
-									<div className={`${styles.td}`}>
-										<AnchorLink className={styles.tabelTitle} href={`/admin/users/profile/${user._id}`}>
-											{user.name}
-										</AnchorLink>
-									</div>
-
-									<div className={styles.td}>{user.email}</div>
-									<div className={styles.td}>{new Date(user.createdAt).toLocaleDateString(...longDateConverter())}</div>
-
-									<div className={styles.td}>{user.commentsCount}</div>
-									<div className={styles.td}>{user.postCount}</div>
-									<div className={styles.td}>{user.role}</div>
-									<div className={styles.td}>
-										{user.lastLogin ? new Date(user.lastLogin).toLocaleString(...longDateConverter()) : '-'}
-									</div>
-									<div className={styles.td}>
-										{user.role !== 'Admin' && (
-											<>
-												<AnchorLink href={`/admin/users/profile/${user._id}`}>
-													<PencilSVG />
-												</AnchorLink>
-												<div data-id={user._id} data-name={user.name} onClick={e => handleOpenPopup(e)}>
-													<TrashSVG />
-												</div>
-											</>
+									)}
+									<div className={styles.id}>Id: {index + 1}</div>
+									<div className={styles.isActive}>
+										{new Date(user.lastLogin) > new Date(user.lastLogout) ? (
+											<span className={styles.activeUser}>Active</span>
+										) : (
+											<span className={styles.inactiveUser}>Inactive</span>
 										)}
 									</div>
 								</div>
-							))}
-					</div>
-				</div>
+								<div className={styles.adminCardBody}>
+									<div className={styles.adminAvatar}>
+										<img src={user.avatar.src} alt="Avatar" />
+									</div>
+
+									<div className={styles.adminCardInfo}>
+										<div className={`${styles.info}`}>
+											Name:{' '}
+											<AnchorLink className={styles.user} href={`/admin/users/profile/${user._id}`}>
+												{user.name}
+											</AnchorLink>
+										</div>
+
+										<div className={styles.info}>Email: {user.email}</div>
+										<div className={styles.info}>Role: {user.role}</div>
+										<div className={styles.info}>
+											Date created: {new Date(user.createdAt).toLocaleDateString(...longDateConverter())}
+										</div>
+
+										<div className={styles.info}>
+											Last login:{' '}
+											{user.lastLogin ? new Date(user.lastLogin).toLocaleString(...longDateConverter()) : '-----'}
+										</div>
+										<div className={styles.info}>Total posts: {user.postCount}</div>
+										<div className={styles.info}>Total comments: {user.commentsCount}</div>
+									</div>
+								</div>
+							</div>
+						)
+					})}
 			</div>
-			<TabelPagination
-				setRows={setRows}
-				rows={rows}
-				rowsNumbers={rowsNumbers}
-				start={start}
-				end={end}
-				total={total}
-				handleChangePage={handleChangePage}
-			/>
+
 			{openPopup && (
 				<Popup handleClosePopup={handleClosePopup} handleDelete={handleDeleteUser} popUpMessage={popUpMessage}>
 					{!popUpMessage && (
 						<div className={styles.popupInfo}>
-							<span>
-								User Name: <span>{userData.userName}</span>
-							</span>
-							<span>
-								User Id: <span>{userData.userId}</span>
-							</span>
+							<p className={styles.popupTitle}>
+								{checked.size} {checked.size > 1 ? 'Users' : 'User'}:
+							</p>
+							<div className={styles.popupDeletedList}>
+								{[...checked].map((userId, index) => {
+									const user = users.find((user: UsersProps) => user._id === userId)
+									return (
+										<span key={userId}>
+											<span>{index + 1}.</span> <span>{user?.name}</span>
+										</span>
+									)
+								})}
+							</div>
 						</div>
 					)}
 				</Popup>

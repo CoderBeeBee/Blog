@@ -3,13 +3,13 @@ import styles from './CheckMark.module.scss'
 
 interface CheckMarkProps {
 	isChecked: boolean
-	className:string
+	className?: string
 }
 
-const CheckMark = ({ isChecked,className }: CheckMarkProps) => {
+const CheckMark = ({ isChecked, className }: CheckMarkProps) => {
 	return (
 		<>
-			<div className={`${styles.checkmark} ${isChecked ? styles.scaleCheckmark : ''} ${className ? className :''}`}>
+			<div className={`${styles.checkmark} ${isChecked ? styles.scaleCheckmark : ''} ${className ? className : ''}`}>
 				<CheckSVG className={`${styles.checkmarkSVG} `} />
 			</div>
 			<div className={`${styles.animCheckmark} ${isChecked ? styles.animCheckmarkActive : ''}`}></div>

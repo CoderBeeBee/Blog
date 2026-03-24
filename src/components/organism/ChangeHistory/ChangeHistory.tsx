@@ -1,24 +1,20 @@
-import {
-	useEffect,
-	useRef,
-	useState,
-	type ChangeEvent,
-	type Dispatch,
-	type MouseEvent,
-	type ReactNode,
-	type SetStateAction,
-} from 'react'
+import { useEffect, type ChangeEvent, type Dispatch, type MouseEvent, type SetStateAction } from 'react'
 import styles from './ChangeHistory.module.scss'
 import TabelSearch from '../../modules/TabelSearch/TabelSearch'
-import { ChevronDownSVG, SearchSVG } from '../../../assets/icons/Icons'
+import { ChevronDownSVG } from '../../../assets/icons/Icons'
 import TabelPagination from '../../modules/TabelPagination/TabelPagination'
-import { rowsNumbers, theadHistory } from '../../../utils/data'
+import { noChevron, rowsNumbers, theadHistory } from '../../../utils/data'
 import type { auditlogsProps } from '../../../types/types'
-import longDateConverter from '../../../hooks/longDateConverter'
-import AttemptPopup from '../../atoms/AttemptPopup/AttemptPopup'
+
+import useSort from '../../../hooks/useSort'
+import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
+import useFilters from '../../../hooks/useFilters'
+import FilterButton from '../../atoms/FilterButton/FilterButton'
+import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
+import { DetailsSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
+import dateConverter from '../../../hooks/dateConverter'
 
 interface AttemptsProps {
-	children: ReactNode
 	auditlogs: auditlogsProps[]
 	setInputValue: Dispatch<SetStateAction<string>>
 	setCurrentPage: Dispatch<SetStateAction<number>>
@@ -26,16 +22,16 @@ interface AttemptsProps {
 	setRows: Dispatch<SetStateAction<number>>
 	setStart: Dispatch<SetStateAction<number>>
 	setEnd: Dispatch<SetStateAction<number>>
-	setSort: Dispatch<SetStateAction<{ sortBy: string; order: string }>>
+	// setSort: Dispatch<SetStateAction<{ sortBy: string; order: string }>>
 	totalPages: number
 	total: number
 	rows: number
 	start: number
 	end: number
+	href:string
 }
 
 const ChangeHistory = ({
-	children,
 	auditlogs,
 	setInputValue,
 	setCurrentPage,
@@ -43,57 +39,22 @@ const ChangeHistory = ({
 	setRows,
 	setStart,
 	setEnd,
-	setSort,
+	// setSort,
 	totalPages,
 	total,
 	rows,
 	start,
 	end,
+	href
 }: AttemptsProps) => {
-	const [focusedChevron, setFocusedChevron] = useState<string>('')
-	const [openPopup, setOpenPopup] = useState<boolean>(false)
-	const [auditlogData, setAuditlogData] = useState<auditlogsProps | null>(null)
-	const listRef = useRef<HTMLDivElement | null>(null)
+	const { listRef, handleSetSort, focusedChevron, handleResetSort } = useSort()
+	
+	const filtersOption = ['none']
+	const { filters, setFilters } = useFilters()
 	const handleSetInputValue = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.target as HTMLInputElement
 		const value = target.value
 		setInputValue(value)
-	}
-
-	const handleSetSort = (e: MouseEvent<HTMLDivElement>) => {
-		const target = e.currentTarget as HTMLDivElement
-		const el = target.dataset.element
-		const lastChild = target.lastElementChild
-
-		const allLastChild = document.querySelectorAll(`.${styles.scaleUp}`)
-
-		if (!lastChild?.classList.contains(styles.scaleUp)) {
-			if (allLastChild) allLastChild.forEach(el => el.classList.remove(styles.scaleUp))
-
-			lastChild?.classList.add(styles.scaleUp)
-		} else {
-			lastChild?.classList.remove(styles.scaleUp)
-		}
-		if (!el) return
-		if (el !== focusedChevron) {
-			setFocusedChevron(el)
-		} else {
-			setFocusedChevron('')
-		}
-		if (el === 'createdAt') {
-			setSort(prev => {
-				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
-
-				return { sortBy: el, order: newOrder }
-			})
-			return
-		}
-
-		setSort(prev => {
-			const newOrder = prev.sortBy === el ? (prev.order === 'desc' ? 'asc' : 'desc') : 'asc'
-
-			return { sortBy: el, order: newOrder }
-		})
 	}
 
 	useEffect(() => {
@@ -122,80 +83,101 @@ const ChangeHistory = ({
 		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
-	const handleOpenData = (auditId: string) => {
-		setOpenPopup(true)
-
-		const filterData = auditlogs.find(audit => audit._id === auditId)
-		if (filterData) setAuditlogData(filterData)
-	}
-
 	return (
 		<div className={styles.changeHistoryWrapper}>
-			<div className={styles.listWrapperHeader}>
-				<h3 className={styles.listTitle}>{children}</h3>
-				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+			<Breadcrumbs />
+			<div className={styles.listWrapperTools}>
+				<div className={styles.listTools}>
+					<TabelSearch className={styles.search} handleSetInputValue={handleSetInputValue} />
+					<FilterButton setFilters={setFilters} handleResetSort={handleResetSort} />
+
+					<TabelPagination
+						rows={rows}
+						rowsNumbers={rowsNumbers}
+						start={start}
+						end={end}
+						total={total}
+						setRows={setRows}
+						handleChangePage={handleChangePage}
+					/>
+				</div>
+
+				{filters && (
+					<div className={styles.filtersWrapper}>
+						{filtersOption.map(option => {
+							return (
+								<button
+									key={option}
+									data-element={option}
+									type="button"
+									aria-label="Filter button"
+									onClick={e => handleSetSort(e)}
+									onKeyDown={e => {
+										if ('key' in e && e.key === 'Enter') {
+											handleSetSort(e)
+										}
+									}}
+									className={styles.filterButton}>
+									{option}{' '}
+									<ChevronDownSVG
+										className={`${styles.chevronSVG} ${option === focusedChevron ? styles.chevronRotate : ''}`}
+									/>
+								</button>
+							)
+						})}
+					</div>
+				)}
 			</div>
 
-			<div ref={listRef} className={styles.listContainer}>
-				<div className={styles.tableContainer}>
-					<div className={styles.thead}>
+			<div ref={listRef} className={styles.listWrapper}>
+				<table className={styles.tableWrapper}>
+					<thead className={styles.thead}>
 						{auditlogs && (
-							<div className={styles.tr}>
+							<tr className={styles.tr}>
 								{theadHistory.map((item, index) => {
-									if (item !== 'data') {
+									if (!noChevron.includes(item)) {
 										return (
-											<div data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
-												{item} <ChevronDownSVG className={`${item === focusedChevron ? styles.chevronRotate : ''}`} />
-											</div>
+											<th data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
+												{item}{' '}
+												<ChevronDownSVG
+												
+													className={`${styles.chevronSVG} ${item === focusedChevron ? styles.chevronRotate : ''}`}
+												/>
+											</th>
 										)
 									} else {
 										return (
-											<div className={styles.th} key={index}>
+											<th className={styles.th} key={index}>
 												{item}
-											</div>
+											</th>
 										)
 									}
 								})}
-							</div>
+							</tr>
 						)}
-					</div>
-					<div className={styles.tbody}>
+					</thead>
+					<tbody className={styles.tbody}>
 						{auditlogs &&
 							auditlogs?.map((audit, index: number) => (
-								<div key={index} className={`${styles.tr}`}>
-									<div className={styles.td}>{audit.action}</div>
-									<div className={styles.td}>{audit.performedBy ? audit.performedBy : undefined}</div>
-									<div className={styles.td}>{audit.role}</div>
-									<div className={styles.td}>
-										{new Date(audit.createdAt).toLocaleDateString(...longDateConverter())}
-									</div>
+								<tr key={index} className={`${styles.tr}`}>
+									<td className={styles.td}>{index + 1}</td>
+									<td className={styles.td}>{audit.action}</td>
+									<td className={styles.td}>{audit.performedBy ? audit.performedBy : undefined}</td>
 
-									<div className={styles.td}>{audit.source}</div>
+									<td className={styles.td}>{new Date(audit.createdAt).toLocaleDateString(...dateConverter())}</td>
 
-									<div className={styles.td}>
-										<button
-											type="button"
-											onClick={() => handleOpenData(audit._id)}
-											className={styles.searchIconWrapper}>
-											<SearchSVG className={styles.searchIcon} />
-										</button>
-									</div>
-								</div>
+									<td className={styles.td}>{audit.source}</td>
+
+									<td className={styles.td}>
+										<AnchorLink ariaLabel='Details' title='Details' href={href} className={styles.detailsLink}>
+											<DetailsSVG />
+										</AnchorLink>
+									</td>
+								</tr>
 							))}
-					</div>
-				</div>
+					</tbody>
+				</table>
 			</div>
-			<TabelPagination
-				rows={rows}
-				rowsNumbers={rowsNumbers}
-				start={start}
-				end={end}
-				total={total}
-				setRows={setRows}
-				handleChangePage={handleChangePage}
-			/>
-
-			{openPopup && <AttemptPopup setOpenPopup={setOpenPopup} auditlogData={auditlogData} />}
 		</div>
 	)
 }

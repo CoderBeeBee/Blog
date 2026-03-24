@@ -11,9 +11,8 @@ import type { KeyboardEvent } from 'react'
 import CloseButton from '../CloseButton/CloseButton'
 
 const UserNavigation = () => {
-	const size = useWindowSize()
-	const isMobile = size.width < 800
-	const isMobilePanel = size.width < 600
+	const { isMobile, isMobilePanel } = useWindowSize()
+
 	const { sideBarMenu, toggleMenu, userRef, openCloseUserMenu } = useGlobalContext()
 	const { open, close, isOpen, isVisible } = sideBarMenu
 	const { avatar, name } = useSelector((state: RootState) => state.auth)

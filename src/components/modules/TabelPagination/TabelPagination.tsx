@@ -84,7 +84,7 @@ const TabelPagination = ({
 					</div>
 				</div>
 			</div>
-			<span>
+			<span className={styles.totalPages}>
 				{start}-{end} of {total}
 			</span>
 			<div className={styles.arrowsControls}>
@@ -96,7 +96,7 @@ const TabelPagination = ({
 					<ChevronPrevSVG className={styles.chevronPrev} />
 				</button>
 				<button data-element="next" aria-label="next page" className={styles.chevron} onClick={e => handleChangePage(e)}>
-					<ChevronNextSVG className={styles.chevronNext} />
+					 <ChevronNextSVG className={styles.chevronNext} />
 				</button>
 			</div>
 		</div>

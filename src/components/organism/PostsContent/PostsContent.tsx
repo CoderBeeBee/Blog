@@ -30,28 +30,27 @@ type ArticleBlock =
 	| { type: 'ad'; client: string; slot: string; left?: string; top?: string; height?: string }
 
 const PostsContent = ({ data, currentPage, setCurrentPage }: PostsContentProps) => {
-	const { ads } = useGlobalContext()
+	const { ads, navRef } = useGlobalContext()
 	const enableAds = ads?.slots?.postsSection?.enableAd
 
 	const [width, setWidth] = useState<number>(0)
 	const [columns, setColumns] = useState<number>(0)
-	
+
 	const sectionRef = useRef<HTMLElement>(null)
 	const articleRef = useRef<(HTMLElement | null)[]>([])
 	const [wrapperHeight, setWrapperHeight] = useState<number | null>(null)
 	const heightsCache = useRef<number[]>([])
 	const [styledPostData, setStyledPostData] = useState<ArticleBlock[]>([])
-	
+
 	const { pathname } = useLocation()
 	const { posts, totalPages = 1 } = { ...data }
 	const isDev = import.meta.env.VITE_NODE_ENV === 'development'
 
 	const slot = ''
 
-	
 	const paginationButtons = useMemo(() => {
 		const buttons: (number | string)[] = []
-	
+
 		buttons.push(1)
 
 		if (currentPage > 4) buttons.push('...')
@@ -94,7 +93,6 @@ const PostsContent = ({ data, currentPage, setCurrentPage }: PostsContentProps) 
 		scrollSection()
 	}
 
-	
 	useEffect(() => {
 		const handleResize = () => {
 			const w = window.innerWidth
@@ -201,10 +199,10 @@ const PostsContent = ({ data, currentPage, setCurrentPage }: PostsContentProps) 
 		if (pathname.startsWith('/categories')) {
 			window.scrollTo({ top: 0, behavior: 'smooth' })
 		} else {
-			if (!sectionRef.current) return
+			if (!sectionRef.current || !navRef.current) return
 			window.scrollTo({
 				behavior: 'smooth',
-				top: sectionRef.current?.offsetTop - 80 || 0,
+				top: sectionRef.current?.offsetTop - navRef?.current?.offsetHeight || 60,
 			})
 		}
 	}

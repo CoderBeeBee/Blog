@@ -17,19 +17,32 @@ import { useFetchAllCategoriesQuery } from '../../slices/api/categoriesApi'
 import AdminSystemNavigation from './AdminSystemNavigation/AdminSystemNavigation'
 
 const Navigation = () => {
-	const size = useWindowSize()
+	const { widthGreater900 } = useWindowSize()
 	const { pathname } = useLocation()
 	const { navRef } = useGlobalContext()
 	const { isOpen } = useSelector((state: RootState) => state.theme)
 	const { role, isLogged } = useSelector((state: RootState) => state.auth)
-	
+	const isNavBgcBlack = pathname !== '/'
+
+	const { data } = useFetchAllCategoriesQuery()
+
+	const newDataMenu = dataNavigation.map(item => {
+		if (item.title === 'Categories') {
+			if (data && data?.length > 0) return { ...item, children: data?.length ? data : [] }
+
+			return item
+		}
+
+		return item
+	})
+
 	useEffect(() => {
 		const handleScroll = () => {
-			if (pathname === '/') {
+			if (!isNavBgcBlack) {
 				if (window.scrollY >= 200) {
-					navRef.current?.classList.add(styles.bgcNavBlack)
+					navRef.current?.classList.add(styles.navBgcBlack)
 				} else {
-					navRef.current?.classList.remove(styles.bgcNavBlack)
+					navRef.current?.classList.remove(styles.navBgcBlack)
 				}
 			}
 		}
@@ -39,42 +52,19 @@ const Navigation = () => {
 		return () => {
 			document.removeEventListener('scroll', handleScroll)
 		}
-	}, [navRef, pathname])
-
-	useEffect(() => {
-		if (pathname !== '/') {
-			navRef.current?.classList.add(styles.bgcNavBlack)
-		} else {
-			navRef.current?.classList.remove(styles.bgcNavBlack)
-		}
-	}, [pathname, navRef])
-
-	const { data } = useFetchAllCategoriesQuery()
+	}, [isNavBgcBlack, navRef])
 
 	if (!data) return
-	const newDataMenu = dataNavigation.map(item => {
-		if (item.title === 'Categories') {
-			if (data && data?.length > 0) return { ...item, children: data }
-
-			return item
-		}
-
-		return item
-	})
-
+	
 	return (
 		<nav className={styles.navigationContainer}>
 			{role !== 'User' && isLogged && <AdminSystemNavigation />}
-			<div ref={navRef} className={styles.websiteNavigation}>
+			<div ref={navRef} className={`${styles.websiteNavigation} ${isNavBgcBlack ? styles.navBgcBlack : ''}`}>
 				<Logo styles={styles} />
-				{size.width > 900 ? (
-					<DesktopNav navRef={navRef} dataMenu={newDataMenu} />
-				) : (
-					<MobileNav dataMenu={newDataMenu} />
-				)}
+				{widthGreater900 ? <DesktopNav dataMenu={newDataMenu} /> : <MobileNav dataMenu={newDataMenu} />}
 				<div className={styles.navPanel}>
 					<SearchButton />
-					{size.width > 900 ? <ControlPanel index={0} styles={styles} /> : <MenuIcon />}
+					{widthGreater900 ? <ControlPanel index={0} styles={styles} /> : <MenuIcon />}
 				</div>
 
 				{isOpen && <SearchContainer isOpen={isOpen} />}

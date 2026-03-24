@@ -1,49 +1,50 @@
-import { PencilSVG, TrashSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
-
+import { DetailsSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 import type { UsersProps } from '../../../types/types'
 import styles from './ListOfUsers.module.scss'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
-import { useEffect, useRef, useState, type ChangeEvent, type MouseEvent } from 'react'
-
+import { useEffect, useState, type ChangeEvent, type MouseEvent } from 'react'
 import useDebounce from '../../../hooks/useDebounce'
-
-import { rowsNumbers, theadUsers } from '../../../utils/data'
-
+import { noChevron, rowsNumbers, theadUsers } from '../../../utils/data'
 import TabelPagination from '../../modules/TabelPagination/TabelPagination'
 import TabelSearch from '../../modules/TabelSearch/TabelSearch'
 import { useAdminDeleteUserMutation, useFetchUserByLimitQuery } from '../../../slices/api/userApi'
 import timePass from '../../../hooks/timePass'
 import Popup from '../../atoms/Popup/Popup'
 import NotificationNew from '../../atoms/NotificationNew/NotificationNew'
-import longDateConverter from '../../../hooks/longDateConverter'
-
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
+import CreateButton from '../../atoms/CreateButton/CreateButton'
+import FilterButton from '../../atoms/FilterButton/FilterButton'
+import useFilters from '../../../hooks/useFilters'
+import CheckMark from '../../atoms/Checkmark/CheckMark'
+import useCheckMark from '../../../hooks/useCheckMark'
+import dateConverter from '../../../hooks/dateConverter'
+import DeleteAllButton from '../../atoms/DeleteAllButton/DeleteAllButton'
+
+import useOpenClosePopup from '../../../hooks/useOpenClosePopup'
+import useSort from '../../../hooks/useSort'
+import useWindowSize from '../../../hooks/useWindowSize'
+import longDateConverter from '../../../hooks/longDateConverter'
 
 const ListOfUsers = () => {
-	const listRef = useRef<HTMLDivElement | null>(null)
-	const [popUpMessage, setPopUpMessage] = useState<string>('')
-	const [openPopup, setOpenPopup] = useState<boolean>(false)
-	const [focusedChevron, setFocusedChevron] = useState<string>('')
-	const [userData, setUserData] = useState({
-		userId: '',
-		userName: '',
-	})
-
+	const { widthLess900, widthLess700 } = useWindowSize()
+	
+	const filtersOption = ['last Login']
+	const { handleCheckMark, checked, handleCheckMarkAll, isCheckedAll, handleClearCheckedSet } = useCheckMark()
+	const { filters, setFilters } = useFilters()
+	const { openPopup, popUpMessage, setPopUpMessage, handleOpenPopup, handleClosePopup } = useOpenClosePopup()
+	const { sort, listRef, handleSetSort, focusedChevron,handleResetSort } = useSort()
+	const activeColumn = sort.sortBy === 'last Login' ? 'last Login' : 'created At'
 	const [rows, setRows] = useState<number>(10)
 	const [currentPage, setCurrentPage] = useState<number>(1)
-
-	const [sort, setSort] = useState({
-		sortBy: '',
-		order: '',
-	})
 
 	const [start, setStart] = useState<number>(0)
 	const [end, setEnd] = useState<number>(0)
 	const [inputValue, setInputValue] = useState<string>('')
 	const search = useDebounce(inputValue, 500)
 	const [adminDeleteUser] = useAdminDeleteUserMutation()
-	const { data, refetch } = useFetchUserByLimitQuery({
+	const { data } = useFetchUserByLimitQuery({
 		limit: rows,
 		page: currentPage,
 		search: search,
@@ -53,42 +54,11 @@ const ListOfUsers = () => {
 
 	const { users = [], totalPages = 1, total = 1 } = data ?? {}
 
-	useEffect(() => {
-		refetch()
-	}, [data, refetch])
-
 	const handleSetInputValue = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.target as HTMLInputElement
 		const value = target.value
 
 		setInputValue(value)
-	}
-
-	const handleSetSort = (e: MouseEvent<HTMLDivElement>) => {
-		const target = e.currentTarget as HTMLDivElement
-		const el = target.dataset.element
-
-		if (!el) return
-		if (el !== focusedChevron) {
-			setFocusedChevron(el)
-		} else {
-			setFocusedChevron('')
-		}
-		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-		if (el === 'comments' || el === 'lastLogin' || el === 'status') {
-			setSort(prev => {
-				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
-
-				return { sortBy: el, order: newOrder }
-			})
-			return
-		}
-
-		setSort(prev => {
-			const newOrder = prev.sortBy === el ? (prev.order === 'desc' ? 'asc' : 'desc') : 'asc'
-
-			return { sortBy: el, order: newOrder }
-		})
 	}
 
 	useEffect(() => {
@@ -116,32 +86,12 @@ const ListOfUsers = () => {
 		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
-	const handleOpenPopup = (e: MouseEvent<HTMLDivElement>) => {
-		const target = e.currentTarget as HTMLDivElement
-		const userId = target.dataset.id
-		const userName = target.dataset.name
-		if (userId && userName)
-			setUserData({
-				userId,
-				userName,
-			})
-
-		setOpenPopup(true)
-	}
-	const handleClosePopup = () => {
-		setOpenPopup(false)
-		setPopUpMessage('')
-	}
-
 	const handleDeleteUser = async () => {
 		try {
-			if (userData.userId) {
-				const res = await adminDeleteUser(userData.userId)
+			const res = await adminDeleteUser([...checked]).unwrap()
 
-				setPopUpMessage(res.data?.message)
-			}
-
-			refetch()
+			if (res) setPopUpMessage(res.message)
+			handleClearCheckedSet()
 		} catch (error) {
 			if (typeof error === 'object' && error !== null) {
 				const fetchError = error as FetchBaseQueryError
@@ -156,100 +106,186 @@ const ListOfUsers = () => {
 			}
 		}
 	}
-	
+	const checkMarkAll = () => {
+		const usersID = users.map((user: UsersProps) => user._id)
+
+		handleCheckMarkAll(usersID)
+	}
 	// if (isFetching) return <Loader />
 	return (
-		<div className={styles.listWrapper}>
-			<div className={styles.listWrapperHeader}>
-				<h3 className={styles.listTitle}>List of Users</h3>
-
-				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
-			</div>
-
-			<div ref={listRef} className={styles.listContainer}>
-				<div className={styles.tableContainer}>
-					<div className={styles.thead}>
-						<div className={styles.tr}>
-							{theadUsers.map((item, index) => {
-								if (item !== 'actions' && item !== 'role') {
-									return (
-										<div data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
-											{item} <ChevronDownSVG className={`${item === focusedChevron ? styles.chevronRotate : ''}`} />
-										</div>
-									)
-								} else {
-									return (
-										<div className={styles.th} key={index}>
-											{item}
-										</div>
-									)
-								}
-							})}
-						</div>
-					</div>
-					<div className={styles.tbody}>
-						{users &&
-							users?.map((user: UsersProps, index: number) => (
-								<div key={index} className={`${styles.tr} `}>
-									<div className={styles.td}>
-										<AnchorLink
-											ariaLabel="Username"
-											className={styles.listUserName}
-											href={`admin/users/profile/${user._id}`}>
-											{user.name}
-										</AnchorLink>
-										{timePass(user.createdAt, 7) && <NotificationNew />}
-									</div>
-
-									<div className={styles.td}>{user.email}</div>
-									<div className={styles.td}>{new Date(user.createdAt).toLocaleDateString(...longDateConverter())}</div>
-									<div className={styles.td}>{user.isVerified.toString()}</div>
-
-									<div className={styles.td}>{user.commentsCount}</div>
-									<div className={styles.td}>{user.role}</div>
-									<div className={styles.td}>
-										{new Date(user.lastLogin) > new Date(user.lastLogout) ? (
-											<span className={styles.activeUser}>Active</span>
-										) : (
-											<span className={styles.inActiveUser}>In Active</span>
-										)}
-									</div>
-									<div className={styles.td}>
-										{user.lastLogin ? new Date(user.lastLogin).toLocaleString(...longDateConverter()) : '-'}
-									</div>
-									<div className={styles.td}>
-										<AnchorLink ariaLabel="Edit button" href={`/admin/users/profile/${user._id}`}>
-											<PencilSVG />
-										</AnchorLink>
-										<div data-id={user._id} data-name={user.name} onClick={e => handleOpenPopup(e)}>
-											<TrashSVG />
-										</div>
-									</div>
-								</div>
-							))}
-					</div>
+		<div className={styles.listContainer}>
+			<Breadcrumbs />
+			<div className={styles.listWrapperTools}>
+				<div className={styles.listTools}>
+					<CreateButton href="/admin/users/adduser" ariaLabel="Create new user" className={styles.createNew} />
+					<TabelSearch handleSetInputValue={handleSetInputValue} />
+					<FilterButton setFilters={setFilters} handleResetSort={handleResetSort}/>
+					{(isCheckedAll || checked.size >= 1) && <DeleteAllButton handleOpenPopup={handleOpenPopup} />}
+					<TabelPagination
+						rows={rows}
+						rowsNumbers={rowsNumbers}
+						start={start}
+						end={end}
+						total={total}
+						setRows={setRows}
+						handleChangePage={handleChangePage}
+					/>
 				</div>
+
+				{filters && (
+					<div className={styles.filtersWrapper}>
+						{filtersOption.map(option => {
+							return (
+								<button
+									key={option}
+									data-element={option}
+									type="button"
+									aria-label="Filter button"
+									onClick={e => handleSetSort(e)}
+									onKeyDown={e => {
+										if ('key' in e && e.key === 'Enter') {
+											handleSetSort(e)
+										}
+									}}
+									className={styles.filterButton}>
+									{option}{' '}
+									<ChevronDownSVG
+										className={`${styles.chevronSVG} ${option === focusedChevron ? styles.chevronRotate : ''}`}
+									/>
+								</button>
+							)
+						})}
+					</div>
+				)}
 			</div>
-			<TabelPagination
-				rows={rows}
-				rowsNumbers={rowsNumbers}
-				start={start}
-				end={end}
-				total={total}
-				setRows={setRows}
-				handleChangePage={handleChangePage}
-			/>
+
+			<div ref={listRef} className={styles.listWrapper}>
+				<table className={styles.tableWrapper}>
+					<thead className={styles.thead}>
+						<tr className={styles.tr}>
+							{theadUsers
+								.filter(f => !['created At', 'last Login'].includes(f) || f === activeColumn)
+								.map((item, index) => {
+									if (!noChevron.includes(item)) {
+										if (
+											(widthLess900 && ['created At', 'last Login'].includes(item)) ||
+											(widthLess700 && item === 'email')
+										)
+											return null
+
+										return (
+											<th
+												tabIndex={0}
+												data-element={item}
+												className={styles.th}
+												key={index}
+												onClick={e => handleSetSort(e)}
+												onKeyDown={e => {
+													if ('key' in e && e.key === 'Enter') {
+														handleSetSort(e)
+													}
+												}}>
+												{item}{' '}
+												<ChevronDownSVG
+													className={`${styles.chevronSVG} ${item === focusedChevron ? styles.chevronRotate : ''}`}
+												/>
+											</th>
+										)
+									} else {
+										if (item === 'checkmark')
+											return (
+												<th tabIndex={0} className={styles.th} key={index} onClick={() => checkMarkAll()}>
+													<CheckMark className={styles.checkmark} isChecked={isCheckedAll} />
+												</th>
+											)
+
+										return (
+											<th className={styles.th} key={index}>
+												{item}
+											</th>
+										)
+									}
+								})}
+						</tr>
+					</thead>
+					<tbody className={styles.tbody}>
+						{users &&
+							users?.map((user: UsersProps, index: number) => {
+								const isChecked = checked.has(user._id)
+
+								return (
+									<tr key={index} className={`${styles.tr} `}>
+										<td className={styles.td} onClick={() => handleCheckMark(user._id)}>
+											<CheckMark isChecked={isChecked} />
+										</td>
+										<td className={styles.td}>{index + 1}</td>
+										<td className={styles.td}>
+											<img src={user.avatar.src} alt="Avatar" loading="lazy" />
+										</td>
+										<td className={styles.td}>
+											<AnchorLink
+												ariaLabel="Username"
+												className={styles.listUserName}
+												href={`admin/users/profile/${user._id}`}>
+												{user.name}
+											</AnchorLink>
+											{timePass(user.createdAt, 7) && <NotificationNew />}
+										</td>
+
+										{!widthLess700 && <td className={`${styles.td} ${styles.email}`}>{user.email}</td>}
+										{!widthLess900 &&
+											(activeColumn === 'last Login' ? (
+												<td className={styles.td}>
+													{user.lastLogin !== null
+														? new Date(user.lastLogin).toLocaleDateString(...longDateConverter())
+														: '-----'}
+												</td>
+											) : (
+												<td className={styles.td}>{new Date(user.createdAt).toLocaleDateString(...dateConverter())}</td>
+											))}
+										<td className={styles.td}>{user.isVerified.toString().toUpperCase()}</td>
+
+										<td className={styles.td}>
+											{new Date(user.lastLogin) > new Date(user.lastLogout) ? (
+												<span className={styles.activeUser}>Active</span>
+											) : (
+												<span className={styles.inActiveUser}>Inactive</span>
+											)}
+										</td>
+
+										<td className={styles.td}>
+											<AnchorLink
+												title="Profile"
+												aria-label="Profile"
+												className={styles.detailsButton}
+												href={`/admin/users/profile/${user._id}`}>
+												<DetailsSVG />
+											</AnchorLink>
+										</td>
+									</tr>
+								)
+							})}
+					</tbody>
+				</table>
+			</div>
 
 			{openPopup && (
 				<Popup handleClosePopup={handleClosePopup} handleDelete={handleDeleteUser} popUpMessage={popUpMessage}>
 					{!popUpMessage && (
 						<div className={styles.popupInfo}>
-							<span>
-								User Name: <span>{userData.userName}</span>
-							</span>
-							<span>
-								User Id: <span>{userData.userId}</span>
-							</span>
+							<p className={styles.popupTitle}>
+								{checked.size} {checked.size > 1 ? 'Users' : 'User'}:
+							</p>
+							<div className={styles.popupDeletedList}>
+								{[...checked].map((userId, index) => {
+									const user = users.find((user: UsersProps) => user._id === userId)
+									return (
+										<span key={userId}>
+											<span>{index + 1}.</span> <span>{user?.name}</span>
+										</span>
+									)
+								})}
+							</div>
 						</div>
 					)}
 				</Popup>

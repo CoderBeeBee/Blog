@@ -3,8 +3,11 @@ import { useState } from 'react'
 import ChangeHistory from '../../../../organism/ChangeHistory/ChangeHistory'
 import useDebounce from '../../../../../hooks/useDebounce'
 import { useFetchAuditLogsQuery } from '../../../../../slices/api/auditLogApi'
+import useSort from '../../../../../hooks/useSort'
+import { useLocation } from 'react-router'
 
 const PostHistoryTemplate = () => {
+	const { pathname } = useLocation()
 	const [inputValue, setInputValue] = useState<string>('')
 	const search = useDebounce(inputValue, 500)
 	const [currentPage, setCurrentPage] = useState<number>(1)
@@ -12,11 +15,9 @@ const PostHistoryTemplate = () => {
 	const [rows, setRows] = useState<number>(10)
 	const [start, setStart] = useState<number>(0)
 	const [end, setEnd] = useState<number>(0)
-
-	const [sort, setSort] = useState({
-		sortBy: '',
-		order: '',
-	})
+	const { sort } = useSort()
+	console.log(pathname)
+	const href = `${pathname}/details`
 
 	const { data } = useFetchAuditLogsQuery(
 		{
@@ -30,7 +31,6 @@ const PostHistoryTemplate = () => {
 		{ refetchOnMountOrArgChange: true },
 	)
 
-	
 	const { auditlogs, total, totalPages } = data ? data : []
 	return (
 		<div className={styles.postHistoryContainer}>
@@ -42,14 +42,13 @@ const PostHistoryTemplate = () => {
 				setRows={setRows}
 				setStart={setStart}
 				setEnd={setEnd}
-				setSort={setSort}
+				// setSort={setSort}
 				totalPages={totalPages}
 				total={total}
 				rows={rows}
 				start={start}
-				end={end}>
-				Post History
-			</ChangeHistory>
+				end={end}
+				href={href}></ChangeHistory>
 		</div>
 	)
 }
