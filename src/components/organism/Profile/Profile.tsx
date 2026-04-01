@@ -55,8 +55,6 @@ const Profile = () => {
 
 	const [avatar] = useWatch({ control, name: ['avatar'] })
 
-	
-
 	const onSubmit: SubmitHandler<profileTypes> = async data => {
 		let updatedAvatar = {}
 
@@ -146,6 +144,7 @@ const Profile = () => {
 							styles={styles}
 							className={` ${!avatar ? styles.avatarShadow : ''}`}
 							fileIndex={-1}
+							isSubmitting={isSubmitting}
 						/>
 					</div>
 					<RHFInput name="name" id="name" label="Name" type="text" styles={styles} isSubmitting={isSubmitting} />
