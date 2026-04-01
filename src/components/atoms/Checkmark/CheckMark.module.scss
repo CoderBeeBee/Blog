@@ -9,11 +9,10 @@
 	background-color: transparent;
 	border: 2px solid #3d4f58;
 	border-radius: 3px;
-
 	z-index: 1;
 	overflow: hidden;
 	transition: box-shadow 100ms ease-in-out, background-color linear 300ms border-color linear;
-
+	cursor: pointer;
 	.checkmarkSVG {
 		width: 14px;
 		height: 14px;

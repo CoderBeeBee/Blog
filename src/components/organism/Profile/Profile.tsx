@@ -18,11 +18,12 @@ import RHFInput from '../../atoms/RHFInput/RHFInput'
 
 const profileSchema = z.object({
 	name: z.string().trim().min(1, { message: 'Field is required' }),
-	avatar: z
-		.instanceof(File)
-		.or(z.string())
-		.nullable()
-		.refine(v => v !== null, { message: 'Please upload a file' }),
+	// avatar: z
+	// 	.instanceof(File)
+	// 	.or(z.string())
+	// 	.nullable()
+	// 	.refine(v => v !== null, { message: 'Please upload a file' }),
+	avatar: z.union([z.instanceof(File), z.string()]),
 })
 type profileTypes = z.infer<typeof profileSchema>
 
@@ -32,7 +33,7 @@ const Profile = () => {
 	const [createSignature] = useCreateCloudinarySignatureMutation()
 	const dispatch = useDispatch()
 	const [showImage, setShowImage] = useState<boolean>(false)
-	
+
 	const fileInputRef = useRef<HTMLInputElement>(null)
 	const [profileErrorMessage, setProfileErrorMessage] = useState<string>('')
 	const [profileSuccessMessage, setProfileSuccessMessage] = useState<string>('')
@@ -45,24 +46,24 @@ const Profile = () => {
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
 			name: '',
-			avatar: null,
+			avatar: '',
 		},
 	})
 	const {
 		control,
 		handleSubmit,
 		register,
-		
+
 		setValue,
 		reset,
 		formState: { isSubmitting, isDirty },
 	} = methods
 
-	const [ avatar] = useWatch({ control, name: [ 'avatar'] })
+	const [avatar] = useWatch({ control, name: ['avatar'] })
 
 	const onChangeInputProfile = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.currentTarget
-		
+
 		const { type } = target
 
 		if (type === 'file') {
@@ -101,13 +102,11 @@ const Profile = () => {
 			}
 			setValue('avatar', file, { shouldValidate: true })
 		}
-		
 	}
 
 	const onSubmit: SubmitHandler<profileTypes> = async data => {
 		let updatedAvatar = {}
 
-	
 		try {
 			if (!isDirty) return
 			if (data.avatar instanceof File) {
@@ -130,7 +129,6 @@ const Profile = () => {
 			if (res) setProfileSuccessMessage(res.message)
 
 			dispatch(setData(res))
-			
 		} catch (error) {
 			if (typeof error === 'object' && error !== null) {
 				const fetchError = error as FetchBaseQueryError
@@ -154,7 +152,6 @@ const Profile = () => {
 			})
 		}
 	}, [profileData, reset])
-
 
 	useEffect(() => {
 		if (profileSuccessMessage) {
@@ -219,20 +216,12 @@ const Profile = () => {
 							)}
 						</label>
 					</div>
-					<RHFInput
-						name="name"
-						id="name"
-						label="Name"
-						type="text"
-						styles={styles}
-						isSubmitting={isSubmitting}
-						
-					/>
+					<RHFInput name="name" id="name" label="Name" type="text" styles={styles} isSubmitting={isSubmitting} />
 
 					<FormBtn
 						type="submit"
 						isSubmitting={isSubmitting}
-						className={`${styles.saveChanges} ${(isDirty && !isSubmitting) ? styles.enabledChanges : ''}`}>
+						className={`${styles.saveChanges} ${isDirty && !isSubmitting ? styles.enabledChanges : ''}`}>
 						Save Changes
 					</FormBtn>
 				</form>

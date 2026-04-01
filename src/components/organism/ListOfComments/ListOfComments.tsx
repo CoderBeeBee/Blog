@@ -1,13 +1,13 @@
-import { PencilSVG, TrashSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
+import { DetailsSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 import type { CommentsProps } from '../../../types/types'
 import styles from './ListOfComments.module.scss'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
-import { useEffect, useRef, useState, type ChangeEvent, type MouseEvent } from 'react'
+import { useEffect, useState, type ChangeEvent, type MouseEvent } from 'react'
 
 import useDebounce from '../../../hooks/useDebounce'
 
-import { rowsNumbers, theadComments } from '../../../utils/data'
+import { noChevron, rowsNumbers, theadComments } from '../../../utils/data'
 
 import TabelPagination from '../../modules/TabelPagination/TabelPagination'
 import TabelSearch from '../../modules/TabelSearch/TabelSearch'
@@ -17,28 +17,29 @@ import Popup from '../../atoms/Popup/Popup'
 import { useDeleteCommentMutation, useFetchAllCommentsQuery } from '../../../slices/api/commentsApi'
 import NotificationNew from '../../atoms/NotificationNew/NotificationNew'
 import handleCreateUrl from '../../../hooks/createUrl'
-import longDateConverter from '../../../hooks/longDateConverter'
+
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
+import useSort from '../../../hooks/useSort'
+import useOpenClosePopup from '../../../hooks/useOpenClosePopup'
+import useCheckMark from '../../../hooks/useCheckMark'
+import useFilters from '../../../hooks/useFilters'
+import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
+
+import FilterButton from '../../atoms/FilterButton/FilterButton'
+import DeleteAllButton from '../../atoms/DeleteAllButton/DeleteAllButton'
+import CheckMark from '../../atoms/Checkmark/CheckMark'
+import dateConverter from '../../../hooks/dateConverter'
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 const ListOfComments = () => {
-	const [openPopup, setOpenPopup] = useState<boolean>(false)
-	const listRef = useRef<HTMLDivElement | null>(null)
-	const [popUpMessage, setPopUpMessage] = useState<string>('')
-	const [focusedChevron, setFocusedChevron] = useState<string>('')
-	const [userData, setUserData] = useState({
-		commentId: '',
-		commentContent: '',
-		author: '',
-		postId: '',
-	})
+	const filtersOption = [] as const
+	const { openPopup, popUpMessage, setPopUpMessage, handleOpenPopup, handleClosePopup } = useOpenClosePopup()
+	const { sort, listRef, handleSetSort, focusedChevron } = useSort()
+	const { filters, setFilters } = useFilters()
+	const { handleCheckMark, checked, handleCheckMarkAll, isCheckedAll, handleClearCheckedSet } = useCheckMark()
 
 	const [rows, setRows] = useState<number>(10)
 	const [currentPage, setCurrentPage] = useState<number>(1)
-
-	const [sort, setSort] = useState({
-		sortBy: '',
-		order: '',
-	})
 
 	const [start, setStart] = useState<number>(0)
 	const [end, setEnd] = useState<number>(0)
@@ -46,7 +47,7 @@ const ListOfComments = () => {
 	const search = useDebounce(inputValue, 500)
 	const [deleteComment] = useDeleteCommentMutation()
 
-	const { data, refetch } = useFetchAllCommentsQuery({
+	const { data } = useFetchAllCommentsQuery({
 		limit: rows,
 		page: currentPage,
 		search: search,
@@ -56,40 +57,10 @@ const ListOfComments = () => {
 
 	const { allcomments = [], totalPages = 1, total = 1 } = data ?? {}
 
-	useEffect(() => {
-		refetch()
-	}, [data, refetch])
-
 	const handleSetInputValue = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.target as HTMLInputElement
 		const value = target.value
 		setInputValue(value)
-	}
-
-	const handleSetSort = (e: MouseEvent<HTMLDivElement>) => {
-		const target = e.currentTarget as HTMLDivElement
-		const el = target.dataset.element
-
-		if (!el) return
-		if (el !== focusedChevron) {
-			setFocusedChevron(el)
-		} else {
-			setFocusedChevron('')
-		}
-		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-		if (el === 'createdAt') {
-			setSort(prev => {
-				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
-
-				return { sortBy: el, order: newOrder }
-			})
-			return
-		}
-		setSort(prev => {
-			const newOrder = prev.sortBy === el ? (prev.order === 'desc' ? 'asc' : 'desc') : 'asc'
-
-			return { sortBy: el, order: newOrder }
-		})
 	}
 
 	useEffect(() => {
@@ -117,139 +88,166 @@ const ListOfComments = () => {
 		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
-	const handleOpenPopup = (e: MouseEvent<HTMLDivElement>) => {
-		const target = e.currentTarget as HTMLDivElement
-
-		const commentId = target.dataset.id
-		const commentContent = target.dataset.content
-		const author = target.dataset.author
-		const postId = target.dataset.postid
-
-		if (commentId && commentContent && author && postId)
-			setUserData({
-				commentId,
-				commentContent,
-				author,
-				postId,
-			})
-
-		setOpenPopup(true)
-	}
-	const handleClosePopup = () => {
-		setOpenPopup(false)
-		setPopUpMessage('')
-	}
-
 	const handleDeleteComment = async () => {
 		try {
-			if (userData.commentId && userData.postId) {
-				const res = await deleteComment({ commentId: userData.commentId, postId: userData.postId }).unwrap()
+			const res = await deleteComment([...checked]).unwrap()
 
-				setPopUpMessage(res.message)
-			}
-
-			refetch()
+			if (res) setPopUpMessage(res.message)
+			handleClearCheckedSet()
 		} catch (error) {
-			console.log(error)
+			if (typeof error === 'object' && error !== null) {
+				const fetchError = error as FetchBaseQueryError
+				const message =
+					fetchError.data && typeof fetchError.data === 'object' && 'message' in fetchError.data
+						? (fetchError.data.message as string)
+						: 'An unexpected error has occurder'
+
+				setPopUpMessage(message)
+			} else {
+				setPopUpMessage('An unexpected error has occurder')
+			}
 		}
 	}
+	const checkMarkAll = () => {
+		const commentsId = allcomments.map((com: CommentsProps) => com._id)
 
+		handleCheckMarkAll(commentsId)
+	}
 	// if (isFetching) return <Loader />
 	return (
-		<div className={styles.listWrapper}>
-			<div className={styles.listWrapperHeader}>
-				<h3 className={styles.listTitle}>List of Comments</h3>
-				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+		<div className={styles.listContainer}>
+			<Breadcrumbs />
+			<div className={styles.listWrapperTools}>
+				<div className={styles.listTools}>
+					<TabelSearch className={styles.search} handleSetInputValue={handleSetInputValue} />
+					<FilterButton setFilters={setFilters} />
+					{(isCheckedAll || checked.size >= 1) && <DeleteAllButton handleOpenPopup={handleOpenPopup} />}
+					<TabelPagination
+						rows={rows}
+						rowsNumbers={rowsNumbers}
+						start={start}
+						end={end}
+						total={total}
+						setRows={setRows}
+						handleChangePage={handleChangePage}
+					/>
+				</div>
+
+				{filters && (
+					<div className={styles.filtersWrapper}>
+						{filtersOption.map(option => {
+							return (
+								<button
+									key={option}
+									data-element={option}
+									type="button"
+									aria-label="Filter button"
+									onClick={e => handleSetSort(e)}
+									onKeyDown={e => {
+										if ('key' in e && e.key === 'Enter') {
+											handleSetSort(e)
+										}
+									}}
+									className={styles.filterButton}>
+									{option}{' '}
+									<ChevronDownSVG
+										className={`${styles.chevronSVG} ${option === focusedChevron ? styles.chevronRotate : ''}`}
+									/>
+								</button>
+							)
+						})}
+					</div>
+				)}
 			</div>
 
-			<div ref={listRef} className={styles.listContainer}>
-				<div className={styles.tableContainer}>
-					<div className={styles.thead}>
-						<div className={styles.tr}>
+			<div ref={listRef} className={styles.listWrapper}>
+				<table className={styles.tableWrapper}>
+					<thead className={styles.thead}>
+						<tr className={styles.tr}>
 							{theadComments.map((item, index) => {
-								if (item !== 'actions' && item !== 'content') {
+								if (!noChevron.includes(item)) {
 									return (
-										<div data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
+										<th data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
 											{item} <ChevronDownSVG className={`${item === focusedChevron ? styles.chevronRotate : ''}`} />
-										</div>
+										</th>
 									)
 								} else {
+									if (item === 'checkmark')
+										return (
+											<th tabIndex={0} className={styles.th} key={index} onClick={() => checkMarkAll()}>
+												<CheckMark className={styles.checkmark} isChecked={isCheckedAll} />
+											</th>
+										)
 									return (
-										<div className={styles.th} key={index}>
+										<th className={styles.th} key={index}>
 											{item}
-										</div>
+										</th>
 									)
 								}
 							})}
-						</div>
-					</div>
-					<div className={styles.tbody}>
+						</tr>
+					</thead>
+					<tbody className={styles.tbody}>
 						{allcomments &&
-							allcomments?.map((com: CommentsProps, index: number) => (
-								<div key={index} className={`${styles.tr} `}>
-									<div className={styles.td}>
-										<AnchorLink
-											ariaLabel="Username"
-											className={styles.tabelTitle}
-											href={`/admin/users/profile/${com.author._id}`}>
-											{com.author.name}
-										</AnchorLink>
-									</div>
+							allcomments?.map((com: CommentsProps, index: number) => {
+								const isChecked = checked.has(com._id)
+								return (
+									<tr key={index} className={`${styles.tr} `}>
+										<td className={styles.td} onClick={() => handleCheckMark(com._id)}>
+											<CheckMark className={styles.checkmark} isChecked={isChecked} />
+										</td>
+										<td className={styles.td}>{index + 1}</td>
+										<td className={styles.td}>
+											<span className={styles.textEllipsis}>{com.comment}</span>{' '}
+											{timePass(com.createdAt, 1) && <NotificationNew />}
+										</td>
+										<td className={styles.td}>
+											<AnchorLink
+												className={`${styles.tabelLink} ${styles.textEllipsis}`}
+												href={handleCreateUrl({ categories: com.categories, seo: com.seo, _id: com.postId })}>
+												{com.title}
+											</AnchorLink>
+										</td>
+										<td className={styles.td}>
+											<AnchorLink
+												ariaLabel="Username"
+												className={styles.tabelLink}
+												href={`/admin/users/profile/${com.author._id}`}>
+												{com.author.name}
+											</AnchorLink>
+										</td>
 
-									<div className={styles.td}>
-										<span className={styles.comment}>{com.comment}</span>{' '}
-										{timePass(com.createdAt, 1) && <NotificationNew />}
-									</div>
+										<td className={styles.td}>{new Date(com.createdAt).toLocaleString(...dateConverter())}</td>
 
-									<div className={styles.td}>
-										<AnchorLink
-											className={styles.tabelTitle}
-											href={handleCreateUrl({ categories: com.categories, seo: com.seo, _id: com.postId })}>
-											{com.title}
-										</AnchorLink>
-									</div>
-									<div className={styles.td}>{new Date(com.createdAt).toLocaleString(...longDateConverter())}</div>
-
-									<div className={styles.td}>
-										<AnchorLink ariaLabel="Edit button" href={`/admin/users/profile/${com.author._id}`}>
-											<PencilSVG />
-										</AnchorLink>
-										<div
-											data-postid={com.postId}
-											data-id={com._id}
-											data-content={com.comment}
-											data-author={com.author.name}
-											onClick={e => handleOpenPopup(e)}>
-											<TrashSVG />
-										</div>
-									</div>
-								</div>
-							))}
-					</div>
-				</div>
+										<td className={styles.td}>
+											<AnchorLink ariaLabel="Details" title="Details" href={`/admin/comments/detail/${com.author._id}`}>
+												<DetailsSVG />
+											</AnchorLink>
+										</td>
+									</tr>
+								)
+							})}
+					</tbody>
+				</table>
 			</div>
-			<TabelPagination
-				rows={rows}
-				rowsNumbers={rowsNumbers}
-				start={start}
-				end={end}
-				total={total}
-				setRows={setRows}
-				handleChangePage={handleChangePage}
-			/>
+
 			{openPopup && (
 				<Popup handleClosePopup={handleClosePopup} handleDelete={handleDeleteComment} popUpMessage={popUpMessage}>
 					{!popUpMessage && (
 						<div className={styles.popupInfo}>
-							<span>
-								Comment Id: <span>{userData.commentId}</span>
-							</span>
-							<span>
-								Author: <span>{userData.author}</span>
-							</span>
-							<span>
-								Content: <span>{userData.commentContent}</span>
-							</span>
+							<p className={styles.popupTitle}>
+								{checked.size} {checked.size > 1 ? 'Comments' : 'Comment'}:
+							</p>
+							<div className={styles.popupDeletedList}>
+								{[...checked].map((comId, index) => {
+									const comment = allcomments.find((com: CommentsProps) => com._id === comId)
+									return (
+										<span key={comId} className={styles.popupItem}>
+											{index + 1}. <span>{comment?.comment}</span>
+										</span>
+									)
+								})}
+							</div>
 						</div>
 					)}
 				</Popup>

@@ -17,6 +17,7 @@ import { newsletterApi } from './slices/api/newsletterApi'
 import { securityApi } from './slices/api/securityApi'
 import { auditlogApi } from './slices/api/auditLogApi'
 import { tagsApi } from './slices/api/tagsApi'
+import { adApi } from './slices/api/adApi'
 
 export const store = configureStore({
 	reducer: {
@@ -37,6 +38,7 @@ export const store = configureStore({
 		[securityApi.reducerPath]: securityApi.reducer,
 		[auditlogApi.reducerPath]: auditlogApi.reducer,
 		[tagsApi.reducerPath]: tagsApi.reducer,
+		[adApi.reducerPath]: adApi.reducer,
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware()
@@ -54,7 +56,8 @@ export const store = configureStore({
 			.concat(newsletterApi.middleware)
 			.concat(securityApi.middleware)
 			.concat(auditlogApi.middleware)
-			.concat(tagsApi.middleware),
+			.concat(tagsApi.middleware)
+			.concat(adApi.middleware),
 })
 
 setupListeners(store.dispatch)

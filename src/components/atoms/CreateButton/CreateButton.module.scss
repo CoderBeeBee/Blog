@@ -1,0 +1,17 @@
+.createNewPost {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+    
+	padding: 1rem 2rem;
+	color: var(--whiteColor);
+	background-color: var(--mainColor);
+	font-size: var(--textSize_16);
+	border-radius: var(--borderRadius06);
+    
+	&:hover {
+		background-color: var(--mainColorHover);
+	}
+}

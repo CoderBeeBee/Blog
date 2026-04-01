@@ -1,0 +1,20 @@
+.breadcrumbsWrapper {
+	padding: 1rem ;
+
+	.breadcrumbs {
+		color: var(--blackColor);
+		font-size: var(--textSize_10);
+		font-weight: 600;
+		text-transform: uppercase;
+
+		.breadcrumbsLink {
+			color: var(--blackColor);
+			transition: all .3s;
+			
+			&:hover{
+				color: var(--mainColor);
+				
+			}
+		}
+	}
+}

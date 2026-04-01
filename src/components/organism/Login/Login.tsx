@@ -13,7 +13,8 @@ import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessag
 import RHFInput from '../../atoms/RHFInput/RHFInput'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 
-import GreetingWrapper from '../../modules/GreetingWrapper/GreetingWrapper'
+import Logo from '../../atoms/logo/Logo'
+import SocialLinks from '../../modules/SocialLinks/SocialLinks'
 
 const loginSchema = z.object({
 	email: z.email(),
@@ -57,7 +58,7 @@ const Login = () => {
 			if (!data) return
 
 			const res = await logIn({ email: data.email, password: data.password }).unwrap()
-			
+
 			if (res) {
 				dispatch(setLogin(true))
 				dispatch(setData(res))
@@ -90,7 +91,7 @@ const Login = () => {
 	return (
 		<FormProvider {...methods}>
 			<div className={styles.loginWrapper}>
-				<GreetingWrapper />
+				<Logo styles={styles} />
 				<div className={styles.formContainer}>
 					<h1>Sign In</h1>
 					<p>
@@ -113,15 +114,24 @@ const Login = () => {
 							placeholder="Enter your password"
 							isSubmitting={isSubmitting}
 						/>
+						<AnchorLink className={`${styles.forgotPassword}`} href={`/reset-password?email=${email}`}>
+							Forgot Password?
+						</AnchorLink>
 						{errors.root?.message && (
 							<APIResponseMessage messageType="error" className={styles.apiResponse}>
 								{errors.root?.message}
 							</APIResponseMessage>
 						)}
 						<FormBtn type="submit" className={styles.signInButton} isSubmitting={isSubmitting}>
-							{isSubmitting ? 'SigIn...' : 'SigIn'}
+							{isSubmitting ? 'Sign In...' : 'Sign In'}
 						</FormBtn>
 					</form>
+				</div>
+				<div className={styles.socialWrapper}>
+					<p className={styles.followUs}>Follow us:</p>
+					<div className={styles.linksBox}>
+						<SocialLinks />
+					</div>
 				</div>
 			</div>
 		</FormProvider>

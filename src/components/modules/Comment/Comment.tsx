@@ -16,13 +16,13 @@ const Comment = ({ _id, postId, parentId, author, comment, createdAt, children }
 	const [isUpdating, setIsUpdating] = useState<boolean>(false)
 	const [updatingText, setUpdatingText] = useState<string | null | undefined>('')
 	// const [resMessage, setResMessage] = useState<string>('')
-	
+
 	const [deleteComment] = useDeleteCommentMutation()
 	const aRef = useRef<HTMLAnchorElement | null>(null)
 	const crudRef = useRef<HTMLDivElement | null>(null)
 	const textRef = useRef<HTMLDivElement | null>(null)
 	const authorPost = id === author._id
-	
+
 	const handleReply = (e: MouseEvent<HTMLButtonElement>) => {
 		const target = e.target as HTMLButtonElement
 		const logIn = target.nextElementSibling
@@ -86,11 +86,9 @@ const Comment = ({ _id, postId, parentId, author, comment, createdAt, children }
 	}, [])
 	const handleDeleteComment = async () => {
 		try {
-			await deleteComment({ commentId: _id }).unwrap()
+			await deleteComment([_id]).unwrap()
 
 			// setResMessage(res?.message)
-
-			
 		} catch (error: unknown) {
 			if (typeof error === 'object' && error !== null) {
 				// const fetchError = error as FetchBaseQueryError
@@ -141,13 +139,13 @@ const Comment = ({ _id, postId, parentId, author, comment, createdAt, children }
 									</span>
 									<div ref={crudRef} className={styles.deleteUpdateBtns}>
 										<button
-											className={styles.updateBtn}
+											className={styles.editBtn}
 											onClick={() => {
 												setShowReply(true)
 												setIsUpdating(true)
 												setUpdatingText(textRef?.current?.textContent)
 											}}>
-											update
+											edit
 										</button>
 										<button className={styles.deleteBtn} onClick={() => handleDeleteComment()}>
 											delete

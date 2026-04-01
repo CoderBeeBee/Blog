@@ -1,0 +1,121 @@
+.loginWrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 600px;
+	background-color: var(--pagesBgc);
+	padding: 2rem 4rem;
+	.brandWrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		.logo {
+			width: 250px;
+			height: 80px;
+			margin: 2rem 0;
+
+			img {
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+				transition: all 0.3s ease-in-out;
+				&:hover {
+					scale: 1.05;
+				}
+			}
+		}
+	}
+
+	.formContainer {
+		width: 100%;
+		padding: 2rem;
+
+		h1 {
+			margin-bottom: var(--vspace-0_25);
+			color: var(--darkColor);
+			font-size: var(--textSize_30);
+			font-weight: 400;
+		}
+
+		.formWrapper {
+			margin-top: var(--vspace-1);
+			display: flex;
+			flex-direction: column;
+
+			.formInputBox {
+				margin-bottom: 2rem;
+
+				.formInput {
+					position: relative;
+					input {
+						width: 100%;
+						padding: var(--vspace-0_25);
+						font-size: var(--textSize_16);
+						font-family: var(--font-2);
+						color: var(--textColor);
+						border: 1px solid var(--lightGrayColor);
+						outline: none;
+						transition: all 0.3s;
+
+						&:hover {
+							box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
+							border-color: var(--whiteColor);
+						}
+
+						&:focus {
+							box-shadow: 0px 0px 0px 2px var(--mainColor);
+							border-color: var(--whiteColor);
+						}
+					}
+				}
+
+				.error {
+					font-size: var(--textSize_12);
+					color: var(--errorColor);
+				}
+			}
+			.apiResponse {
+				margin-top: 2rem;
+				margin-bottom: 0;
+			}
+
+			.signInButton {
+				margin-top: var(--vspace-0_5);
+				padding: 0 3.2rem;
+				height: var(--btn-heightXs);
+				font-size: 16px;
+				color: var(--whiteColor);
+				background-color: var(--blackColor);
+				line-height: calc(var(--btn-heightXs) - 1rem);
+				letter-spacing: 0.2em;
+				white-space: nowrap;
+				border: none;
+				border-radius: 0;
+				cursor: pointer;
+				transition: all 0.3s;
+
+				&:hover {
+					background-color: var(--blackColorHover);
+				}
+			}
+
+			.forgotPassword {
+				align-self: flex-end;
+				font-size: var(--textSize_14);
+				color: var(--color-text-light);
+				transition: all 0.3s;
+
+				&:hover {
+					color: var(--mainColor);
+				}
+			}
+		}
+	}
+}
+
+@media (width < 600px) {
+	.loginWrapper {
+		padding: 2rem;
+	}
+}

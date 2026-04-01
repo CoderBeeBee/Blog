@@ -1,4 +1,4 @@
-import {  type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, useLocation } from 'react-router'
 import type { RootState } from '../../store'
@@ -10,13 +10,12 @@ interface AdminGuardProps {
 const AdminGuard = ({ children }: AdminGuardProps) => {
 	const { isLogged, role } = useSelector((state: RootState) => state.auth)
 	const location = useLocation()
-	
 
 	if (!isLogged) {
-		return <Navigate to="/login" replace  state={{from:location}}/>
+		return <Navigate to="/admin/login" replace state={{ from: location }} />
 	}
 
-	if (role !== 'Admin' && role !== 'Moderator' ) {
+	if (role === 'User' ) {
 		return <Navigate to="/" replace />
 	}
 

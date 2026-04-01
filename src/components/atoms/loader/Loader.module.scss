@@ -23,7 +23,7 @@
 		width: 120px;
 		height: 120px;
 
-		opacity: 0;
+		opacity: 1;
 
 		.roller {
 			display: block;
@@ -33,10 +33,10 @@
 
 			div {
 				position: absolute;
-				animation: spin 2s cubic-bezier(0.1, 0, 0.5, 1) infinite;
+				animation: spin 3s cubic-bezier(0.1, 0, 0.5, 1) infinite;
 				transform-origin: 40px 40px;
-				
-				// opacity: 0;
+
+				opacity: 0;
 
 				&::after {
 					content: ' ';
@@ -117,11 +117,12 @@
 		}
 	}
 	.show {
-		animation-delay: 0.3s;
-		animation-duration: 0.2s;
-		animation-name: in;
-		animation-fill-mode: forwards;
-		animation-timing-function: ease-in-out;
+		// animation-delay: 0.3s;
+		// animation-duration: 0.2s;
+		// animation-name: in;
+		// animation-fill-mode: forwards;
+		// animation-timing-function: ease-in-out;
+		animation: in 6s ease-in-out infinite;
 	}
 
 	.hide {
@@ -132,9 +133,10 @@
 }
 
 @keyframes spin {
-	0% {
+	20% {
 		opacity: 0;
-	}90%{
+	}
+	90% {
 		opacity: 1;
 	}
 	100% {
@@ -146,6 +148,8 @@
 
 @keyframes in {
 	100% {
-		opacity: 1;
+		// opacity: 1;
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
 	}
 }

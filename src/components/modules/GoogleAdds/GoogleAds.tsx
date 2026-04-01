@@ -1,36 +1,58 @@
-// import React, { useEffect } from 'react'
-// interface GoogleAdProps {
-// 	client: string // np. "ca-pub-XXXXXXXXXXXX"
-// 	slot: string // unikalny slot reklamy np. "1234567890"
-// 	style?: React.CSSProperties // opcjonalny styl np. szerokość/blok
-// 	format?: string // np. "auto", "fluid"
-// 	responsive?: boolean // true jeśli ma być responsive
-// }
-// const GoogleAds = ({
-// 	client,
-// 	slot,
-// 	style = { display: 'block' },
-// 	format = 'auto',
-// 	responsive = true,
-// }: GoogleAdProps) => {
-// 	useEffect(() => {
-// 		try {
-// 			;(window.adsbygoogle = window.adsbygoogle || []).push({})
-// 		} catch (err) {
-// 			console.error('Google Ads error:', err)
-// 		}
-// 	}, [slot])
+import React, { useEffect, useRef } from 'react'
 
-// 	return (
-// 		<ins
-// 			className="adsbygoogle"
-// 			style={style}
-// 			data-ad-client={client}
-// 			data-ad-slot={slot}
-// 			data-ad-format={format}
-// 			data-full-width-responsive={responsive ? 'true' : 'false'}
-// 		/>
-// 	)
-// }
+interface GoogleAdProps {
+	client: string | undefined
+	slot: string | undefined
+	style?: React.CSSProperties
+	format?: string
+	responsive?: boolean
+	className: string
+}
 
-// export default GoogleAds
+declare global {
+	interface Window {
+		adsbygoogle?: Array<Record<string, unknown>>
+	}
+}
+
+const GoogleAds = ({
+	client,
+	slot,
+	style = { display: 'block' },
+	className,
+	format = 'auto',
+	responsive = true,
+}: GoogleAdProps) => {
+	const adRef = useRef<HTMLModElement | null>(null)
+
+	useEffect(() => {
+		if (!client || !slot) return
+		if (!adRef.current) return
+
+		if (adRef.current?.getAttribute('data-ads-loaded') === 'true') {
+			return
+		}
+
+		try {
+			;(window.adsbygoogle = window.adsbygoogle || []).push({})
+			adRef.current?.setAttribute('data-ads-loaded', 'true')
+		} catch (err) {
+			console.error('AdSense error:', err)
+		}
+	}, [client, slot])
+	if (!client) return null
+	return (
+		<ins
+			data-aos="fade-up"
+			ref={adRef}
+			className={`adsbygoogle ${className}`}
+			style={style}
+			data-ad-client={client}
+			data-ad-slot={slot}
+			data-ad-format={format}
+			data-full-width-responsive={responsive ? 'true' : 'false'}
+		/>
+	)
+}
+
+export default GoogleAds

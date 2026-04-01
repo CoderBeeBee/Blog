@@ -14,18 +14,24 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import GoogleAds from '../../modules/GoogleAdds/GoogleAds'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 interface ArticleMiddleSideProps {
 	styles: { [key: string]: string }
 }
 
 type ArticleBlock =
-	| { type: 'text'  | 'add'; value: string }
+	| { type: 'text' | 'add'; value: string; client?: string; slot?: string }
 	| { type: 'image'; value: { src: string; alt: string; caption: string } }
 
 const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
+	const isDev = import.meta.env.VITE_NODE_ENV === 'development'
+
+	const slot = ''
 	const { articleContent, introduction } = usePostContext()
 	const [likeMessage, setLikeMessage] = useState<string>('')
-	const { search } = useLocation()
+	const { search, pathname } = useLocation()
+
 	const params = new URLSearchParams(search)
 	const postId = params.get('id')
 	const { id, isLogged } = useSelector((state: RootState) => state.auth)
@@ -35,16 +41,25 @@ const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 	const { data: likedPost } = useFetchUserLikedPostQuery({ postId, userId: id }, { skip: !isLogged || !postId || !id })
 
 	const { data: postLikes } = useFetchLivePostLikesQuery(postId!, { skip: !postId })
-
-
-
+	const { ads } = useGlobalContext()
+	
 	const articleWithAds = useMemo<ArticleBlock[]>(() => {
 		if (!articleContent) return []
 
 		return articleContent.flatMap((block, index) => {
-			return (index + 1) % 4 === 0 ? [block, { type: 'add', value: 'ad-slot-1' }] : [block]
+			return (index + 1) % 4 === 0
+				? [
+						block,
+						{
+							type: 'add',
+							value: 'ad-slot-1',
+							client: ads.client,
+							slot: isDev ? '6300978111' : slot,
+						},
+					]
+				: [block]
 		})
-	}, [articleContent])
+	}, [ads.client, articleContent, isDev])
 
 	const handleSetLike = async () => {
 		if (!postId) return
@@ -80,29 +95,24 @@ const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 
 	return (
 		<div className={styles.articleMiddleSideContainer}>
-			
 			<ReactMarkdown remarkPlugins={[remarkGfm]}>{introduction}</ReactMarkdown>
 			<div className={styles.articleContentContainer}>
 				<div className={styles.articleContent}>
 					{articleWithAds.map((item: ArticleBlock, index: number) => {
-						
 						if (item.type === 'text') {
 							return (
-								
 								<ReactMarkdown key={index} remarkPlugins={[remarkGfm]}>
 									{item.value}
 								</ReactMarkdown>
 							)
 						}
+
 						if (item.type === 'add') {
-							return (
-								<img
-									src="https://placehold.co/800x150/EEE/D3D3D3D3?font=open-sans&text=Google%20Adds"
-									alt="Google Adds"
-									key={index}
-									className={styles.articleAdd}
-								/>
-							)
+							return ads.slots.singlePost.enableAd ? (
+								<GoogleAds className={styles.articleAdd} key={pathname + index} client={item.client} slot={item.slot} />
+							) : null
+								
+							
 						}
 						if (item.type === 'image') {
 							return (
@@ -113,7 +123,7 @@ const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 								</div>
 							)
 						}
-						
+
 						return null
 					})}
 				</div>

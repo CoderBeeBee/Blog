@@ -5,7 +5,6 @@ import ControlPanelSignIn from '../../atoms/ControlPanelSignIn/ControlPanelSignI
 import ControlPanelUser from '../../atoms/ControlPanelUser/ControlPanelUser'
 import type { MouseEvent } from 'react'
 
-
 interface ControlPanelProps {
 	styles: Record<string, string>
 	index: number
@@ -14,8 +13,8 @@ interface ControlPanelProps {
 }
 
 const ControlPanel = ({ styles, index, activeIndex, handleOpenCloseDropdown }: ControlPanelProps) => {
-	const { isLogged } = useSelector((state: RootState) => state.auth)
-	
+	const { isLogged, role } = useSelector((state: RootState) => state.auth)
+
 	return (
 		<div
 			className={`${styles.navPanelWrapper} ${activeIndex === index ? styles.active : ''}`}
@@ -23,7 +22,7 @@ const ControlPanel = ({ styles, index, activeIndex, handleOpenCloseDropdown }: C
 			onClick={e => {
 				handleOpenCloseDropdown?.(e)
 			}}>
-			{!isLogged ? <ControlPanelSignIn styles={styles} /> : <ControlPanelUser styles={styles} />}
+			{!isLogged ? <ControlPanelSignIn styles={styles} /> : role === 'User' ? <ControlPanelUser styles={styles} /> : ''}
 		</div>
 	)
 }

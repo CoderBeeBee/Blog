@@ -56,6 +56,7 @@ const StaticLayout = () => {
 			<SinglePostProvider>
 				{analytics && analytics.analyticsEnabled && <CookieBanner />}
 				<div data-aos="fade-zoom-in">
+					
 					<Navigation />
 
 					<main style={{ minHeight: '100dvh' }}>

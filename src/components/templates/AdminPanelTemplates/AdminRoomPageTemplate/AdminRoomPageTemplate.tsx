@@ -4,7 +4,7 @@ import styles from './AdminRoomPage.module.scss'
 
 const AdminRoomPageTemplate = () => {
   return (
-    <div className={styles.roomConatiner}>
+    <div className={styles.adminConatiner}>
       <AdminList />
     </div>
   )

@@ -2,29 +2,25 @@
 	position: relative;
 	grid-area: b;
 
-	padding: 3rem;
+	padding: 2rem;
 	color: var(--blackColor);
 	background-color: var(--whiteColor);
 	border-radius: var(--borderRadius16);
 	overflow: hidden;
-
-	.popularPostsContainerTitle {
+	.popularPostHeader {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
 		margin-bottom: 2rem;
-		color: var(--lighterBlackColor);
-		font-weight: 500;
-	}
-	.addNewPost {
-		position: absolute;
-		top: 5%;
-		right: 3rem;
-		padding: 0.5rem 1rem;
-		color: var(--mainColor);
-		border: 1px solid var(--mainColor);
-		border-radius: var(--borderRadius06);
-		transition: all 0.3s;
-		&:hover {
-			color: var(--mainColorHover);
-			border: 1px solid var(--mainColorHover);
+		
+		.popularPostsContainerTitle {
+			color: var(--lighterBlackColor);
+			font-size: var(--textSize_22);
+			font-weight: 500;
+		}
+		.createNewPost {
+			padding: 1rem 2rem;
 		}
 	}
 	.popularPostWrapper {
@@ -126,12 +122,5 @@
 @media (max-width: 500px) {
 	.popularPostsContainer {
 		padding: 2rem;
-
-		.addNewPost {
-			position: absolute;
-			top: 3%;
-			right: 2rem;
-			padding: 0.5rem 1rem;
-		}
 	}
 }

@@ -1,4 +1,4 @@
-import { useState, type MouseEvent } from 'react'
+import { type KeyboardEvent, type MouseEvent } from 'react'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 import type { MenuTypes } from '../../../containers/Navigation/dataNavigation/dataNavigation'
 
@@ -9,11 +9,11 @@ interface MenuElementProps {
 	data: MenuTypes
 	index: number
 	styles: { [key: string]: string }
-	handleMouseIn?: (e: MouseEvent<HTMLElement>, index: number) => void
-	handleMouseOut?: (e: MouseEvent<HTMLElement>, index: number) => void
+	handleMouseIn?: (index: number) => void
+	handleMouseOut?: () => void
 	handleMouseInDropdown?: (e: MouseEvent<HTMLElement>) => void
 	handleMouseOutDropdown?: (e: MouseEvent<HTMLElement>) => void
-	handleCloseDropDown?: (e: MouseEvent<HTMLLIElement>) => void
+	handleOpenCloseDropdown?: (e: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>) => void
 	toggle?: () => void
 }
 
@@ -25,11 +25,12 @@ const MenuElement = ({
 	handleMouseOut,
 	handleMouseInDropdown,
 	handleMouseOutDropdown,
-	handleCloseDropDown,
+	handleOpenCloseDropdown,
+
 	toggle,
 }: MenuElementProps) => {
-	const { handleOpenCloseDropdown, activeIndex } = useGlobalContext()
-	const [onkeyToogle, setOnKeyToggle] = useState<number | null>(null)
+	const { activeIndex, onKeyDown,onClickCloseDropDown } = useGlobalContext()
+
 	if (data.href === '') {
 		return (
 			<div
@@ -37,17 +38,10 @@ const MenuElement = ({
 				data-element={index}
 				tabIndex={0}
 				className={`${styles.menuElementContainer} ${activeIndex === index ? styles.active : ''}`}
-				onMouseEnter={e => handleMouseIn?.(e, index)}
-				onMouseLeave={e => handleMouseOut?.(e, index)}
-				onClick={e => handleOpenCloseDropdown(e)}
-				onKeyDown={e => {
-					if ('key' in e && e.key !== 'Enter') return
-					if (onkeyToogle === index) {
-						setOnKeyToggle(null)
-					} else {
-						setOnKeyToggle(index)
-					}
-				}}>
+				onMouseEnter={() => handleMouseIn?.(index)}
+				onMouseLeave={() => handleMouseOut?.()}
+				onClick={e => handleOpenCloseDropdown?.(e)}
+				onKeyDown={e => onKeyDown(e, index)}>
 				<div className={styles.menuElement}>
 					<span className={styles.title}>{data.title}</span>
 
@@ -57,13 +51,13 @@ const MenuElement = ({
 				{data.children?.length && (
 					<DropdownMenu
 						styles={styles}
-						onkeyToogle={onkeyToogle}
+						activeIndex={activeIndex}
 						data={data}
 						index={index}
 						toggle={toggle}
+						onClickCloseDropDown={onClickCloseDropDown}
 						handleMouseInDropdown={handleMouseInDropdown}
 						handleMouseOutDropdown={handleMouseOutDropdown}
-						handleCloseDropDown={handleCloseDropDown}
 					/>
 				)}
 			</div>

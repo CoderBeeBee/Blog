@@ -5,6 +5,7 @@ import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 
 import handleCreateUrl from '../../../hooks/createUrl'
 import type { TopRatedStatsTypes } from '../../../types/types'
+import CreateButton from '../../atoms/CreateButton/CreateButton'
 
 interface PopularPostsProps {
 	topRated: TopRatedStatsTypes[]
@@ -13,10 +14,11 @@ interface PopularPostsProps {
 const PopularPosts = ({ topRated }: PopularPostsProps) => {
 	return (
 		<div className={styles.popularPostsContainer}>
-			<h3 className={styles.popularPostsContainerTitle}>Popular Posts</h3>
-			<AnchorLink href={`/admin/posts/addpost`} className={styles.addNewPost}>
-				+ Add New
-			</AnchorLink>
+			<div className={styles.popularPostHeader}>
+				<h3 className={styles.popularPostsContainerTitle}>Popular Posts</h3>
+
+				<CreateButton href="/admin/blog/addpost" ariaLabel="Create new post" className={styles.createNewPost} />
+			</div>
 			{topRated?.map((post, index) => {
 				const url = handleCreateUrl({ categories: post.categories, seo: post.seo, _id: post.postId })
 

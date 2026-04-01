@@ -15,12 +15,12 @@
 .trash {
 	width: 20px;
 	height: 20px;
-	fill: #000000;
+	fill: var(--errorColor);
 	cursor: pointer;
 	transition: all 0.3s;
 
 	&:hover {
-		fill: #910000;
+		fill: #d10000;
 	}
 }
 .sort {
@@ -110,6 +110,22 @@
 	height: 20px;
 }
 .newsletterSVG {
+	width: 20px;
+	height: 20px;
+}
+.adsSVG {
+	width: 20px;
+	height: 20px;
+}
+.websiteSVG {
+	width: 20px;
+	height: 20px;
+}
+.detailsSVG {
+	width: 20px;
+	height: 20px;
+}
+.plusSVG,.filterSVG {
 	width: 20px;
 	height: 20px;
 }

@@ -140,7 +140,7 @@ const Subscribers = () => {
 		<div className={styles.subscribersWrapper}>
 			<div className={styles.listWrapperHeader}>
 				<h3 className={styles.listTitle}>Subscribers</h3>
-				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+				<TabelSearch handleSetInputValue={handleSetInputValue} />
 			</div>
 
 			<div ref={subRef} className={styles.listContainer}>
@@ -148,7 +148,7 @@ const Subscribers = () => {
 					<div className={styles.thead}>
 						<div className={styles.tr}>
 							{theadSubscribers.map((item, index) => {
-								if (item !== 'actions') {
+								if (item !== 'operations') {
 									return (
 										<div data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
 											{item} <ChevronDownSVG className={`${item === focusedChevron ? styles.chevronRotate : ''}`} />

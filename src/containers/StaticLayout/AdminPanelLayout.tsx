@@ -7,13 +7,14 @@ import { adminLinks } from '../../utils/sideBarLinks'
 
 import SideBarLink from '../../components/atoms/SidebarLink/SideBarLink'
 
-import NavPanel from '../../components/atoms/NavPanel/NavPanel'
+
+import AdminNavigation from '../Navigation/AdminNavigation/AdminNavigation'
 
 const AdminPanelLayout = () => {
 	return (
 		<GlobalProvider>
 			<div className={styles.adminPanelLayoutContainer}>
-				<NavPanel />
+				<AdminNavigation />
 				<div className={styles.adminPanelWrapper}>
 					<SideBar>
 						{adminLinks.map((data, index) => (

@@ -18,7 +18,7 @@ export const commentsApi = createApi({
 
 				es.addEventListener('comment', e => {
 					const { type, comment, id } = JSON.parse(e.data)
-					
+
 					updateCachedData(draft => {
 						if (type === 'insert') draft.push(comment)
 						if (type === 'update') {
@@ -26,6 +26,7 @@ export const commentsApi = createApi({
 							if (idx !== -1) draft[idx] = comment
 						}
 						if (type === 'delete') {
+							// return draft.filter(c => !ids.includes(c._id))
 							return draft.filter(c => c._id !== id)
 						}
 					})
@@ -42,7 +43,7 @@ export const commentsApi = createApi({
 				headers: { 'Content-type': 'application/json' },
 				body: { comment, parentId },
 			}),
-			invalidatesTags: (_r, _e, { postId }) => [{ type: 'Comments', id: postId }],
+			invalidatesTags: () => [{ type: 'Comments', id: 'LIST' }],
 		}),
 		updateComment: builder.mutation({
 			query: ({ commentId, comment }) => ({
@@ -51,15 +52,16 @@ export const commentsApi = createApi({
 				headers: { 'Content-type': 'application/json' },
 				body: { comment },
 			}),
-			invalidatesTags: (_r, _e, { commentId }) => [{ type: 'Comments', id: commentId }],
+			invalidatesTags: () => [{ type: 'Comments', id: 'LIST' }],
 		}),
 		deleteComment: builder.mutation({
-			query: ({ commentId }) => ({
-				url: `${COMMENTS_URL}/${commentId}`,
+			query: commentsId => ({
+				url: `${COMMENTS_URL}`,
 				method: 'DELETE',
 				headers: { 'Content-type': 'application/json' },
+				body: { commentsId },
 			}),
-			invalidatesTags: (_r, _e, { commentId }) => [{ type: 'Comments', id: commentId }],
+			invalidatesTags: () => [{ type: 'Comments', id: 'LIST' }],
 		}),
 
 		fetchAllComments: builder.query({
@@ -70,7 +72,7 @@ export const commentsApi = createApi({
 
 				return `${COMMENTS_URL}/?${queryString}`
 			},
-			providesTags: () => [{ type: 'Comments' }],
+			providesTags: () => [{ type: 'Comments', id: 'LIST' }],
 		}),
 	}),
 })

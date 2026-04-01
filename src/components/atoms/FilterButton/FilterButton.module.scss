@@ -1,0 +1,22 @@
+.filterButton {
+	max-width: 60px;
+	margin-left: 2rem;
+	padding: 0.75rem 1.5rem;
+	background-color: var(--whiteColor);
+	border: 1px solid var(--lightGrayColor);
+	border-radius: var(--borderRadius06);
+	color: var(--darkerGrayColor);
+	cursor: pointer;
+    transition: all .3s;
+
+    &:hover{
+        color: var(--mainColor);
+        border-color: var(--mainColor);
+    }
+}
+
+@media (width <= 800px) {
+	.filterButton {
+		margin-left: 0;
+	}
+}

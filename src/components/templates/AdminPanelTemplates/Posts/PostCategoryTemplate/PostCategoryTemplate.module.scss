@@ -1,0 +1,9 @@
+.postCategoryContainer {
+	display: flex;
+	flex-direction: column;
+	min-height: 100dvh;
+	height: 100%;
+	width: 100%;
+	background-color: var(--pagesBgc);
+	padding: 2rem 2rem;
+}

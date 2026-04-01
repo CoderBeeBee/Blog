@@ -21,7 +21,7 @@ const SingleCategoryPage = lazy(() => import('./components/pages/CategoryPage/Si
 // User pages
 const LoginPage = lazy(() => import('./components/pages/LoginPage/LoginPage'))
 const RegistrationPage = lazy(() => import('./components/pages/RegistrationPage/RegistrationPage'))
-const VerifyPage = lazy(() => import('./components/pages/VerifyPage/VerifyPage'))
+const VerifyAccountPage = lazy(() => import('./components/pages/VerifyAccountPage/VerifyAccountPage'))
 
 // Admin pages
 const DashboardPage = lazy(() => import('./components/pages/AdminPanel/Dashboard/DashboardPage'))
@@ -29,15 +29,11 @@ const AdminRoomPage = lazy(() => import('./components/pages/AdminPanel/AdminRoom
 const ListOfPostPage = lazy(() => import('./components/pages/AdminPanel/Posts/ListOfPostPage/ListOfPostPage'))
 const AddPostPage = lazy(() => import('./components/pages/AdminPanel/Posts/AddPostPage/AddPostPage'))
 const EditPostPage = lazy(() => import('./components/pages/AdminPanel/Posts/EditPostPage/EditPostPage'))
-const PostCategoryTagPage = lazy(
-	() => import('./components/pages/AdminPanel/Posts/PostCategoryTagPage/PostCategoryTagPage'),
-)
+const PostCategoryPage = lazy(() => import('./components/pages/AdminPanel/Posts/PostCategoryPage/PostCategoryPage'))
 const PostHistory = lazy(() => import('./components/pages/AdminPanel/Posts/PostHistory/PostHistory'))
 const ListPage = lazy(() => import('./components/pages/AdminPanel/Users/ListPage/ListPage'))
 const AddUserPage = lazy(() => import('./components/pages/AdminPanel/Users/AddUserPage/AddUserPage'))
-const RoleAndPermissionsPage = lazy(
-	() => import('./components/pages/AdminPanel/Users/RoleAndPermissionsPage/RoleAndPermissionsPage'),
-)
+
 const ListOfCommentsPage = lazy(
 	() => import('./components/pages/AdminPanel/Comments/ListOfComments/ListOfCommentsPage'),
 )
@@ -56,7 +52,6 @@ const IntegrationsSettingsPage = lazy(
 )
 // Account pages
 const ProfilePage = lazy(() => import('./components/pages/AccountPages/ProfilePage/ProfilePage'))
-const ResetPasswordPage = lazy(() => import('./components/pages/AccountPages/ResetPasswordPage/ResetPasswordPage'))
 const DeleteAccountPage = lazy(() => import('./components/pages/AccountPages/DeleteAccountPage/DeleteAccountPage'))
 const ChangeEmailPage = lazy(() => import('./components/pages/AccountPages/ChangeEmailPage/ChangeEmailPage'))
 
@@ -80,13 +75,18 @@ const LegalAcknowledgmentsPage = lazy(
 	() => import('./components/pages/AdminPanel/LegalDocuments/LegalAcknowledgmentsPage/LegalAcknowledgmentsPage'),
 )
 
+const SubscriptionPage = lazy(() => import('./components/pages/SubscriptionPage/SubscriptionPage'))
+const UnsubscriptionPage = lazy(() => import('./components/pages/UnsubscriptionPage/UnsubscriptionPage'))
+const NewsletterPage = lazy(() => import('./components/pages/AdminPanel/Newsletter/NewsletterPage'))
+const SubscribersPage = lazy(() => import('./components/pages/AdminPanel/Subscribers/SubscribersPage'))
+const AdsPage = lazy(() => import('./components/pages/AdminPanel/AdsPage/AdsPage'))
+
 import Loader from './components/atoms/loader/Loader'
 import PageNotFound from './components/pages/PageNotFound/PageNotFound'
-
-import SubscriptionPage from './components/pages/SubscriptionPage/SubscriptionPage'
-import UnsubscriptionPage from './components/pages/UnsubscriptionPage/UnsubscriptionPage'
-import NewsletterPage from './components/pages/AdminPanel/Newsletter/NewsletterPage'
-import SubscribersPage from './components/pages/AdminPanel/Subscribers/SubscribersPage'
+import ForgotPasswordPage from './components/pages/ForgotPasswordPage/ForgotPasswordPage'
+import ConfirmResetPasswordPage from './components/pages/ConfirmResetPasswordPage/ConfirmResetPasswordPage'
+import AdminLoginPage from './components/pages/AdminPanel/AdminLoginPage/AdminLoginPage'
+import PostTagPage from './components/pages/AdminPanel/Posts/PostTagPage/PostTagPage'
 
 const App = () => {
 	return (
@@ -112,6 +112,8 @@ const App = () => {
 					</Route>
 					<Route path="/verify-subscription" element={<SubscriptionPage />} />
 					<Route path="/unsubscribe" element={<UnsubscriptionPage />} />
+					<Route path="/reset-password" element={<ForgotPasswordPage />} />
+					<Route path="/confirm-reset-password" element={<ConfirmResetPasswordPage />} />
 
 					{/* User Routes */}
 					<Route
@@ -122,11 +124,12 @@ const App = () => {
 						}>
 						<Route path="/login" element={<LoginPage />} />
 						<Route path="/registration" element={<RegistrationPage />} />
-						<Route path="/verify" element={<VerifyPage />} />
+						<Route path="/verify" element={<VerifyAccountPage />} />
 					</Route>
 				</Route>
 
 				{/* Admin Panel */}
+				<Route path="/admin/login" element={<AdminLoginPage />} />
 				<Route
 					path="/admin"
 					element={
@@ -140,17 +143,17 @@ const App = () => {
 
 					<Route path="room" element={<AdminRoomPage />} />
 
-					<Route path="posts/">
-						<Route path="listofposts" element={<ListOfPostPage />} />
+					<Route path="blog/">
+						<Route path="posts" element={<ListOfPostPage />} />
 						<Route path="addpost" element={<AddPostPage />} />
 						<Route path="editpost" element={<EditPostPage />} />
-						<Route path="categories-tags" element={<PostCategoryTagPage />} />
-						<Route path="posts-history" element={<PostHistory />} />
+						<Route path="categories" element={<PostCategoryPage />} />
+						<Route path="tags" element={<PostTagPage />} />
+						<Route path="change-history" element={<PostHistory />} />
 					</Route>
 					<Route path="users/">
 						<Route path="list" element={<ListPage />} />
 						<Route path="adduser" element={<AddUserPage />} />
-						<Route path="permissions" element={<RoleAndPermissionsPage />} />
 						<Route path="users-history" element={<UsersHistory />} />
 					</Route>
 					<Route path="comments/">
@@ -178,6 +181,7 @@ const App = () => {
 					</Route>
 					<Route path="newsletter" element={<NewsletterPage />} />
 					<Route path="subscribers" element={<SubscribersPage />} />
+					<Route path="advertisements" element={<AdsPage />} />
 				</Route>
 
 				{/* Settings */}
@@ -191,7 +195,6 @@ const App = () => {
 						</AuthGuard>
 					}>
 					<Route index element={<ProfilePage />} />
-					<Route path="reset-password" element={<ResetPasswordPage />} />
 					<Route path="delete" element={<DeleteAccountPage />} />
 					<Route path="change-email" element={<ChangeEmailPage />} />
 				</Route>

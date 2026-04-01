@@ -1,0 +1,30 @@
+import useGlobalContext from '../../../hooks/useGlobalContext'
+
+import type { ReactNode } from 'react'
+
+interface LogoutButtonProps {
+	children: ReactNode
+	className: string
+	ariaLabel?: string
+}
+
+const LogoutButton = ({ children, className, ariaLabel }: LogoutButtonProps) => {
+	const { signOut, mobileMenu, openCloseUserMenu } = useGlobalContext()
+	const { toggle } = mobileMenu
+	return (
+		<button
+			type="button"
+			title="Logout"
+			aria-label={ariaLabel}
+			className={className}
+			onClick={() => {
+				signOut()
+				toggle()
+				openCloseUserMenu()
+			}}>
+			{children}
+		</button>
+	)
+}
+
+export default LogoutButton

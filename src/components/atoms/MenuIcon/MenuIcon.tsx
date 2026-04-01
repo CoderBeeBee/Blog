@@ -4,17 +4,17 @@ import useWindowSize from '../../../hooks/useWindowSize'
 import useGlobalContext from '../../../hooks/useGlobalContext'
 
 const MenuIcon = () => {
-	const size = useWindowSize()
+	const {width} = useWindowSize()
 	const refBtn = useRef<HTMLButtonElement>(null)
 	const { mobileMenu } = useGlobalContext()
 	const { toggle } = mobileMenu
 	useEffect(() => {
-		if (size.width <= 900) {
+		if (width <= 900) {
 			refBtn.current?.classList.add(styles.toggle)
 		} else {
 			refBtn.current?.classList.remove(styles.toggle)
 		}
-	}, [size])
+	}, [width])
 
 	return (
 		<button ref={refBtn} className={styles.btn} title="Menu" onClick={() => toggle()}>

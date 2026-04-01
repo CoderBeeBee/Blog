@@ -12,7 +12,8 @@ import RHFInput from '../../atoms/RHFInput/RHFInput'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import RHFCheckbox from '../../atoms/RHFCheckbox/RHFCheckbox'
 import CheckMark from '../../atoms/Checkmark/CheckMark'
-import GreetingWrapper from '../../modules/GreetingWrapper/GreetingWrapper'
+import Logo from '../../atoms/logo/Logo'
+import SocialLinks from '../../modules/SocialLinks/SocialLinks'
 
 const registrationSchema = z
 	.object({
@@ -66,7 +67,7 @@ const Registration = () => {
 	const onSubmit: SubmitHandler<registrationFields> = async data => {
 		try {
 			if (!data) return
-			
+
 			const res = await createAccount({
 				name: data.name,
 				email: data.email,
@@ -110,7 +111,7 @@ const Registration = () => {
 	return (
 		<FormProvider {...methods}>
 			<div className={styles.registrationWrapper}>
-				<GreetingWrapper />
+				<Logo styles={styles} />
 				<div className={styles.formContainer}>
 					<h1>Create an account</h1>
 					<p>
@@ -154,8 +155,8 @@ const Registration = () => {
 								<>
 									<CheckMark isChecked={consents} className={styles.checkMark} />
 									<span>
-										I have read and understood the <AnchorLink href="/privacy-policy">Privacy Policy</AnchorLink> and{' '}
-										<AnchorLink href="/terms-and-conditions">Terms and Conditions</AnchorLink>
+										I have read and understood the <AnchorLink href="/terms-and-conditions">Terms</AnchorLink> and {' '}
+										<AnchorLink href="/privacy-policy">Privacy Policy</AnchorLink>
 									</span>
 								</>
 							</RHFCheckbox>
@@ -169,6 +170,12 @@ const Registration = () => {
 							{isSubmitting ? 'Creating...' : 'Create account'}
 						</FormBtn>
 					</form>
+				</div>
+				<div className={styles.socialWrapper}>
+					<p className={styles.followUs}>Follow us:</p>
+					<div className={styles.linksBox}>
+						<SocialLinks />
+					</div>
 				</div>
 			</div>
 		</FormProvider>
