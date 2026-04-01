@@ -1,4 +1,12 @@
-import { useEffect, type ChangeEvent, type Dispatch, type MouseEvent, type SetStateAction } from 'react'
+import {
+	useEffect,
+	type ChangeEvent,
+	type Dispatch,
+	type KeyboardEvent,
+	type MouseEvent,
+	type RefObject,
+	type SetStateAction,
+} from 'react'
 import styles from './ChangeHistory.module.scss'
 import TabelSearch from '../../modules/TabelSearch/TabelSearch'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
@@ -6,7 +14,6 @@ import TabelPagination from '../../modules/TabelPagination/TabelPagination'
 import { noChevron, rowsNumbers, theadHistory } from '../../../utils/data'
 import type { auditlogsProps } from '../../../types/types'
 
-import useSort from '../../../hooks/useSort'
 import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
 import useFilters from '../../../hooks/useFilters'
 import FilterButton from '../../atoms/FilterButton/FilterButton'
@@ -22,13 +29,16 @@ interface AttemptsProps {
 	setRows: Dispatch<SetStateAction<number>>
 	setStart: Dispatch<SetStateAction<number>>
 	setEnd: Dispatch<SetStateAction<number>>
-	// setSort: Dispatch<SetStateAction<{ sortBy: string; order: string }>>
+	handleSetSort: (e: MouseEvent<HTMLDivElement | HTMLButtonElement> | KeyboardEvent) => void
+	handleResetSort: () => void
+	focusedChevron: string
+	listRef: RefObject<HTMLDivElement | null>
 	totalPages: number
 	total: number
 	rows: number
 	start: number
 	end: number
-	href:string
+	href: string
 }
 
 const ChangeHistory = ({
@@ -39,17 +49,18 @@ const ChangeHistory = ({
 	setRows,
 	setStart,
 	setEnd,
-	// setSort,
 	totalPages,
 	total,
 	rows,
 	start,
 	end,
-	href
+	href,
+	handleSetSort,
+	focusedChevron,
+	handleResetSort,
+	listRef,
 }: AttemptsProps) => {
-	const { listRef, handleSetSort, focusedChevron, handleResetSort } = useSort()
-	
-	const filtersOption = ['none']
+	const filtersOption = ['-----']
 	const { filters, setFilters } = useFilters()
 	const handleSetInputValue = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.target as HTMLInputElement
@@ -79,6 +90,8 @@ const ChangeHistory = ({
 				setCurrentPage(prev => prev + 1)
 			}
 		}
+
+		// if (!listRef) return
 
 		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}
@@ -140,7 +153,6 @@ const ChangeHistory = ({
 											<th data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
 												{item}{' '}
 												<ChevronDownSVG
-												
 													className={`${styles.chevronSVG} ${item === focusedChevron ? styles.chevronRotate : ''}`}
 												/>
 											</th>
@@ -169,7 +181,7 @@ const ChangeHistory = ({
 									<td className={styles.td}>{audit.source}</td>
 
 									<td className={styles.td}>
-										<AnchorLink ariaLabel='Details' title='Details' href={href} className={styles.detailsLink}>
+										<AnchorLink ariaLabel="Details" title="Details" href={href} className={styles.detailsLink}>
 											<DetailsSVG />
 										</AnchorLink>
 									</td>

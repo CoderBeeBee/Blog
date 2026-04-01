@@ -3,4 +3,4 @@ User-agent: *
 Disallow: /admin/ 
 Disallow: /login/
 
-Sitemap: https://coderbeebee.netlify.app/sitemap.xml
+Sitemap: https://backend-ei7q.onrender.com/api/sitemap.xml

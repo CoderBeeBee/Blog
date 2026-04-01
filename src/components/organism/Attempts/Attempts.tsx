@@ -148,7 +148,7 @@ const Attempts = ({
 		<div className={styles.attemptsWrapper}>
 			<div className={styles.listWrapperHeader}>
 				<h3 className={styles.listTitle}>{children}</h3>
-				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+				<TabelSearch  handleSetInputValue={handleSetInputValue} />
 			</div>
 
 			<div ref={listRef} className={styles.listContainer}>

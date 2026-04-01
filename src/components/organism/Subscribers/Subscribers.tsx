@@ -140,7 +140,7 @@ const Subscribers = () => {
 		<div className={styles.subscribersWrapper}>
 			<div className={styles.listWrapperHeader}>
 				<h3 className={styles.listTitle}>Subscribers</h3>
-				<TabelSearch styles={styles} handleSetInputValue={handleSetInputValue} />
+				<TabelSearch handleSetInputValue={handleSetInputValue} />
 			</div>
 
 			<div ref={subRef} className={styles.listContainer}>

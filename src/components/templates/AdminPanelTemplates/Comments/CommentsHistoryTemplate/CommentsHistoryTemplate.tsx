@@ -15,8 +15,8 @@ const CommentsHistoryTemplate = () => {
 	const [start, setStart] = useState<number>(0)
 	const [end, setEnd] = useState<number>(0)
 
-	const { sort } = useSort()
-	
+	const { sort, listRef, handleSetSort, focusedChevron, handleResetSort } = useSort()
+
 	const href = `${pathname}/details`
 
 	const { data } = useFetchAuditLogsQuery(
@@ -42,6 +42,10 @@ const CommentsHistoryTemplate = () => {
 				setRows={setRows}
 				setStart={setStart}
 				setEnd={setEnd}
+				handleSetSort={handleSetSort}
+				handleResetSort={handleResetSort}
+				focusedChevron={focusedChevron}
+				listRef={listRef}
 				totalPages={totalPages}
 				total={total}
 				rows={rows}

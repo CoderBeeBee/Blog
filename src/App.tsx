@@ -29,9 +29,7 @@ const AdminRoomPage = lazy(() => import('./components/pages/AdminPanel/AdminRoom
 const ListOfPostPage = lazy(() => import('./components/pages/AdminPanel/Posts/ListOfPostPage/ListOfPostPage'))
 const AddPostPage = lazy(() => import('./components/pages/AdminPanel/Posts/AddPostPage/AddPostPage'))
 const EditPostPage = lazy(() => import('./components/pages/AdminPanel/Posts/EditPostPage/EditPostPage'))
-const PostCategoryPage = lazy(
-	() => import('./components/pages/AdminPanel/Posts/PostCategoryPage/PostCategoryPage'),
-)
+const PostCategoryPage = lazy(() => import('./components/pages/AdminPanel/Posts/PostCategoryPage/PostCategoryPage'))
 const PostHistory = lazy(() => import('./components/pages/AdminPanel/Posts/PostHistory/PostHistory'))
 const ListPage = lazy(() => import('./components/pages/AdminPanel/Users/ListPage/ListPage'))
 const AddUserPage = lazy(() => import('./components/pages/AdminPanel/Users/AddUserPage/AddUserPage'))
