@@ -1,5 +1,5 @@
 import styles from './Profile.module.scss'
-import { useEffect, useRef, useState, type ChangeEvent } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form'
@@ -8,22 +8,22 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useCreateCloudinarySignatureMutation } from '../../../slices/api/cloudinaryApi'
 import { useFetchUserProfileQuery, useUpdateProfileMutation } from '../../../slices/api/userApi'
 import WrapperBox from '../../atoms/WrapperBox/WrapperBox'
-import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
-import { UploadSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { setData } from '../../../slices/authSlice'
 import uploadToCloudinary from '../../../hooks/useUploadToCloudinary'
 
 import RHFInput from '../../atoms/RHFInput/RHFInput'
+import RHFAddFile from '../../atoms/RHFAddFile/RHFAddFile'
+import validateImageRHF from '../../../hooks/validateImageRHF'
+import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
 
 const profileSchema = z.object({
 	name: z.string().trim().min(1, { message: 'Field is required' }),
-	// avatar: z
-	// 	.instanceof(File)
-	// 	.or(z.string())
-	// 	.nullable()
-	// 	.refine(v => v !== null, { message: 'Please upload a file' }),
-	avatar: z.union([z.instanceof(File), z.string()]),
+	avatar: z
+		.instanceof(File)
+		.or(z.string())
+		.nullable()
+		.superRefine(validateImageRHF({ maxSizeMB: 1, minWidth: 128, minHeight: 128, maxWidth: 256, maxHeight: 256 })),
 })
 type profileTypes = z.infer<typeof profileSchema>
 
@@ -32,9 +32,6 @@ const Profile = () => {
 	const [updateProfile] = useUpdateProfileMutation()
 	const [createSignature] = useCreateCloudinarySignatureMutation()
 	const dispatch = useDispatch()
-	const [showImage, setShowImage] = useState<boolean>(false)
-
-	const fileInputRef = useRef<HTMLInputElement>(null)
 	const [profileErrorMessage, setProfileErrorMessage] = useState<string>('')
 	const [profileSuccessMessage, setProfileSuccessMessage] = useState<string>('')
 
@@ -46,63 +43,19 @@ const Profile = () => {
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
 			name: '',
-			avatar: '',
+			avatar: null,
 		},
 	})
 	const {
 		control,
 		handleSubmit,
-		register,
-
-		setValue,
 		reset,
 		formState: { isSubmitting, isDirty },
 	} = methods
 
 	const [avatar] = useWatch({ control, name: ['avatar'] })
 
-	const onChangeInputProfile = (e: ChangeEvent<HTMLInputElement>) => {
-		const target = e.currentTarget
-
-		const { type } = target
-
-		if (type === 'file') {
-			const file = target.files?.[0]
-			if (!file) return
-
-			const maxSizeMB = 3
-			if (file.size / 1024 / 1024 > maxSizeMB) {
-				setProfileErrorMessage(`Plik musi być mniejszy niż ${maxSizeMB} MB`)
-				setValue('avatar', profileData.avatar?.src)
-				if (fileInputRef.current) fileInputRef.current.value = ''
-				return
-			}
-
-			const objectUrl = URL.createObjectURL(file)
-			const img = new Image()
-			img.src = objectUrl
-			img.onload = () => {
-				const { width, height } = img
-
-				// Przykładowa walidacja
-				if (width < 128 || height < 128) {
-					setProfileErrorMessage('Obraz jest za mały! Minimum 128x128 px')
-					setValue('avatar', profileData.avatar?.src)
-
-					if (fileInputRef.current) fileInputRef.current.value = ''
-					return
-				}
-				if (width > 256 || height > 256) {
-					setProfileErrorMessage('Obraz jest za duży! Maksimum 256x256 px')
-					setValue('avatar', profileData.avatar?.src)
-
-					if (fileInputRef.current) fileInputRef.current.value = ''
-					return
-				}
-			}
-			setValue('avatar', file, { shouldValidate: true })
-		}
-	}
+	
 
 	const onSubmit: SubmitHandler<profileTypes> = async data => {
 		let updatedAvatar = {}
@@ -186,35 +139,14 @@ const Profile = () => {
 								{profileSuccessMessage ? profileSuccessMessage : <>{profileErrorMessage}</>}
 							</APIResponseMessage>
 						)}
-						<label
-							htmlFor="avatar"
-							className={`${styles.avatarBox} ${!avatar ? styles.avatarShadow : ''}`}
-							onMouseEnter={() => setShowImage(true)}
-							onMouseLeave={() => setShowImage(false)}>
-							<input
-								type="file"
-								id="avatar"
-								disabled={isSubmitting}
-								aria-readonly={isSubmitting}
-								{...register('avatar', {
-									onChange: e => {
-										onChangeInputProfile(e)
-									},
-								})}
-							/>
 
-							{typeof avatar === 'string' ? (
-								<img src={avatar} alt="User Avatar" />
-							) : (
-								avatar instanceof File && <img src={URL.createObjectURL(avatar)} alt="User Avatar" />
-							)}
-
-							{(!avatar || showImage) && (
-								<div className={`${styles.image} `}>
-									<UploadSVG className={styles.uploadSVG} />
-								</div>
-							)}
-						</label>
+						<RHFAddFile
+							name="avatar"
+							id="avatar"
+							styles={styles}
+							className={` ${!avatar ? styles.avatarShadow : ''}`}
+							fileIndex={-1}
+						/>
 					</div>
 					<RHFInput name="name" id="name" label="Name" type="text" styles={styles} isSubmitting={isSubmitting} />
 

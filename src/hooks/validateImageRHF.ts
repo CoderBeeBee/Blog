@@ -13,6 +13,7 @@ type ImageValidatorOptions = {
 const validateImageRHF =
 	({ required = true, maxSizeMB, minWidth, maxWidth, minHeight, maxHeight }: ImageValidatorOptions) =>
 	async (v: File | string | null, ctx: z.RefinementCtx) => {
+		
 		if (v === null) {
 			if (required) {
 				ctx.addIssue({

@@ -27,54 +27,57 @@ const RHFAddFile = <T extends FieldValues>({
 	className,
 }: RHFAddFileProps<T>) => {
 	const { control } = useFormContext()
-	// const randomIndex = Math.floor(Math.random() * 999)
+	
 
 	return (
 		<Controller
 			control={control}
 			name={`${name}`}
-			render={({ field: { value, onChange }, fieldState: { error } }) => (
-				<div className={`${styles.fileWrapper} ${className ? className : ''}`}>
-					<p className={styles.fileTitle}>{label}</p>
-					<label htmlFor={id} className={`${styles.uploadFile} ${value && styles.uploadFilled}`}>
-						<div className={`${styles.uploadFileShadow} `}>
-							<UploadSVG />
-						</div>
-						{typeof value === 'string' ? (
-							<img src={value} alt="Preview image" className={styles.previewImage} />
-						) : (
-							(value as File) instanceof File && (
-								<img src={URL.createObjectURL(value)} alt="Preview image" className={styles.previewImage} />
-							)
+			render={({ field: { value, onChange }, fieldState: { error } }) => {
+				
+				return (
+					<div className={`${styles.fileWrapper} ${className ? className : ''}`}>
+						<p className={styles.fileTitle}>{label}</p>
+						<label htmlFor={id} className={`${styles.uploadFile} ${value && styles.uploadFilled}`}>
+							<div className={`${styles.uploadFileShadow} `}>
+								<UploadSVG />
+							</div>
+							{typeof value === 'string' ? (
+								<img src={value} alt="Preview image" className={styles.previewImage} />
+							) : (
+								(value as File) instanceof File && (
+									<img src={URL.createObjectURL(value)} alt="Preview image" className={styles.previewImage} />
+								)
+							)}
+						</label>
+						<input
+							ref={el => {
+								if (fileRef && fileIndex === -1) {
+									fileRef.current[0] = el
+								} else if (fileRef) {
+									fileRef.current[fileIndex] = el
+								}
+							}}
+							id={id}
+							className={styles.fileInput}
+							onChange={e => {
+								const file = e.target.files?.[0]
+								if (!file) return
+								onChange(file)
+							}}
+							type="file"
+							disabled={isSubmitting}
+							aria-describedby={error ? `${id}-error` : undefined}
+						/>
+						{error && (
+							<span id={`${id}-error`} className={`${styles.error} ${error ? styles.marginError : ''}`}>
+								{error.message}
+							</span>
 						)}
-					</label>
-					<input
-						ref={el => {
-							if (fileRef && fileIndex === -1) {
-								fileRef.current[0] = el
-							} else if (fileRef) {
-								fileRef.current[fileIndex] = el
-							}
-						}}
-						id={id}
-						className={styles.fileInput}
-						onChange={e => {
-							const file = e.target.files?.[0]
-
-							onChange(file)
-						}}
-						type="file"
-						disabled={isSubmitting}
-						aria-describedby={error ? `${id}-error` : undefined}
-					/>
-					{error && (
-						<span id={`${id}-error`} className={`${styles.error} ${error ? styles.marginError : ''}`}>
-							{error.message}
-						</span>
-					)}
-					{children}
-				</div>
-			)}
+						{children}
+					</div>
+				)
+			}}
 		/>
 	)
 }
