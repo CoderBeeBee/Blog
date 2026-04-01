@@ -47,7 +47,6 @@
 	}
 
 	.profileBox {
-		
 		display: flex;
 		flex-direction: row;
 		width: 100%;
@@ -56,77 +55,73 @@
 			flex-basis: 80%;
 		}
 
-		.avatarBox {
-			position: absolute;
-			top: 2rem;
-			right: 2rem;
-			z-index: 1;
-			width: 70px;
-			height: 70px;
-			overflow: hidden;
-			border-radius: 50%;
-			box-shadow: 0px 0px 3px 3px var(--lightGrayColor);
-			cursor: pointer;
-			transition: all 0.3s;
+		
+		.fileWrapper {
+			display: flex;
+			flex-direction: column;
+			// width: 100%;
 
-			input {
-				display: none;
-			}
-
-			img {
-				width: 100%;
-				height: 100%;
-				opacity: 1;
-				object-fit: cover;
-				transition: all 0.3s;
-			}
-
-			&:hover {
-				
-
-				img {
-					opacity: 0.3;
-				}
-
-				.image {
-					.uploadSVG {
-						fill: var(--mainColor);
-					}
-				}
-			}
-			.image {
+			.uploadFile {
 				position: absolute;
-				top: 0;
-				left: 0;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				width: 100%;
-				height: 100%;
-
-				.uploadSVG {
-					width: 35px;
-					height: 35px;
-					transition: all .3s;
+				top: 2rem;
+				right: 2rem;
+				width: 70px;
+				height: 70px;
+				border-radius: 50%;
+				box-shadow: 0px 0px 3px 3px var(--lightGrayColor);
+				background-color: var(--whiteColor);
+				cursor: pointer;
+				transition: all 0.5s;
+				overflow: hidden;
+				z-index: 1;
+				&:hover {
+					box-shadow: 0px 0px 3px 3px var(--mainColor);
 				}
-			}
-		}
-		.avatarShadow {
-			box-shadow: 0px 0px 3px 3px var(--lightGrayColor);
-			.image {
-
-				.uploadSVG {
-					fill: var(--lightGrayColor);
-					transition: all .3s;
+				.previewImage {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					transition: all 0.5s;
 				}
-			}
+				.uploadFileShadow {
+					position: absolute;
+					top: 0;
+					left: 0;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					width: 100%;
+					height: 100%;
+					cursor: pointer;
+					transition: all 0.5s;
+					z-index: 11;
+					svg {
+						width: 40px;
+						height: 40px;
+						transition: all 0.5s;
+						fill: var(--lightGrayColor);
+						
+						path{
+							stroke-width: 4px;
 
-			&:hover {
-				.image {
-					.uploadSVG {
-						fill: var(--mainColor);
+						}
+					}
+					&:hover {
+						svg {
+							fill: var(--mainColor);
+						}
 					}
 				}
+
+				&:hover {
+					.previewImage {
+						opacity: 0.3;
+					}
+				}
+			}
+
+			.fileInput {
+				display: none;
 			}
 		}
 	}
@@ -142,10 +137,9 @@
 
 		background-color: var(--mainColor);
 		cursor: pointer;
-		
+
 		&:hover {
 			background-color: var(--mainColorHover);
-			
 		}
 	}
 }
