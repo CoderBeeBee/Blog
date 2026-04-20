@@ -13,8 +13,8 @@ export const adminSystemLinks = [
         title:'Add New',
         href:'',
         children:[
-            {title:'Post',href:'/admin/posts/addpost'},
-            {title:'User',href:'/admin/users/adduser'}
+            {title:'Posts',href:'/admin/blog/posts'},
+            {title:'Users',href:'/admin/users/adduser'}
         ]
     }
 ]

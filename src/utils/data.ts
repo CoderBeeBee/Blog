@@ -41,11 +41,11 @@ export const theadUsers = [
 
 export const theadComments = ['checkmark', 'ID', 'comment', 'post Title', 'author', 'created At', 'operations']
 
-export const adminsAndModerators = ['Admin', 'Moderator','Editor']
-export const role = ['Admin', 'Moderator','Editor', 'User']
+export const adminsAndModerators = ['Admin', 'Moderator', 'Editor']
+export const role = ['Admin', 'Moderator', 'Editor', 'User']
 export const rowsNumbers = [10, 25, 50]
 
-export const postStatus = ['Draft', 'Published', 'Scheduled']
+export const postStatus = [{ name: 'Draft' }, { name: 'Published' }, { name: 'Scheduled' }]
 
 export const theadAttempts = [
 	'action',
@@ -58,11 +58,11 @@ export const theadAttempts = [
 	'device',
 	'data',
 ]
-export const theadHistory = ['ID','action', 'performed By', 'created At', 'source', 'details']
+export const theadHistory = ['ID', 'action', 'performed By', 'created At', 'source', 'details']
 
 export const theadSubscribers = ['email', 'isVerified', 'createdAt', 'lastSent', 'nextSent', 'operations']
 
-export const noChevron = [ 'details','ID','operations', 'checkmark', 'image']
+export const noChevron = ['details', 'ID', 'operations', 'checkmark', 'image']
 
 export const userAttempActions = [
 	'LOGIN_ATTEMPT',

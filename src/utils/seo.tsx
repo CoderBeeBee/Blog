@@ -10,9 +10,9 @@ interface SeoProps {
 	type?: 'website' | 'article'
 	publishedTime?: string
 	modifiedTime?: string
-	
+
 	twitterSite?: string
-	defaultLogo?:string
+	defaultLogo?: string
 }
 
 const defaultSeo = {
@@ -21,7 +21,7 @@ const defaultSeo = {
 	keywords: 'Podróże, przygody, blog podróżniczy',
 	author: 'Coding Bee',
 	ogImage: 'https://twoja-strona.pl/default-og-image.jpg',
-	defaultLogo:'',
+	defaultLogo: '',
 	siteName: 'Moja Strona Podróżnicza',
 	twitterCard: 'summary_large_image',
 	canonicalUrl: `${import.meta.env.VITE_SITE_URL}`,
@@ -38,7 +38,7 @@ const Seo = ({
 	publishedTime,
 	modifiedTime,
 	twitterSite,
-	defaultLogo
+	defaultLogo,
 }: SeoProps) => {
 	const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : defaultSeo.canonicalUrl)
 
@@ -47,7 +47,7 @@ const Seo = ({
 	const seoKeywords = keywords || defaultSeo.keywords
 	const seoAuthor = author || defaultSeo.author
 	const seoOgImage = ogImage || defaultSeo.ogImage
-	const seoDefaultLogo = defaultLogo || defaultSeo.defaultLogo 
+	const seoDefaultLogo = defaultLogo || defaultSeo.defaultLogo
 	return (
 		<Helmet>
 			{/* Podstawowe meta */}
@@ -66,12 +66,19 @@ const Seo = ({
 			<meta property="og:title" content={seoTitle} />
 			<meta property="og:description" content={seoDescription} />
 			<meta property="og:image" content={seoOgImage} />
-			
+			<meta
+				property="og:image:alt"
+				content="Poradniki programowania w JavaScript dla początkujących i zaawansowanych"
+			/>
 			<meta property="og:type" content={type} />
 			<meta property="og:url" content={currentUrl} />
 			<meta property="og:site_name" content={defaultSeo.siteName} />
-			{type === 'article' && publishedTime && <meta property="article:published_time" content={new Date(publishedTime).toISOString()} />}
-			{type === 'article' && modifiedTime && <meta property="article:modified_time" content={new Date(modifiedTime).toISOString()} />}
+			{type === 'article' && publishedTime && (
+				<meta property="article:published_time" content={new Date(publishedTime).toISOString()} />
+			)}
+			{type === 'article' && modifiedTime && (
+				<meta property="article:modified_time" content={new Date(modifiedTime).toISOString()} />
+			)}
 			{type === 'article' && seoAuthor && <meta property="article:author" content={seoAuthor} />}
 
 			{/* Twitter Cards */}
@@ -80,7 +87,6 @@ const Seo = ({
 			<meta name="twitter:title" content={seoTitle} />
 			<meta name="twitter:description" content={seoDescription} />
 			<meta name="twitter:image" content={seoOgImage} />
-			
 
 			{/* JSON-LD */}
 			<script type="application/ld+json">
@@ -91,7 +97,7 @@ const Seo = ({
 					description: seoDescription,
 					url: currentUrl,
 					author: seoAuthor ? { '@type': 'Person', name: seoAuthor } : undefined,
-					datePublished: publishedTime ? new Date(publishedTime).toISOString(): undefined,
+					datePublished: publishedTime ? new Date(publishedTime).toISOString() : undefined,
 					dateModified: modifiedTime ? new Date(modifiedTime).toISOString() : undefined,
 				})}
 			</script>

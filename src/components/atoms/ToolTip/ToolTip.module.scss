@@ -1,0 +1,44 @@
+.tooltipBox {
+	position: relative;
+	font-family: var(--fontFamily);
+	.tooltip {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--mainColor);
+		border-radius: 50%;
+		border: none;
+		cursor: pointer;
+		transition: all 0.3s;
+		&:hover {
+			background-color: var(--mainColorHover);
+		}
+		.tipSVG {
+			width: 15px;
+			height: 15px;
+			color: var(--whiteColor);
+		}
+	}
+
+	.tooltipInfo {
+		position: absolute;
+		top: 0;
+		left: 150%;
+		display: none;
+		padding: 0.5rem;
+		width: 200px;
+		max-width: 200px;
+		background-color: #dbf0e4;
+		border-radius: var(--borderRadius06);
+		z-index: 100;
+
+		.tooltipText {
+			font-size: var(--textSize_10);
+			line-height: 1.6rem;
+		}
+	}
+	.displayToolTip {
+		display: flex;
+	}
+}

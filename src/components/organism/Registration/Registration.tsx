@@ -17,13 +17,19 @@ import SocialLinks from '../../modules/SocialLinks/SocialLinks'
 
 const registrationSchema = z
 	.object({
-		name: z.string().trim().min(4, { message: 'Name must have 8 characters' }),
+		name: z
+			.string()
+			.trim()
+			.min(4, { message: 'Name must have at least 4 characters' })
+			.max(32, { message: 'The name is too long. Max 32 characters' }),
 		email: z.email().trim(),
-		password: z.string().trim().min(8, { message: 'Password must have 8 characters' }),
-		repeatPassword: z.string().trim().min(8, { message: 'Repeat password must have 8 characters' }),
-		consents: z
-			.boolean()
-			.refine(v => v === true, { message: 'You must accept the Privacy Policy and Terms and Conditions' }),
+		password: z
+			.string()
+			.trim()
+			.min(8, { message: 'Password must have at least 8 characters' })
+			.max(32, { message: 'Password is too long' }),
+		repeatPassword: z.string().trim(),
+		consents: z.boolean().refine(v => v === true, { message: 'You must accept the Terms and Privacy Policy.' }),
 	})
 	.refine(data => data.password === data.repeatPassword, {
 		message: 'Passwords do not match',
@@ -39,7 +45,7 @@ const Registration = () => {
 
 	const navigate = useNavigate()
 	const methods = useForm<registrationFields>({
-		mode: 'onSubmit',
+		mode: 'onChange',
 		reValidateMode: 'onChange',
 		resolver: zodResolver(registrationSchema),
 		defaultValues: {
@@ -122,40 +128,44 @@ const Registration = () => {
 							type="text"
 							name="name"
 							id="name"
-							isSubmitting={isSubmitting}
-							styles={styles}
+							label="Name"
 							placeholder="Enter your name"
-						/>
+							isSubmitting={isSubmitting}
+							tip={false}
+							/>
 						<RHFInput
 							type="email"
 							name="email"
 							id="email"
-							isSubmitting={isSubmitting}
-							styles={styles}
+							label="Email"
 							placeholder="Enter your valid email address"
-						/>
+							isSubmitting={isSubmitting}
+							tip={false}
+							/>
 						<RHFInput
 							type="password"
 							name="password"
 							id="password"
-							isSubmitting={isSubmitting}
-							styles={styles}
+							label="Password"
 							placeholder="Enter your password"
-						/>
+							isSubmitting={isSubmitting}
+							tip={false}
+							/>
 						<RHFInput
 							type="password"
 							name="repeatPassword"
 							id="repeatPassword"
-							isSubmitting={isSubmitting}
-							styles={styles}
+							label="Repeat Password"
 							placeholder="Repeat your password"
+							isSubmitting={isSubmitting}
+							tip={false}
 						/>
 						<div className={styles.checkbox}>
 							<RHFCheckbox name="consents" id="consents" isSubmitting={isSubmitting} styles={styles}>
 								<>
 									<CheckMark isChecked={consents} className={styles.checkMark} />
 									<span>
-										I have read and understood the <AnchorLink href="/terms-and-conditions">Terms</AnchorLink> and {' '}
+										I have read and understood the <AnchorLink href="/terms-and-conditions">Terms</AnchorLink> and{' '}
 										<AnchorLink href="/privacy-policy">Privacy Policy</AnchorLink>
 									</span>
 								</>

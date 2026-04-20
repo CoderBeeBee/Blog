@@ -4,11 +4,11 @@ import SingleCategoryPageTemplate from '../../templates/SingleCategoryPageTempla
 import { useFetchSingleCategoryQuery } from '../../../slices/api/categoriesApi'
 
 const SingleCategoryPage = () => {
-	const { categorySlug } = useParams()
+	const { categorySlug, childSlug } = useParams()
 
-	const { data: category } = useFetchSingleCategoryQuery(categorySlug!)
+	const slug = childSlug ? childSlug : categorySlug
 	
-	
+	const { data: category } = useFetchSingleCategoryQuery(slug!, { skip: !slug })
 
 	if (!category) return
 	return (

@@ -4,7 +4,7 @@ import AnchorLink from '../AnchorLink/AnchorLink'
 import styles from './Article.module.scss'
 import useWindowSize from '../../../hooks/useWindowSize'
 import ReactMarkdown from 'react-markdown'
-import handleCreateUrl from '../../../hooks/createUrl'
+import createUrl from '../../../hooks/createUrl'
 import remarkGfm from 'remark-gfm'
 
 const Article = ({
@@ -40,6 +40,8 @@ const Article = ({
 	}
 	const responsiveImage = useResponsiveCloudinaryImage({ mainImageSrc, defaultWidth })
 
+	const url = createUrl({ slug: seo?.slug, _id })
+
 	return (
 		<article
 			data-aos="fade-up"
@@ -47,7 +49,7 @@ const Article = ({
 			className={`${styles.article} ${styles.brick}`}
 			style={{ position: 'absolute', left, top }}>
 			<div className={styles.articleImage}>
-				<AnchorLink href={handleCreateUrl({ categories, seo, _id })}>
+				<AnchorLink href={url}>
 					<img src={responsiveImage} alt={mainImage.alt} onLoad={onImageLoad} />
 				</AnchorLink>
 			</div>
@@ -75,10 +77,7 @@ const Article = ({
 				<div className={styles.articleTextContent}>
 					<ReactMarkdown remarkPlugins={[remarkGfm]}>{introduction}</ReactMarkdown>
 				</div>
-				<AnchorLink
-					ariaLabel={`Read more about ${title}`}
-					href={handleCreateUrl({ categories, seo, _id })}
-					className={styles.readMoreLink}>
+				<AnchorLink ariaLabel={`Read more about ${title}`} href={url} className={styles.readMoreLink}>
 					Read More
 				</AnchorLink>
 			</div>

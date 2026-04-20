@@ -29,7 +29,7 @@ interface PostFormProps {
 }
 
 const PostForm = ({ editValues, postId }: PostFormProps) => {
-	const uploadFolder = import.meta.env.VITE_UPLOAD_PRESET
+	const uploadFolder = import.meta.env.VITE_UPLOAD_CATEGORIES
 	const buttons = ['text', 'image'] as const
 	const [scheduled, setScheduled] = useState<boolean>(false)
 	const fileRef = useRef<(HTMLInputElement | null)[]>([])
@@ -65,7 +65,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 		formState: { isSubmitting, isSubmitSuccessful, isDirty },
 	} = methods
 	const { fields: articleContent, insert, remove } = useFieldArray({ control, name: 'articleContent' })
-	const [status] = useWatch({ control, name: ['status'] })
+	const [status, title, categories] = useWatch({ control, name: ['status', 'title', 'categories'] })
 
 	const handleResetFields = () => {
 		if (oldDefaultValues && Object.keys(oldDefaultValues).length > 0) {
@@ -174,10 +174,14 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 				imagesToDestroy.forEach(item => destroyCloudinaryImage(item))
 			}
 
+			const params = new URL(data.seo.slug)
+			const { pathname } = params
+
 			const updatedData = {
 				...data,
 				mainImage: uploadedFiles.mainImage!,
 				articleContent: uploadedFiles.articleContent!,
+				seo: { ...data.seo, slug: pathname },
 			}
 
 			let res
@@ -204,9 +208,18 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	}
 
 	useEffect(() => {
-		if (status === 'Scheduled' ) {
+		const origin = window.location.origin
+
+		const selectedCategories = categories.map(cat => cat.toLowerCase()).join('/')
+
+		const slug = title ? '/' + title.toLowerCase().replace(/\s+/g, '-') : ''
+		const permalink = `${origin}/post/${selectedCategories}${slug}`
+
+		setValue('seo.slug', permalink)
+	}, [title, setValue, categories])
+	useEffect(() => {
+		if (status === 'Scheduled') {
 			setScheduled(true)
-			
 		} else {
 			setScheduled(false)
 			setValue('scheduledAt', null)
@@ -275,23 +288,24 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 							<RHFInput<postSchemaTypes>
 								type="text"
 								name="title"
-								label="Main Title"
-								styles={styles}
+								label="Title"
 								id={`title-title`}
+								placeholder="Title"
 								isSubmitting={isSubmitting}
+								tip={false}
 							/>
 							<RHFTextArea<postSchemaTypes>
 								name="introduction"
 								label="Introduction"
-								styles={styles}
-								id={`text-Intro`}
+								id="introduction"
+								placeholder="Introduction"
 								isSubmitting={isSubmitting}
+								tip={false}
 							/>
 
 							<RHFAddFile<postSchemaTypes>
 								name="mainImage.src"
 								label="Main Image"
-								styles={styles}
 								fileRef={fileRef}
 								fileIndex={-1}
 								id="mainImage"
@@ -301,7 +315,6 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 										name={`mainImage.alt`}
 										type="text"
 										label="Alt"
-										styles={styles}
 										id={`mainImageAlt`}
 										isSubmitting={isSubmitting}
 									/>
@@ -309,7 +322,6 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 										name={`mainImage.caption`}
 										type="text"
 										label="Caption"
-										styles={styles}
 										id={`mainImageCaption`}
 										isSubmitting={isSubmitting}
 									/>
@@ -325,7 +337,6 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 												<RHFTextArea<postSchemaTypes>
 													name={`articleContent.${index}.value`}
 													label="Text"
-													styles={styles}
 													id={`text-${index}`}
 													isSubmitting={isSubmitting}
 												/>
@@ -344,7 +355,6 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 												<RHFAddFile<postSchemaTypes>
 													name={`articleContent.${index}.value.src`}
 													label="Image"
-													styles={styles}
 													fileRef={fileRef}
 													fileIndex={index}
 													id={`file${index}`}
@@ -354,7 +364,6 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 															name={`articleContent.${index}.value.alt`}
 															type="text"
 															label="Alt"
-															styles={styles}
 															id={`alt${index}`}
 															isSubmitting={isSubmitting}
 														/>
@@ -362,7 +371,6 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 															name={`articleContent.${index}.value.caption`}
 															type="text"
 															label="Caption"
-															styles={styles}
 															id={`caption${index}`}
 															isSubmitting={isSubmitting}
 														/>
@@ -380,6 +388,41 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 										)}
 									</div>
 								))}
+
+							<div className={styles.seoWrapper}>
+								<h3 className={styles.seoTitle}>Search Engine Optimize</h3>
+								<p className={`${styles.seoText}`}>
+									Setup meta title & description to make your site easy to discovered on search engines such as Google
+								</p>
+								<RHFInput
+									type="text"
+									name="seo.slug"
+									label="Permalink"
+									id={`permalink`}
+									isSubmitting={isSubmitting}
+									tipMessage="Post link view. Min 4 characters. Max 100 characters"
+								/>
+
+								<RHFInput
+									type="text"
+									name="seo.metaTitle"
+									label="Seo Name"
+									id={`seoName`}
+									isSubmitting={isSubmitting}
+									placeholder="Seo Name"
+									tipMessage="Optimal length: 50-60 characters. This appears as the clickable headline in search results."
+								/>
+
+								<RHFTextArea
+									name="seo.metaDescription"
+									id="seoDescription"
+									label="Seo Description"
+									placeholder="Short description"
+									isSubmitting={isSubmitting}
+									markdown={false}
+									tipMessage="Optimal length: 120-160 characters. This appears below the title in search results and should entice users to click."
+								/>
+							</div>
 						</div>
 						<div className={styles.formOptionsContainer}>
 							<div className={styles.formOptionsWrapper}>
@@ -400,43 +443,13 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 									isSubmitting={isSubmitting}
 								/>
 
-								<div className={styles.seoContainer}>
-									<p className={styles.seoTitle}>SEO</p>
-
-									<RHFInput
-										type="text"
-										name="seo.slug"
-										label="Slug"
-										styles={styles}
-										id={`title-slug`}
-										isSubmitting={isSubmitting}
-									/>
-
-									<RHFInput
-										type="text"
-										name="seo.metaTitle"
-										label="Meta Title"
-										styles={styles}
-										id={`title-metaTitle`}
-										isSubmitting={isSubmitting}
-									/>
-
-									<RHFInput
-										type="text"
-										name="seo.metaDescription"
-										label="Meta Description"
-										styles={styles}
-										id={`title-metaDesc`}
-										isSubmitting={isSubmitting}
-									/>
-								</div>
 								<RHFSelect
 									name="status"
 									id="status"
 									label="Status"
 									isSubmitting={isSubmitting}
 									options={postStatus}
-									styles={styles}
+									tipMessage="The draft version is set by default"
 								/>
 
 								{scheduled && (
@@ -446,7 +459,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 										id="scheduledAt"
 										label="Date of Publication"
 										isSubmitting={isSubmitting}
-										styles={styles}
+										tipMessage="The date must be in the future."
 									/>
 								)}
 							</div>

@@ -2,29 +2,56 @@ import { Controller, useFormContext, type FieldValues, type Path } from 'react-h
 import { mergeRefs } from 'react-merge-refs'
 import { useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react'
 import MiniMarkdownToolbar from '../../modules/MiniMarkdownToolbar/MiniMarkdownToolbar'
-
+import styles from './RHFTextArea.module.scss'
+import ToolTip from '../ToolTip/ToolTip'
 interface RHFTextAreaProps<T extends FieldValues> {
 	name: Path<T>
 	label: string
-	styles: Record<string, string>
 	className?: string
 	id: string
 	isSubmitting?: boolean
 	placeholder?: string
+	markdown?: boolean
+	tip?: boolean
+	tipMessage?: string
+	required?: boolean
 }
 
 const RHFTextArea = <T extends FieldValues>({
 	name,
 	label,
-	styles,
+
 	placeholder,
 	isSubmitting,
 	className,
 	id,
+	markdown = true,
+	tip = true,
+	tipMessage,
+	required = true,
 }: RHFTextAreaProps<T>) => {
 	const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const { control } = useFormContext()
+
+	const [displayToolTip, setDisplayToolTip] = useState<string>('')
+
+	const [timeOutTipIn, setTimeOutTipIn] = useState<ReturnType<typeof setTimeout>[]>([])
+
+	const onMouseEnterToolTip = (id: string) => {
+		timeOutTipIn.forEach(t => clearTimeout(t))
+
+		setDisplayToolTip(id)
+	}
+	const onMouseLeaveToolTip = () => {
+		const resetList = []
+		const resetTime = setTimeout(() => {
+			setDisplayToolTip('')
+		}, 1000)
+		resetList.push(resetTime)
+		setTimeOutTipIn(resetList)
+	}
+
 	const handleKeyDown =
 		(onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void) => (e: KeyboardEvent<HTMLTextAreaElement>) => {
 			if (e.key !== 'Enter') return
@@ -75,7 +102,21 @@ const RHFTextArea = <T extends FieldValues>({
 			control={control}
 			render={({ field: { onChange, ref, value }, fieldState: { error } }) => (
 				<div className={`${styles.textAreaContainer} `}>
-					<label htmlFor={id}>{label}</label>
+					<div className={`${styles.labelBox}`}>
+						<label htmlFor={id} className={`${required && styles.labelAfter}`}>
+							{label && `${label}`}
+						</label>
+						{tip && (
+							<ToolTip
+								id={id}
+								tipMessage={tipMessage}
+								displayToolTip={displayToolTip}
+								onMouseEnterToolTip={onMouseEnterToolTip}
+								onMouseLeaveToolTip={onMouseLeaveToolTip}
+							/>
+						)}
+					</div>
+					
 					<div className={`${styles.textareaWrapper} ${isFocused ? styles.focusArea : ''}`}>
 						<textarea
 							id={id}
@@ -94,7 +135,15 @@ const RHFTextArea = <T extends FieldValues>({
 							aria-describedby={error ? `${id}-error` : undefined}
 							placeholder={placeholder}
 						/>
-						<MiniMarkdownToolbar isSubmitting={isSubmitting} className={className} textareaRef={textareaRef} value={value} onChange={onChange} />
+						{markdown && (
+							<MiniMarkdownToolbar
+								isSubmitting={isSubmitting}
+								className={className}
+								textareaRef={textareaRef}
+								value={value}
+								onChange={onChange}
+							/>
+						)}
 					</div>
 					{error && (
 						<span id={`${id}-error`} className={styles.error}>

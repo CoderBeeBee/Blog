@@ -16,8 +16,8 @@ interface notificationHelperProps {
 			metaTitle: string
 			metaDescription: string
 		}
-	},
-	className?:string
+	}
+	className?: string
 }
 const notificationTemplates: Record<string, (title: string) => string> = {
 	'New post': title => `New post „${title}” has been added`,
@@ -31,7 +31,7 @@ const notificationTemplates: Record<string, (title: string) => string> = {
 	'Post unliked': title => `Unliked post: „${title}”`,
 }
 
-const renderNotification = (action: string, title?: string, url?: string,className?:string) => {
+const renderNotification = (action: string, title?: string, url?: string, className?: string) => {
 	if (!title) return action
 
 	const template = notificationTemplates[action]
@@ -39,29 +39,31 @@ const renderNotification = (action: string, title?: string, url?: string,classNa
 
 	const text = template(title)
 
-	
 	const [before, after] = text.split(`„${title}”`)
 
 	return (
 		<>
-			{before}„<AnchorLink className={className} href={url ?? '#'}>{title}</AnchorLink>”{after}
+			{before}„
+			<AnchorLink className={className} href={url ?? '#'}>
+				{title}
+			</AnchorLink>
+			”{after}
 		</>
 	)
 }
 
-const notificationHelper = ({ notif,className }: notificationHelperProps) => {
+const notificationHelper = ({ notif, className }: notificationHelperProps) => {
 	const title = notif.changes?.postTitle
 	const postId = notif.changes?.postId
 	const url =
 		postId && notif.categories && notif.seo
 			? createUrl({
-					categories: notif.categories,
 					_id: postId,
-					seo: notif.seo,
+					slug: notif.seo.slug,
 				})
 			: '#'
-	
-	return renderNotification(notif.action as string, title, url,className)
+
+	return renderNotification(notif.action as string, title, url, className)
 }
 
 const timeAgo = ({ createdAt }: { createdAt: string }) => {

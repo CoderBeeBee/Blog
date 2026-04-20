@@ -1,0 +1,28 @@
+.categoriesWrapper {
+	display: flex;
+	flex-direction: column;
+	
+	width: 100%;
+	height: 100%;
+	max-width: 1200px;
+	
+	background-color: var(--whiteColor);
+	border-radius: var(--borderRadius06);
+	
+	.categoriesBox {
+		display: flex;
+		gap: 2rem;
+		padding: 2rem;
+	}
+}
+
+@media (width < 800px) {
+	.categoriesWrapper {
+		
+		
+		.categoriesBox{
+			flex-direction: column;
+
+		}
+	}
+}

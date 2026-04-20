@@ -1,9 +1,16 @@
 .postCategoryContainer {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	min-height: 100dvh;
 	height: 100%;
 	width: 100%;
 	background-color: var(--pagesBgc);
-	padding: 2rem 2rem;
+	padding: 2rem;
+}
+
+@media (width < 800px) {
+	.postCategoryContainer {
+		padding: 0;
+	}
 }

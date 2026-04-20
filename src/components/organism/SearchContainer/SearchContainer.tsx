@@ -41,7 +41,7 @@ const SearchContainer = ({ isOpen }: SearchProps) => {
 
 			setErrorMessage(errorMessage)
 			reset()
-		} 
+		}
 	}, [error, reset, setErrorMessage])
 
 	useEffect(() => {
@@ -137,7 +137,7 @@ const SearchContainer = ({ isOpen }: SearchProps) => {
 						<div ref={searchListRef} className={`${styles.elementSearchList}`}>
 							{data &&
 								data.map((item: DataSearchProps) => {
-									const url = createUrl({ categories: item.categories, seo: item.seo, _id: item._id })
+									const url = createUrl({ slug: item.seo.slug, _id: item._id })
 
 									return (
 										<AnchorLink

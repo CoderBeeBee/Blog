@@ -6,7 +6,7 @@ import DropdownMenu from '../../atoms/DropdownMenu/DropdownMenu'
 import useGlobalContext from '../../../hooks/useGlobalContext'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 interface MenuElementProps {
-	data: MenuTypes
+	data: MenuTypes[]
 	index: number
 	styles: { [key: string]: string }
 	handleMouseIn?: (index: number) => void
@@ -30,7 +30,7 @@ const MenuElement = ({
 	toggle,
 }: MenuElementProps) => {
 	const { activeIndex, onKeyDown,onClickCloseDropDown } = useGlobalContext()
-
+	
 	if (data.href === '') {
 		return (
 			<div

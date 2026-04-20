@@ -3,7 +3,7 @@ import styles from './PopularPosts.module.scss'
 import { CommentsSVG, HeartSVG, ViewsSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 
-import handleCreateUrl from '../../../hooks/createUrl'
+import createUrl from '../../../hooks/createUrl'
 import type { TopRatedStatsTypes } from '../../../types/types'
 import CreateButton from '../../atoms/CreateButton/CreateButton'
 
@@ -20,7 +20,7 @@ const PopularPosts = ({ topRated }: PopularPostsProps) => {
 				<CreateButton href="/admin/blog/addpost" ariaLabel="Create new post" className={styles.createNewPost} />
 			</div>
 			{topRated?.map((post, index) => {
-				const url = handleCreateUrl({ categories: post.categories, seo: post.seo, _id: post.postId })
+				const url = createUrl({ slug: post.seo.slug, _id: post.postId })
 
 				return (
 					<div key={index} className={styles.popularPostWrapper}>

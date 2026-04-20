@@ -3,20 +3,20 @@ import type { MenuItem } from '../../../containers/Navigation/dataNavigation/dat
 
 import AnchorLink from '../AnchorLink/AnchorLink'
 import { useLocation } from 'react-router'
-import SubDropdown from '../SubDropdown/SubDropdown'
 
 interface DropdownMenuProps {
 	data: MenuItem[]
 	handleMouseInDropdown?: (e: MouseEvent<HTMLElement>) => void
 	handleMouseOutDropdown?: (e: MouseEvent<HTMLElement>) => void
 	onClickCloseDropDown?: () => void
+	
 	styles: { [key: string]: string }
 	toggle?: () => void
 	activeIndex?: number | null
 	index?: number
 }
 
-const DropdownMenu = ({
+const SubDropdown = ({
 	data,
 	styles,
 	handleMouseInDropdown,
@@ -32,49 +32,21 @@ const DropdownMenu = ({
 		onClickCloseDropDown?.()
 		toggle?.()
 	}
-
+    
 	return (
 		<ul
 			className={`${styles.subMenu} ${activeIndex === index ? styles.active : ''}`}
 			onMouseEnter={e => handleMouseInDropdown?.(e)}
 			onMouseLeave={e => handleMouseOutDropdown?.(e)}>
-			{data.children?.map((item, i: number) => {
+			{data.map((item, i: number) => {
 				const menuName = item.name ? item.name : item.title
 				const active = pathname === item.slug
 
 				const active2 = pathname === item.href
 
 				const url = item ? (item.name ? item.slug : item.href) : '#'
-
-				if (item.children && item.children?.length) {
-					return (
-						<li
-							onClick={() => handleMenuItemClick()}
-							className={`${styles.subMenuLi} ${active2 ? styles.activeSubMenuLi : ''}`}
-							key={i}>
-							<span
-								className={`${styles.subLink} ${active ? styles.activeSubMenuLi : ''}`}
-								// href={url!}
-								// count={index}
-							>
-								{menuName}
-							</span>
-
-							{item.children && (
-								<SubDropdown
-									styles={styles}
-									activeIndex={i}
-									data={item.children}
-									index={i}
-									toggle={toggle}
-									onClickCloseDropDown={onClickCloseDropDown}
-									handleMouseInDropdown={handleMouseInDropdown}
-									handleMouseOutDropdown={handleMouseOutDropdown}
-								/>
-							)}
-						</li>
-					)
-				} else {
+                console.log(data);
+				
 					return (
 						<li
 							onClick={() => handleMenuItemClick()}
@@ -90,10 +62,10 @@ const DropdownMenu = ({
 							}
 						</li>
 					)
-				}
+				
 			})}
 		</ul>
 	)
 }
 
-export default DropdownMenu
+export default SubDropdown

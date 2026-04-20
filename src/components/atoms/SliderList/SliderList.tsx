@@ -3,7 +3,6 @@ import type { ArticleContentProps } from '../../../types/types'
 import AnchorLink from '../AnchorLink/AnchorLink'
 import createUrl from '../../../hooks/createUrl'
 
-
 interface SliderListProps {
 	styles: { [key: string]: string }
 	data: ArticleContentProps
@@ -15,7 +14,8 @@ const SliderList = ({ styles, data, index, number }: SliderListProps) => {
 	const mainImageSrc = data.mainImage.src
 	const responsiveImage = useResponsiveCloudinaryImage({ mainImageSrc })
 
-	const url = createUrl({ categories: data.categories, seo: data.seo, _id: data._id })
+	
+	const url = createUrl({ slug: data.seo?.slug, _id: data._id })
 	
 	const isActive = number === index
 
@@ -29,8 +29,6 @@ const SliderList = ({ styles, data, index, number }: SliderListProps) => {
 					<img
 						loading={index === 0 ? 'eager' : 'lazy'}
 						src={responsiveImage}
-						
-						
 						fetchPriority={index === 0 ? 'high' : 'auto'}
 						alt={data.mainImage.alt}
 					/>
@@ -39,6 +37,7 @@ const SliderList = ({ styles, data, index, number }: SliderListProps) => {
 					<div className={styles.heroText}>
 						<h1 className={styles.heroTitle}>
 							<AnchorLink href={url}>{data.title}</AnchorLink>
+							
 						</h1>
 						<div className={styles.heroMeta}>
 							<span className={styles.heroCategories}>

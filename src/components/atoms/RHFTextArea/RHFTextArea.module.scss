@@ -1,0 +1,78 @@
+.textAreaContainer {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	gap: 0.5rem;
+	margin-bottom: 2rem;
+	font-family: var(--fontFamily);
+
+	.labelBox {
+		display: flex;
+		gap: 1rem;
+		margin-bottom: 0.5rem;
+		font-size: var(--textSize_14);
+		color: var(--textColor);
+		label {
+			font-weight: 500;
+		}
+		.labelAfter {
+			&::after {
+				content: '*';
+				margin-left: 0.5rem;
+				color: var(--errorColor);
+				font-size: var(--textSize_16);
+			}
+		}
+	}
+
+	.textareaWrapper {
+		margin-bottom: 1rem;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		border-radius: var(--borderRadius06);
+		border: 1px solid var(--lightGrayColor);
+		background-color: var(--whiteColor);
+		transition: all 0.3s;
+		overflow: hidden;
+
+		textarea {
+			field-sizing: content;
+			resize: vertical;
+			display: flex;
+			min-height: 100px;
+			width: 100%;
+			height: 100%;
+			max-width: 1150px;
+			padding: 1rem;
+			color: var(--textColor);
+			font-size: var(--textSize_14);
+			font-family: var(--fontFamily);
+			line-height: var(--textLineHeight);
+			
+			border: none;
+			border-radius: var(--borderRadius06);
+			outline: none;
+			transition:
+				border-color 0.3s,
+				box-shadow 0.3s;
+
+			
+		}
+		&:hover {
+			box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
+			border-color: var(--whiteColor);
+		}
+
+		&:focus-within {
+			box-shadow: 0px 0px 0px 2px var(--mainColor);
+			border-color: var(--whiteColor);
+		}
+	}
+}
+.error {
+	color: var(--errorColor);
+	font-family: var(--fontFamily);
+	font-size: var(--textSize_14);
+}

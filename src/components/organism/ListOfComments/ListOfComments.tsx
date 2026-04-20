@@ -16,7 +16,7 @@ import timePass from '../../../hooks/timePass'
 import Popup from '../../atoms/Popup/Popup'
 import { useDeleteCommentMutation, useFetchAllCommentsQuery } from '../../../slices/api/commentsApi'
 import NotificationNew from '../../atoms/NotificationNew/NotificationNew'
-import handleCreateUrl from '../../../hooks/createUrl'
+import createUrl from '../../../hooks/createUrl'
 
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 import useSort from '../../../hooks/useSort'
@@ -191,6 +191,7 @@ const ListOfComments = () => {
 						{allcomments &&
 							allcomments?.map((com: CommentsProps, index: number) => {
 								const isChecked = checked.has(com._id)
+								const url = createUrl({ slug: com.seo?.slug, _id: com.postId })
 								return (
 									<tr key={index} className={`${styles.tr} `}>
 										<td className={styles.td} onClick={() => handleCheckMark(com._id)}>
@@ -202,9 +203,7 @@ const ListOfComments = () => {
 											{timePass(com.createdAt, 1) && <NotificationNew />}
 										</td>
 										<td className={styles.td}>
-											<AnchorLink
-												className={`${styles.tabelLink} ${styles.textEllipsis}`}
-												href={handleCreateUrl({ categories: com.categories, seo: com.seo, _id: com.postId })}>
+											<AnchorLink className={`${styles.tabelLink} ${styles.textEllipsis}`} href={url}>
 												{com.title}
 											</AnchorLink>
 										</td>

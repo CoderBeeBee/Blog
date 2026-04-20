@@ -101,7 +101,7 @@ const App = () => {
 							</Suspense>
 						}>
 						<Route path="/" element={<HomePage />} />
-						<Route path="categories/:categorySlug" element={<SingleCategoryPage />} />
+						<Route path="categories/:categorySlug/:childSlug?" element={<SingleCategoryPage />} />
 
 						<Route path="post/:category/:slug/*" element={<SinglePostPage />} />
 

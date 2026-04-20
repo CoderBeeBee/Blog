@@ -104,7 +104,7 @@ const ForgotPassword = () => {
 						how to change your password at the address you provided.
 					</p>
 					<form aria-busy={isSubmitting} onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
-						<RHFInput type="email" name="email" id="email" label="Email Address" styles={styles} />
+						<RHFInput type="email" name="email" id="email" label="Email Address" tip={false} placeholder='Enter your email address' />
 
 						{(errors.root?.message || successMessage) && (
 							<APIResponseMessage
@@ -116,7 +116,7 @@ const ForgotPassword = () => {
 						<FormBtn
 							type="submit"
 							className={`${styles.resetButton} ${enabledButton && !isSubmitting ? styles.enableButton : ''}`}
-							isSubmitting={isSubmitting ||!enabledButton}>
+							isSubmitting={isSubmitting || !enabledButton}>
 							{isSubmitting ? 'Submitting...' : 'Reset'}
 						</FormBtn>
 					</form>

@@ -34,6 +34,7 @@ import type {
 import type { socialTypes } from '../types/integrationsSchema'
 import { useFetchAdsQuery } from '../slices/api/adApi'
 import type { AdsTypes } from '../types/adsSchema'
+import { useCategory } from '../hooks/useCategory'
 
 interface MenuContextProps {
 	children: ReactNode
@@ -48,6 +49,7 @@ interface GlobalContextProps {
 	sideBarRef: RefObject<HTMLDivElement | null>
 	scrollMenu: boolean
 	mobileMenu: ReturnType<typeof useMobileMenu>
+	editContext: ReturnType<typeof useCategory>
 	activeIndex: number | null
 	toggleMenu: boolean
 	sideBarMenu: ReturnType<typeof useMobileSideBarMenu>
@@ -82,6 +84,7 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 	const { pathname } = useLocation()
 	const dispatch = useDispatch()
 	const mobileMenu = useMobileMenu()
+	const editContext = useCategory()
 	const sideBarMenu = useMobileSideBarMenu()
 	const navRef = useRef<HTMLDivElement>(null)
 	const sideBarRef = useRef<HTMLDivElement>(null)
@@ -91,6 +94,7 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 	const [toggleMenu, setToggleMenu] = useState<boolean>(false)
 	const [timeOutListIn, setTimeOutListIn] = useState<ReturnType<typeof setTimeout>[]>([])
 	const [timeOutListOut, setTimeOutListOut] = useState<ReturnType<typeof setTimeout>[]>([])
+	
 	const { close } = sideBarMenu
 	const { data: settings, isLoading } = useFetchSettingsQuery({})
 	const { basic, security, posts, interactions, analytics, different, integrations } = settings ?? {}
@@ -266,6 +270,7 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 		handleAdminMouseInDropdown,
 		handleAdminMouseOutDropdown,
 		onClickCloseDropDown,
+		editContext,
 	}
 	if (isLoading) {
 		return null

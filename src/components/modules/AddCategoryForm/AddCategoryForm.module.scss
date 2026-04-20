@@ -1,12 +1,15 @@
 .addCategoryWrapper {
 	display: flex;
 	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	// padding: 2rem;
 
 	.addCategoryTitle {
-		font-size: var(--textSize_20);
+		font-size: var(--textSize_18);
 		font-weight: 400;
 		line-height: 4rem;
-		font-family: var(--font-2);
+		font-family: var(--fontFamily);
 		color: var(--sideBarColor);
 		margin-bottom: 2rem;
 	}
@@ -16,41 +19,29 @@
 			display: flex;
 			flex-direction: column;
 
-			.formInputBox {
+			.seoWrapper {
 				display: flex;
 				flex-direction: column;
-				font-family: var(--font-2);
-				margin-bottom: 1rem;
+				padding: 2rem;
+				margin-bottom: 2rem;
+				font-family: var(--fontFamily);
 
-				label {
-					margin-bottom: 1rem;
-					font-size: var(--textSize_18);
-					font-weight: 500;
-					color: var(--textColor);
+				border: 1px solid var(--lightGrayColor);
+				border-radius: var(--borderRadius06);
+				color: var(--blackColor);
+
+				.seoTitle {
+					padding-bottom: 2rem;
+					margin-bottom: 2rem;
+					font-size: var(--textSize_16);
+					border-bottom: 1px solid var(--lightGrayColor);
 				}
-				.formInput {
-					margin-bottom: 1rem;
-					input {
-						width: 100%;
-						padding: var(--vspace-0_25);
-						color: var(--blackColor);
-						font-size: var(--textSize_16);
-						font-family: var(--font-2);
-						border: 1px solid var(--lightGrayColor);
-						border-radius: var(--borderRadius06);
-						outline: none;
-						transition: all 0.3s;
-
-						&:hover {
-							box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-							border-color: var(--whiteColor);
-						}
-
-						&:focus {
-							box-shadow: 0px 0px 0px 2px var(--mainColor);
-							border-color: var(--whiteColor);
-						}
-					}
+				.seoText {
+					padding-bottom: 2rem;
+					margin-bottom: 2rem;
+					font-size: var(--textSize_14);
+					line-height: 2.2rem;
+					border-bottom: 1px solid var(--lightGrayColor);
 				}
 			}
 		}
@@ -97,10 +88,6 @@
 	}
 }
 
-.error {
-	color: var(--errorColor);
-	font-size: var(--textSize_14);
-}
 .marginError {
 	margin-bottom: 1rem;
 }

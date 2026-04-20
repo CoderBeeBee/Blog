@@ -1,10 +1,7 @@
 import { useLocation } from 'react-router'
 import { useFetchPostCreatedAtQuery } from '../../../slices/api/postApi'
-
 import AnchorLink from '../AnchorLink/AnchorLink'
-import handleCreateUrl from '../../../hooks/createUrl'
-// import slugify from 'slugify'
-
+import createUrl from '../../../hooks/createUrl'
 interface ArticleRightSideProps {
 	styles: { [key: string]: string }
 }
@@ -22,8 +19,8 @@ const ArticleRightSide = ({ styles }: ArticleRightSideProps) => {
 	const prevID = prevPost?._id || postId
 	const nextID = nextPost?._id || postId
 
-	const urlPrev = handleCreateUrl({ categories: prevPost?.categories, seo: prevPost?.seo, _id: prevID })
-	const urlNext = handleCreateUrl({ categories: nextPost?.categories, seo: nextPost?.seo, _id: nextID })
+	const urlPrev = createUrl({ slug: prevPost?.seo.slug, _id: prevID })
+	const urlNext = createUrl({ slug: nextPost?.seo.slug, _id: nextID })
 
 	return (
 		<div className={styles.articleRightSideContainer}>
@@ -32,12 +29,14 @@ const ArticleRightSide = ({ styles }: ArticleRightSideProps) => {
 				<AnchorLink href={urlPrev} rel="prev">
 					{prevID !== postId ? prevPost?.title : '-----'}
 				</AnchorLink>
+				
 			</div>
 			<div className={`${styles.next} ${nextID === postId ? styles.disabled : ''}`}>
 				<span>Next</span>
 				<AnchorLink href={urlNext} rel="next">
 					{nextID !== postId ? nextPost?.title : '-----'}
 				</AnchorLink>
+				
 			</div>
 		</div>
 	)

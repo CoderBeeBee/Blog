@@ -494,16 +494,43 @@ const FilterSVG = ({ className }: IconsProps) => (
 		width="800px"
 		height="800px"
 		viewBox="0 0 24 24"
-		
 		xmlns="http://www.w3.org/2000/svg"
 		className={className ? className : ` ${styles.filterSVG}`}>
-		<path
-			d="M9 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM6.17 5a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-7.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 0 1 0-2h1.17zM15 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2.83 0a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 1 1 0-2h7.17zM9 17a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2.83 0a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-7.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 1 1 0-2h1.17z"
-			
-		/>
+		<path d="M9 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM6.17 5a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-7.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 0 1 0-2h1.17zM15 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2.83 0a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 1 1 0-2h7.17zM9 17a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2.83 0a3.001 3.001 0 0 1 5.66 0H19a1 1 0 1 1 0 2h-7.17a3.001 3.001 0 0 1-5.66 0H5a1 1 0 1 1 0-2h1.17z" />
 	</svg>
 )
 
+// COLLECTION: Denali Solid Interface Icons
+// LICENSE: MIT License
+// AUTHOR: Denali Design
+const TipSVG = ({ className }: IconsProps) => {
+	return (
+		<svg
+			viewBox="0 0 48.00 48.00"
+			xmlns="http://www.w3.org/2000/svg"
+			fill="currentColor"
+			className={`${styles.tipSVG} ${className ? className : ''}`}>
+			<g id="SVGRepo_iconCarrier">
+				{' '}
+				<g id="Layer_2" data-name="Layer 2">
+					{' '}
+					<g id="invisible_box" data-name="invisible box">
+						{' '}
+						<rect width="48" height="48" fill="none"></rect>{' '}
+					</g>{' '}
+					<g id="Layer_7" data-name="Layer 7">
+						{' '}
+						<g>
+							{' '}
+							<path d="M27.2,34.8l-4.5.4s2.2-7.9,3.8-13.2a4.1,4.1,0,0,0-3.6-5.5,3.6,3.6,0,0,0-2.7,1.2l-4,3.3a.7.7,0,0,0,.6,1.2l4.5-.4L17.5,35a4.1,4.1,0,0,0,3.6,5.5,3.6,3.6,0,0,0,2.7-1.2l4-3.3A.7.7,0,0,0,27.2,34.8Z"></path>{' '}
+							<circle cx="26" cy="11" r="3"></circle>{' '}
+						</g>{' '}
+					</g>{' '}
+				</g>{' '}
+			</g>
+		</svg>
+	)
+}
 
 export {
 	UsersSVG,
@@ -532,5 +559,7 @@ export {
 	AdsSVG,
 	WebsiteSVG,
 	DetailsSVG,
-	PlusSVG,FilterSVG
+	PlusSVG,
+	FilterSVG,
+	TipSVG,
 }

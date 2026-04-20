@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { useAdminLoginMutation} from '../../../slices/api/userApi'
+import { useAdminLoginMutation } from '../../../slices/api/userApi'
 import styles from './AdminLogin.module.scss'
 import { useNavigate } from 'react-router'
 import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form'
@@ -94,23 +94,27 @@ const AdminLogin = () => {
 					<Logo styles={styles} />
 					<div className={styles.formContainer}>
 						<h1>Sign In</h1>
-						
+
 						<form aria-busy={isSubmitting} onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
 							<RHFInput
 								type="email"
 								name="email"
 								id="email"
-								styles={styles}
+								label="Email"
 								placeholder="Enter your email"
 								isSubmitting={isSubmitting}
+								tip={false}
+								required={false}
 							/>
 							<RHFInput
 								type="password"
 								name="password"
 								id="password"
-								styles={styles}
+								label="Password"
 								placeholder="Enter your password"
 								isSubmitting={isSubmitting}
+								tip={false}
+								required={false}
 							/>
 							<AnchorLink className={`${styles.forgotPassword}`} href={`/reset-password?email=${email}`}>
 								Forgot Password?
@@ -125,7 +129,6 @@ const AdminLogin = () => {
 							</FormBtn>
 						</form>
 					</div>
-					
 				</div>
 			</FormProvider>
 		</GlobalProvider>

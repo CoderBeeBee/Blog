@@ -1,4 +1,5 @@
 import type { JSX, ReactNode } from 'react'
+import type { categoryTypes } from './categoriesSchema'
 
 export interface Size {
 	width: number
@@ -22,14 +23,14 @@ export interface ArticleContentProps {
 	title: string
 	introduction: string
 	mainImage: { src: string; alt: string; caption: string; public_id?: string }
-	author: { name: string; avatar: { src: string; public_id: string },createdAt:string }
+	author: { name: string; avatar: { src: string; public_id: string }; createdAt: string }
 	articleContent?: [
 		{ type: 'text' | 'add'; value: string },
 
 		{ type: 'image'; value: { src: string; alt: string; caption: string } },
 	]
 	categories: string[]
-	tags?:string[]
+	tags?: string[]
 	id?: string
 	seo?: { slug: string; metaTitle: string; metaDescription: string }
 	status?: string
@@ -44,7 +45,7 @@ export interface ArticleContentProps {
 export type ExtendedArticleContentProps = {
 	createdAt: string
 	publishedAt: string
-	scheduledAt:string
+	scheduledAt: string
 	postViews: string
 	commentsCount: string
 } & ArticleContentProps
@@ -115,12 +116,10 @@ export interface CommentsProps {
 	seo?: { slug: string; metaTitle: string; metaDescription: string }
 }
 
-export interface CategoryProps {
-	name: string
-	slug: string
+export type CategoryProps = {
 	_id: string
-	id: string
-}
+	children?: CategoryProps[]
+} & categoryTypes
 export interface StatCardProps {
 	title: string
 	stats: Stat

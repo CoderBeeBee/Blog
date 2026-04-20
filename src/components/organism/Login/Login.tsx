@@ -102,17 +102,21 @@ const Login = () => {
 							type="email"
 							name="email"
 							id="email"
-							styles={styles}
+							label="Email"
 							placeholder="Enter your email"
 							isSubmitting={isSubmitting}
+							tip={false}
+							required={false}
 						/>
 						<RHFInput
 							type="password"
 							name="password"
 							id="password"
-							styles={styles}
+							label="Password"
 							placeholder="Enter your password"
 							isSubmitting={isSubmitting}
+							tip={false}
+							required={false}
 						/>
 						<AnchorLink className={`${styles.forgotPassword}`} href={`/reset-password?email=${email}`}>
 							Forgot Password?

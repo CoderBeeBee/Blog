@@ -141,13 +141,14 @@ const Profile = () => {
 						<RHFAddFile
 							name="avatar"
 							id="avatar"
-							styles={styles}
-							className={` ${!avatar ? styles.avatarShadow : ''}`}
+							className={`${styles.avatarWrapper} ${!avatar ? styles.avatarShadow : ''}`}
 							fileIndex={-1}
 							isSubmitting={isSubmitting}
+							required={false}
+							tip={false}
 						/>
 					</div>
-					<RHFInput name="name" id="name" label="Name" type="text" styles={styles} isSubmitting={isSubmitting} />
+					<RHFInput name="name" id="name" label="Name" type="text" isSubmitting={isSubmitting} required={false} />
 
 					<FormBtn
 						type="submit"

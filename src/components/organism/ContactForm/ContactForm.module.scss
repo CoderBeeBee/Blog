@@ -57,84 +57,8 @@
 			width: 100%;
 		}
 
-		.formInputBox {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			height: 100%;
-			gap: 0.5rem;
-			margin-bottom: 2rem;
-			font-family: var(--font-2);
-			label {
-				font-weight: 500;
-			}
-			.formInput {
-				input {
-					display: flex;
-					width: 100%;
-					padding: var(--vspace-0_25);
-					font-size: var(--textSize_16);
-					font-family: var(--font-2);
-					color: var(--textColor);
-					border: 1px solid var(--lightGrayColor);
-					border-radius: var(--borderRadius06);
-					outline: none;
-					transition: all 0.3s;
-
-					&:hover {
-						box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-						border-color: var(--whiteColor);
-					}
-
-					&:focus {
-						box-shadow: 0px 0px 0px 2px var(--mainColor);
-						border-color: var(--whiteColor);
-					}
-				}
-			}
-		}
-
-		.textAreaContainer {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			height: 100%;
-			gap: 0.5rem;
-			margin-bottom: 2rem;
-			font-family: var(--font-2);
-
-			.textareaWrapper {
-				textarea {
-					field-sizing: content;
-					resize: vertical;
-					display: flex;
-					min-height: 150px;
-					width: 100%;
-					height: 100%;
-					padding: 1rem;
-					color: var(--textColor);
-					border: 1px solid var(--lightGrayColor);
-					border-radius: var(--borderRadius06);
-					outline: none;
-					transition:
-						border-color 0.3s,
-						box-shadow 0.3s;
-
-					&:hover {
-						box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-						border-color: var(--whiteColor);
-					}
-
-					&:focus {
-						box-shadow: 0px 0px 0px 2px var(--mainColor);
-						border-color: var(--whiteColor);
-					}
-				}
-			}
-		}
-		.disableMiniMarkdown {
-			display: none;
-		}
+		
+		
 		.checkbox {
 			display: flex;
 			align-items: center;

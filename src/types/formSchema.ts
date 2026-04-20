@@ -4,7 +4,11 @@ import validateImageRHF from '../hooks/validateImageRHF'
 const imageSrcSchema = z.instanceof(File).or(z.string()).nullable()
 
 export const postSchema = z.object({
-	title: z.string().trim().min(1, { message: 'Please fill title' }),
+	title: z
+		.string()
+		.trim()
+		.min(4, { message: 'The Title is too short. Min 4 characters' })
+		.max(100, { message: 'The Title is too long. Max 100 characters' }),
 	introduction: z.string().trim().min(1, { message: 'Please fill introduction' }),
 
 	mainImage: z.object({
@@ -24,12 +28,11 @@ export const postSchema = z.object({
 
 	articleContent: z.array(
 		z.discriminatedUnion('type', [
-			
 			z.object({
 				type: z.literal('text'),
 				value: z.string().min(1, 'Please fill field'),
 			}),
-			
+
 			z.object({
 				type: z.literal('image'),
 				value: z.object({
@@ -50,13 +53,22 @@ export const postSchema = z.object({
 		]),
 	),
 
-	categories: z.array(z.string()).min(1, { message: 'Min 1 Category' }).max(2, { message: 'Max 2 Categories' }),
-	tags: z.array(z.string()).min(1, { message: 'Min 1 Tag' }),
-	
+	categories: z.array(z.string()).min(1, { message: 'You must choose min 1 category' }).max(2, { message: 'Too many categories. Max 2 categories' }),
+	tags: z.array(z.string()).min(1, { message: 'You must choose min 1 tag' }),
+
 	seo: z.object({
-		slug: z.string().min(1, { message: 'Please fill field' }),
-		metaTitle: z.string().min(1, { message: 'Please fill field' }),
-		metaDescription: z.string().min(1, { message: 'Please fill field' }),
+		slug: z
+			.string()
+			.min(4, { message: 'The permalink is too short. Min 4 characters' })
+			.max(100, { message: 'The permalink is too long. Max 150 characters' }),
+		metaTitle: z
+			.string()
+			.min(50, { message: 'The seo title is too short. Min 50 characters' })
+			.max(60, { message: 'The seo title is too long. Max 60 characters' }),
+		metaDescription: z
+			.string()
+			.min(120, { message: 'The seo description is too short. Min 120 characters' })
+			.max(160, { message: 'The seo description is too long. Max 160 characters' }),
 	}),
 	status: z.string(),
 
@@ -77,12 +89,10 @@ export const defaultValues: postSchemaTypes = {
 		caption: '',
 		public_id: '',
 	},
-	articleContent: [
-		
-	],
+	articleContent: [],
 
 	categories: [],
-	tags:[],
+	tags: [],
 	seo: {
 		slug: '',
 		metaTitle: '',

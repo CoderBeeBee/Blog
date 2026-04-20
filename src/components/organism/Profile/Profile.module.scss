@@ -10,42 +10,6 @@
 	flex-direction: column;
 	width: 100%;
 
-	.formInputBox {
-		position: relative;
-		margin-bottom: 1rem;
-		label {
-			display: block;
-			margin-bottom: 0.5rem;
-			font-weight: bold;
-			font-size: 13px;
-			line-height: 20px;
-		}
-		.formInput {
-			position: relative;
-			input {
-				width: 100%;
-				padding: var(--vspace-0_25);
-				color: var(--blackColor);
-				font-size: var(--textSize_16);
-				font-family: var(--font-2);
-				border: 1px solid var(--lightGrayColor);
-				border-radius: var(--borderRadius06);
-				outline: none;
-				transition: all 0.3s;
-
-				&:hover {
-					box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-					border-color: var(--whiteColor);
-				}
-
-				&:focus {
-					box-shadow: 0px 0px 0px 2px var(--mainColor);
-					border-color: var(--whiteColor);
-				}
-			}
-		}
-	}
-
 	.profileBox {
 		display: flex;
 		flex-direction: row;
@@ -55,13 +19,11 @@
 			flex-basis: 80%;
 		}
 
-		
-		.fileWrapper {
+		.avatarWrapper {
 			display: flex;
 			flex-direction: column;
-			// width: 100%;
 
-			.uploadFile {
+			label {
 				position: absolute;
 				top: 2rem;
 				right: 2rem;
@@ -77,51 +39,34 @@
 				&:hover {
 					box-shadow: 0px 0px 3px 3px var(--mainColor);
 				}
-				.previewImage {
-					width: 100%;
-					height: 100%;
-					object-fit: cover;
+				img {
 					transition: all 0.5s;
 				}
-				.uploadFileShadow {
-					position: absolute;
-					top: 0;
-					left: 0;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					width: 100%;
-					height: 100%;
-					cursor: pointer;
-					transition: all 0.5s;
-					z-index: 11;
+
+				div {
+					// position: absolute;
+					// top: 0;
+					// left: 0;
+					// display: flex;
+					// align-items: center;
+					// justify-content: center;
+					// width: 100%;
+					// height: 100%;
+					// cursor: pointer;
+					// transition: all 0.5s;
+					z-index: 100;
 					svg {
 						width: 40px;
 						height: 40px;
 						transition: all 0.5s;
-						fill: var(--lightGrayColor);
-						
-						path{
-							stroke-width: 4px;
-
-						}
-					}
-					&:hover {
-						svg {
-							fill: var(--mainColor);
-						}
 					}
 				}
 
 				&:hover {
-					.previewImage {
+					img {
 						opacity: 0.3;
 					}
 				}
-			}
-
-			.fileInput {
-				display: none;
 			}
 		}
 	}

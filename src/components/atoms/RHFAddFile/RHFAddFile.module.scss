@@ -1,0 +1,90 @@
+.fileWrapper {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1.5rem;
+	width: 100%;
+	height: 100%;
+	.labelBox {
+		display: flex;
+		gap: 1rem;
+		margin-bottom: 1rem;
+		font-size: var(--textSize_14);
+		color: var(--textColor);
+		.fileTitle {
+			font-weight: 500;
+		}
+		.labelAfter {
+			&::after {
+				content: '*';
+				margin-left: 0.5rem;
+				color: var(--errorColor);
+				font-size: var(--textSize_16);
+			}
+		}
+	}
+
+	.uploadFile {
+		position: relative;
+		display: flex;
+		// width: 250px;
+		// height: 80px;
+		// max-width: 250px;
+		// max-height: 80px;
+		width: 100%;
+		// min-height: 200px;
+		height: 200px;
+		margin-bottom: 1rem;
+		border-radius: var(--borderRadius06);
+		transition: all 0.3s;
+		box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
+		overflow: hidden;
+
+		&:hover {
+			box-shadow: 0px 0px 0px 2px var(--mainColor);
+		}
+		.previewImage {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.uploadFileShadow {
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
+			cursor: pointer;
+			svg {
+				width: 50px;
+				height: 50px;
+				fill: var(--lightGrayColor);
+				transition: all 0.3s;
+			}
+			&:hover {
+				svg {
+					fill: var(--mainColor);
+				}
+			}
+		}
+	}
+
+	.uploadFilled {
+		box-shadow: none;
+	}
+	.imageBox {
+		display: flex;
+		gap: 2rem;
+		max-width: 100%;
+	}
+	.fileInput {
+		display: none;
+	}
+}
+.error {
+	color: var(--errorColor);
+	font-family: var(--fontFamily);
+	font-size: var(--textSize_14);
+}

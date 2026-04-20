@@ -119,46 +119,46 @@ const ContactForm = () => {
 							name="firstName"
 							id="firstName"
 							label="First Name"
-							styles={styles}
-							isSubmitting={isSubmitting}
 							placeholder="Enter your First Name"
-						/>
+							isSubmitting={isSubmitting}
+							tip={false}
+							/>
 						<RHFInput
 							type="text"
 							name="lastName"
 							id="lastName"
 							label="Last Name"
-							styles={styles}
 							isSubmitting={isSubmitting}
 							placeholder="Enter your Last Name"
-						/>
+							tip={false}
+							/>
 					</div>
 					<RHFInput
 						type="email"
 						name="email"
 						label="Adress email"
 						id="email"
-						styles={styles}
 						isSubmitting={isSubmitting}
 						placeholder="Enter a valid email address"
-					/>
+						tip={false}
+						/>
 					<RHFInput
 						type="text"
 						name="subject"
 						label="Subject"
 						id="subject"
-						styles={styles}
 						isSubmitting={isSubmitting}
 						placeholder="Enter subject"
-					/>
+						tip={false}
+						/>
 					<RHFTextArea
 						name="message"
 						id="message"
 						label="Message"
-						styles={styles}
-						className={styles.disableMiniMarkdown}
 						isSubmitting={isSubmitting}
 						placeholder="Enter your message"
+						markdown={false}
+						tip={false}
 					/>
 					<div className={styles.checkbox}>
 						<RHFCheckbox name="policy" id="policy" styles={styles} isSubmitting={isSubmitting}>

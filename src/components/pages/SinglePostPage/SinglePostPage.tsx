@@ -2,7 +2,7 @@ import { useLocation } from 'react-router'
 import Seo from '../../../utils/seo'
 import SinglePostTemplate from '../../templates/SinglePostTemplate/SinglePostTemplate'
 import { useFetchPostByIdQuery } from '../../../slices/api/postApi'
-import handleCreateUrl from '../../../hooks/createUrl'
+import createUrl from '../../../hooks/createUrl'
 
 const SinglePostPage = () => {
 	const { search } = useLocation()
@@ -13,14 +13,14 @@ const SinglePostPage = () => {
 
 	// if(!data) return null
 
-	const { publishedAt, updatedAt, author, seo, mainImage, title, categories } = data
-
+	const { publishedAt, updatedAt, author, seo, mainImage, title} = data
+	const URL = `${import.meta.env.VITE_SITE_URL}/${createUrl({ slug:seo.slug, _id: postId! })}`
 	return (
 		<>
 			<Seo
 				title={seo.metaTitle || title}
 				description={seo.metaDescription || ''}
-				canonicalUrl={`${import.meta.env.VITE_SITE_URL}/${handleCreateUrl({ categories, seo, _id: postId! })}`}
+				canonicalUrl={URL}
 				ogImage={mainImage.src || ''}
 				type="article"
 				publishedTime={publishedAt}

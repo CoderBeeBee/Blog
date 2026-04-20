@@ -8,14 +8,12 @@ interface LatestCommentsProps {
 }
 
 const LatestComments = ({ latestComments }: LatestCommentsProps) => {
-	
-
 	return (
 		<div className={styles.latestCommentsContainer}>
 			<h3 className={styles.latestCommentsTitle}>Latest Comments</h3>
 
 			{latestComments.map((com, index) => {
-				const url = createUrl({ categories: com.categories, _id: com.postId, seo: com.seo })
+				const url = createUrl({ _id: com.postId, slug: com.seo.slug })
 				return (
 					<div key={index} className={styles.latestCommentsWrapper}>
 						<div className={styles.latestCommentsImage}>

@@ -250,20 +250,20 @@ const ListOfPosts = () => {
 														{item === 'status' && (
 															<div className={`${styles.theadDropDown} ${scaleUp === index ? styles.scaleUp : ''}`}>
 																{postStatus &&
-																	postStatus.map((status: string, index) => (
+																	postStatus.map((status, index) => (
 																		<div
 																			tabIndex={0}
 																			onClick={() => {
-																				handleSetAction({ sort: item, action: status })
+																				handleSetAction({ sort: item, action: status.name })
 																			}}
 																			onKeyDown={e => {
 																				if ('key' in e && e.key === 'Enter') {
-																					handleSetAction({ sort: item, action: status })
+																					handleSetAction({ sort: item, action: status.name })
 																				}
 																			}}
 																			key={index}
-																			data-element={status}>
-																			{status}
+																			data-element={status.name}>
+																			{status.name}
 																		</div>
 																	))}
 															</div>
@@ -319,7 +319,7 @@ const ListOfPosts = () => {
 						{posts &&
 							posts?.map((post: ExtendedArticleContentProps, index: number) => {
 								const isChecked = checked.has(post._id)
-
+								const url = createUrl({ slug: post.seo?.slug, _id: post._id })
 								return (
 									<tr key={index} className={`${styles.tr}`}>
 										<td className={styles.td} onClick={() => handleCheckMark(post._id)}>
@@ -330,9 +330,7 @@ const ListOfPosts = () => {
 											<img src={post.mainImage.src} alt={post.mainImage.alt} loading="lazy" />
 										</td>
 										<td className={styles.td}>
-											<AnchorLink
-												className={styles.listPostTitle}
-												href={createUrl({ categories: post.categories, seo: post.seo, _id: post._id })}>
+											<AnchorLink className={styles.listPostTitle} href={url}>
 												{post.title}
 											</AnchorLink>
 											{timePass(post.createdAt, 3) && <NotificationNew />}
