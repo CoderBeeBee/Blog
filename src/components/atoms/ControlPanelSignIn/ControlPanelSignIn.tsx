@@ -8,11 +8,16 @@ interface ControlPanelSignInProps {
 }
 
 const ControlPanelSignIn = ({ styles }: ControlPanelSignInProps) => {
-	const { userRef, openCloseUserMenu, toggleMenu } = useGlobalContext()
 	const { width } = useWindowSize()
+	const { userRef, toggleMenu, openCloseUserMenu } = useGlobalContext()
+
 	return (
 		<div ref={userRef} className={styles.signInWrapper}>
-			<div className={styles.signinBox} onClick={() => openCloseUserMenu()}>
+			<div
+				className={styles.signinBox}
+				onClick={() => {
+					openCloseUserMenu()
+				}}>
 				<button type="button" className={styles.signInButton}>
 					Sign In
 				</button>

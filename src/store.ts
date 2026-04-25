@@ -18,10 +18,12 @@ import { securityApi } from './slices/api/securityApi'
 import { auditlogApi } from './slices/api/auditLogApi'
 import { tagsApi } from './slices/api/tagsApi'
 import { adApi } from './slices/api/adApi'
+import { menuSlice } from './slices/menuSlice'
 
 export const store = configureStore({
 	reducer: {
 		theme: themeSlice.reducer,
+		menu: menuSlice.reducer,
 		auth: authSlice.reducer,
 		[postApi.reducerPath]: postApi.reducer,
 		[commentsApi.reducerPath]: commentsApi.reducer,

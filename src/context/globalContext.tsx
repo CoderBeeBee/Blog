@@ -5,13 +5,11 @@ import {
 	useState,
 	type Dispatch,
 	type KeyboardEvent,
-	type MouseEvent,
 	type ReactNode,
 	type RefObject,
 	type SetStateAction,
 } from 'react'
 
-import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router'
 import { useLogOutMutation, userApi } from '../slices/api/userApi'
 import { setLogout } from '../slices/authSlice'
@@ -35,6 +33,7 @@ import type { socialTypes } from '../types/integrationsSchema'
 import { useFetchAdsQuery } from '../slices/api/adApi'
 import type { AdsTypes } from '../types/adsSchema'
 import { useCategory } from '../hooks/useCategory'
+import { useDispatch } from 'react-redux'
 
 interface MenuContextProps {
 	children: ReactNode
@@ -42,7 +41,7 @@ interface MenuContextProps {
 
 interface GlobalContextProps {
 	openCloseUserMenu: () => void
-	handleOpenCloseDropdown: (e: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>) => void
+	expandCollapseDropdown: (index: number) => void
 	signOut: () => void
 	navRef: RefObject<HTMLDivElement | null>
 	userRef: RefObject<HTMLDivElement | null>
@@ -51,6 +50,7 @@ interface GlobalContextProps {
 	mobileMenu: ReturnType<typeof useMobileMenu>
 	editContext: ReturnType<typeof useCategory>
 	activeIndex: number | null
+	activeSubIndex: number | null
 	toggleMenu: boolean
 	sideBarMenu: ReturnType<typeof useMobileSideBarMenu>
 	basic: basicTypes
@@ -62,17 +62,22 @@ interface GlobalContextProps {
 	integrations: socialTypes
 	ads: AdsTypes
 	setActiveIndex: Dispatch<SetStateAction<number | null>>
+	setActiveSubIndex: Dispatch<SetStateAction<number | null>>
 	onKeyDown: (e: KeyboardEvent, index: number) => void
-	handleMouseIn: (index: number) => void
-	handleMouseOut: () => void
-	handleMouseInDropdown: () => void
-	handleMouseOutDropdown: () => void
-	handleAdminMouseIn: (index: number) => void
-	handleAdminMouseOut: () => void
-	onClickCloseDropDown: () => void
-	handleAdminMouseInDropdown: () => void
-	handleAdminMouseOutDropdown: () => void
-	timeOutListIn: ReturnType<typeof setTimeout>[]
+	onKeyDownSub: (e: KeyboardEvent, index: number) => void
+	// Dropdown
+	expandMenu: (index: number) => void
+	collapseMenu: () => void
+	hoverOverDropdown: () => void
+	
+
+	expandCollapseSubDropdown: (index: number) => void
+	hoverOverSubdropdown: () => void
+	hoverOverCollapseSubdropdown: () => void
+	expandSubDropdown: (index: number) => void
+	collapseSubDropdown: () => void
+	onClickCollapseDropdown: () => void
+	
 	onKeyDownAdminSystemMenu: (e: KeyboardEvent) => void
 }
 
@@ -89,35 +94,43 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 	const navRef = useRef<HTMLDivElement>(null)
 	const sideBarRef = useRef<HTMLDivElement>(null)
 	const [activeIndex, setActiveIndex] = useState<number | null>(null)
+	const [activeSubIndex, setActiveSubIndex] = useState<number | null>(null)
 	const userRef = useRef<HTMLDivElement>(null)
 	const [scrollMenu, setScrollMenu] = useState<boolean>(false)
 	const [toggleMenu, setToggleMenu] = useState<boolean>(false)
-	const [timeOutListIn, setTimeOutListIn] = useState<ReturnType<typeof setTimeout>[]>([])
-	const [timeOutListOut, setTimeOutListOut] = useState<ReturnType<typeof setTimeout>[]>([])
-	
+	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+	const timeoutSubRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+	const [openedSub, setOpenedSub] = useState<boolean>(false)
 	const { close } = sideBarMenu
 	const { data: settings, isLoading } = useFetchSettingsQuery({})
 	const { basic, security, posts, interactions, analytics, different, integrations } = settings ?? {}
 
 	const { data: ads } = useFetchAdsQuery({})
 
-	// Open close mobile dropdown
-	const handleOpenCloseDropdown = (e: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>) => {
-		const target = e.currentTarget
-		const element = Number(target.dataset.element)
-
-		if (Number.isNaN(element)) return
-		if (activeIndex === element) {
-			setActiveIndex(null)
-			setScrollMenu(false)
-		} else {
-			setActiveIndex(element)
-			setScrollMenu(true)
-		}
-	}
-
+	// Open close sign in menu
 	const openCloseUserMenu = () => {
 		setToggleMenu(prev => !prev)
+
+		if (activeIndex !== null) setActiveIndex(null)
+	}
+
+	// Open close navigation mobile dropdown
+	const expandCollapseDropdown = (index: number) => {
+		
+		if (Number.isNaN(index)) return
+
+		if (activeIndex === index) {
+			setTimeout(() => {
+				setActiveIndex(null)
+			}, 100)
+
+			if (activeSubIndex !== null) setActiveSubIndex(null)
+			setScrollMenu(false)
+		} else {
+			setActiveIndex(index)
+			setActiveSubIndex(null)
+			setScrollMenu(true)
+		}
 	}
 
 	const onKeyDownAdminSystemMenu = (e: KeyboardEvent) => {
@@ -133,67 +146,108 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 			setActiveIndex(index)
 		}
 	}
+	const onKeyDownSub = (e: KeyboardEvent, index: number) => {
+		if ('key' in e && e.key !== 'Enter') return
+		if (activeSubIndex === index) {
+			setActiveSubIndex(null)
+		} else {
+			setActiveSubIndex(index)
+		}
+	}
 
 	// Open Close Desktop DropDown
-	const handleMouseIn = (index: number) => {
-		timeOutListIn.forEach(item => clearInterval(item))
-		timeOutListOut.forEach(item => clearInterval(item))
-		setActiveIndex(index)
+	const expandMenu = (index: number) => {
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current)
+			timeoutRef.current = null
+		}
 
+		setActiveIndex(index)
+		if (activeSubIndex !== null) setActiveSubIndex(null)
 		if (toggleMenu) setToggleMenu(prev => !prev)
 	}
-	const handleMouseOut = () => {
-		const resetList = []
-		const resetTime = setTimeout(() => {
+	const collapseMenu = () => {
+		
+		timeoutRef.current = setTimeout(() => {
 			setActiveIndex(null)
 		}, 1000)
-		resetList.push(resetTime)
-		setTimeOutListIn(resetList)
+		
 	}
-	const handleMouseInDropdown = () => {
-		if (timeOutListOut.length > 0) timeOutListOut.forEach(item => clearInterval(item))
+	const hoverOverDropdown = () => {
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current)
+			timeoutRef.current = null
+		}
+		
 	}
-	const handleMouseOutDropdown = () => {
-		const resetList = []
-		const resetTime = setTimeout(() => {
-			setActiveIndex(null)
-		}, 1000)
-		resetList.push(resetTime)
-		setTimeOutListOut(resetList)
-	}
+	
 
-	const onClickCloseDropDown = () => {
+	const onClickCollapseDropdown = () => {
 		if (activeIndex === null) return
 		setActiveIndex(null)
 	}
 
-	// Open Close Admin System DropDown
-	const handleAdminMouseIn = (index: number) => {
-		timeOutListIn.forEach(item => clearInterval(item))
-		timeOutListOut.forEach(item => clearInterval(item))
-		setActiveIndex(index)
+	// Open Close Desktop SubDropdown
 
-		if (toggleMenu) setToggleMenu(prev => !prev)
+	const expandCollapseSubDropdown = (index: number) => {
+		if (index === activeSubIndex) {
+			setActiveSubIndex(null)
+		} else {
+			setActiveSubIndex(index)
+		}
 	}
-	const handleAdminMouseOut = () => {
-		const resetList = []
-		const resetTime = setTimeout(() => {
-			setActiveIndex(null)
-		}, 1000)
-		resetList.push(resetTime)
-		setTimeOutListIn(resetList)
+
+	const expandSubDropdown = (index: number) => {
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current)
+			timeoutRef.current = null
+		}
+		if (timeoutSubRef.current) {
+			clearTimeout(timeoutSubRef.current)
+			timeoutSubRef.current = null
+		}
+
+		setActiveSubIndex(index)
+		if (openedSub) setOpenedSub(false)
+		// if (toggleMenu) setToggleMenu(prev => !prev)
 	}
-	const handleAdminMouseInDropdown = () => {
-		if (timeOutListOut.length > 0) timeOutListOut.forEach(item => clearInterval(item))
+
+	const collapseSubDropdown = () => {
+		if (openedSub) return
+
+		if (timeoutSubRef.current) {
+			clearTimeout(timeoutSubRef.current)
+			timeoutSubRef.current = null
+		}
+
+		timeoutSubRef.current = setTimeout(() => {
+			setActiveSubIndex(null)
+		}, 500)
 	}
-	const handleAdminMouseOutDropdown = () => {
-		const resetList = []
-		const resetTime = setTimeout(() => {
-			setActiveIndex(null)
-		}, 1000)
-		resetList.push(resetTime)
-		setTimeOutListOut(resetList)
+
+	const hoverOverSubdropdown = () => {
+		if (!openedSub) setOpenedSub(true)
+
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current)
+			timeoutRef.current = null
+		}
+		if (timeoutSubRef.current) {
+			clearTimeout(timeoutSubRef.current)
+			timeoutSubRef.current = null
+		}
 	}
+
+	const hoverOverCollapseSubdropdown = () => {
+		if (openedSub) setOpenedSub(false)
+
+		timeoutSubRef.current = setTimeout(() => {
+			setActiveSubIndex(null)
+		}, 500)
+	}
+
+	
+	
 
 	useEffect(() => {
 		const handleClickOutside = (e: globalThis.MouseEvent) => {
@@ -214,7 +268,7 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 
 		window.addEventListener('mousedown', handleClickOutside)
 		return () => window.removeEventListener('mousedown', handleClickOutside)
-	}, [close])
+	}, [close, dispatch])
 
 	const signOut = async () => {
 		try {
@@ -239,13 +293,14 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 
 	const value: GlobalContextProps = {
 		openCloseUserMenu,
-		handleOpenCloseDropdown,
+		expandCollapseDropdown,
 		signOut,
 		navRef,
 		userRef,
 		scrollMenu,
 		mobileMenu,
 		activeIndex,
+		activeSubIndex,
 		toggleMenu,
 		sideBarMenu,
 		sideBarRef,
@@ -258,18 +313,23 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 		integrations,
 		ads,
 		setActiveIndex,
+		setActiveSubIndex,
 		onKeyDown,
-		handleMouseIn,
-		handleMouseOut,
-		timeOutListIn,
-		handleMouseInDropdown,
-		handleMouseOutDropdown,
+		onKeyDownSub,
+		// Expand menu
+		expandMenu,
+		collapseMenu,
+		hoverOverDropdown,
+
+		// SubDropdown
+		expandCollapseSubDropdown,
+		expandSubDropdown,
+		collapseSubDropdown,
+		hoverOverSubdropdown,
+		hoverOverCollapseSubdropdown,
+		// AdminDropdown
 		onKeyDownAdminSystemMenu,
-		handleAdminMouseIn,
-		handleAdminMouseOut,
-		handleAdminMouseInDropdown,
-		handleAdminMouseOutDropdown,
-		onClickCloseDropDown,
+		onClickCollapseDropdown,
 		editContext,
 	}
 	if (isLoading) {

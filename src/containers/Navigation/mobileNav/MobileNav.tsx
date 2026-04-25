@@ -1,18 +1,17 @@
-
 import CloseButton from '../../../components/atoms/CloseButton/CloseButton'
 import MenuElement from '../../../components/organism/menuElement/MenuElement'
 import type { MenuTypes } from '../dataNavigation/dataNavigation'
 import styles from './MobileNav.module.scss'
-
 import ControlPanel from '../../../components/organism/ControlPanel/ControlPanel'
 import useGlobalContext from '../../../hooks/useGlobalContext'
+
 
 interface MobileRefProps {
 	dataMenu: MenuTypes[]
 }
 
 const MobileNav = ({ dataMenu }: MobileRefProps) => {
-	const { scrollMenu, mobileMenu, handleOpenCloseDropdown, activeIndex, setActiveIndex } = useGlobalContext()
+	const { setActiveIndex,setActiveSubIndex,mobileMenu,scrollMenu } = useGlobalContext()
 	const { toggle, isOpen, isVisible } = mobileMenu
 
 
@@ -25,14 +24,14 @@ const MobileNav = ({ dataMenu }: MobileRefProps) => {
 					handleClose={() => {
 						toggle()
 						setActiveIndex(null)
+						setActiveSubIndex(null)
 					}}
 				/>
 				<h2 className={styles.title}>Navigate to</h2>
 			</div>
 			<div className={styles.mobileLink}>
 				<ControlPanel
-					handleOpenCloseDropdown={handleOpenCloseDropdown}
-					activeIndex={activeIndex}
+					
 					styles={styles}
 					index={0}
 				/>
@@ -44,8 +43,7 @@ const MobileNav = ({ dataMenu }: MobileRefProps) => {
 							styles={styles}
 							data={item}
 							index={index}
-							toggle={toggle}
-							handleOpenCloseDropdown={handleOpenCloseDropdown}
+							
 						/>
 					)
 				})}

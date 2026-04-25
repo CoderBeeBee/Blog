@@ -34,7 +34,7 @@
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-			pointer-events: none;
+			// pointer-events: none;
 			.title {
 				padding-right: 1rem;
 				pointer-events: none;
@@ -61,24 +61,27 @@
 			transition: all 0.3s ease-in-out;
 			z-index: 1000;
 
-			.subLink {
-				display: block;
-				width: 100%;
-				white-space: nowrap;
-				line-height: 1.8rem;
-				padding: 0.7rem 3rem 0.7rem 2rem;
-				color: var(--lightGrayColor);
-				font-size: var(--subMenu-TextSize);
-				font-weight: 400;
-				transition: all 0.3s;
+			.subMenuLi {
+				position: relative;
+				.subLink {
+					display: block;
+					width: 100%;
+					white-space: nowrap;
+					line-height: 1.8rem;
+					padding: 0.7rem 3rem 0.7rem 2rem;
+					color: var(--lightGrayColor);
+					font-size: var(--subMenu-TextSize);
+					font-weight: 400;
+					transition: all 0.3s;
 
-				&:hover {
-					color: var(--whiteColor);
-					background-color: var(--blackColor);
+					&:hover {
+						color: var(--whiteColor);
+						background-color: var(--blackColor);
+					}
 				}
-			}
-			.activeSubMenuLi {
-				color: var(--whiteColor);
+				.activeSubMenuLi {
+					color: var(--whiteColor);
+				}
 			}
 		}
 
@@ -89,7 +92,6 @@
 		}
 	}
 }
-
 
 @media (max-width: 1700px) {
 	.desktopNavWrapper {

@@ -72,7 +72,7 @@ const CategoriesList = () => {
 		e.stopPropagation()
 		if (!dragged) return
 
-		const origin = window.location.origin
+		
 		const name = dragged.name
 		const slug = name.toLowerCase().replace(/\s+/g, '-')
 
@@ -81,7 +81,7 @@ const CategoriesList = () => {
 
 		const parentCategory = parentSlug ? `${parentSlug}/` : ''
 
-		const permalink = `${origin}/categories/${parentCategory}${slug}`
+		const permalink = `/categories/${parentCategory}${slug}`
 
 		const updatedData = { ...dragged, parent: targetParentId, slug: permalink }
 

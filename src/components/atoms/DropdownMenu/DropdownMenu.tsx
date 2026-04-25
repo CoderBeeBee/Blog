@@ -1,97 +1,108 @@
-import type { MouseEvent } from 'react'
 import type { MenuItem } from '../../../containers/Navigation/dataNavigation/dataNavigation'
 
 import AnchorLink from '../AnchorLink/AnchorLink'
 import { useLocation } from 'react-router'
 import SubDropdown from '../SubDropdown/SubDropdown'
+import useGlobalContext from '../../../hooks/useGlobalContext'
+import useWindowSize from '../../../hooks/useWindowSize'
 
 interface DropdownMenuProps {
-	data: MenuItem[]
-	handleMouseInDropdown?: (e: MouseEvent<HTMLElement>) => void
-	handleMouseOutDropdown?: (e: MouseEvent<HTMLElement>) => void
-	onClickCloseDropDown?: () => void
+	data: MenuItem
 	styles: { [key: string]: string }
-	toggle?: () => void
-	activeIndex?: number | null
 	index?: number
+	closeDashboardMenu?: () => void
 }
 
-const DropdownMenu = ({
-	data,
-	styles,
-	handleMouseInDropdown,
-	handleMouseOutDropdown,
-	onClickCloseDropDown,
-	toggle,
-	activeIndex,
-	index,
-}: DropdownMenuProps) => {
+const DropdownMenu = ({ data, styles, index, closeDashboardMenu }: DropdownMenuProps) => {
+	const { widthLess900 } = useWindowSize()
 	const { pathname } = useLocation()
 
-	const handleMenuItemClick = () => {
-		onClickCloseDropDown?.()
-		toggle?.()
-	}
+	const {
+		collapseMenu,
+
+		onKeyDownSub,
+		onClickCollapseDropdown,
+		expandCollapseSubDropdown,
+		expandSubDropdown,
+		collapseSubDropdown,
+		hoverOverDropdown,
+		activeIndex,
+		activeSubIndex,
+		mobileMenu,
+	} = useGlobalContext()
+	const { toggle } = mobileMenu
 
 	return (
 		<ul
 			className={`${styles.subMenu} ${activeIndex === index ? styles.active : ''}`}
-			onMouseEnter={e => handleMouseInDropdown?.(e)}
-			onMouseLeave={e => handleMouseOutDropdown?.(e)}>
-			{data.children?.map((item, i: number) => {
-				const menuName = item.name ? item.name : item.title
-				const active = pathname === item.slug
+			onMouseEnter={() => {
+				if (widthLess900) return
 
-				const active2 = pathname === item.href
+				hoverOverDropdown()
+			}}
+			onMouseLeave={() => {
+				if (widthLess900) return
+				collapseMenu()
+			}}>
+			{data &&
+				data.children?.map((item: MenuItem, i: number) => {
+					const menuName = item.name ? item.name : item.title
+					const active = pathname === item.slug
 
-				const url = item ? (item.name ? item.slug : item.href) : '#'
+					const active2 = pathname === item.href
 
-				if (item.children && item.children?.length) {
-					return (
-						<li
-							onClick={() => handleMenuItemClick()}
-							className={`${styles.subMenuLi} ${active2 ? styles.activeSubMenuLi : ''}`}
-							key={i}>
-							<span
-								className={`${styles.subLink} ${active ? styles.activeSubMenuLi : ''}`}
-								// href={url!}
-								// count={index}
-							>
-								{menuName}
-							</span>
+					const url = item ? (item.name ? item.slug : item.href) : '#'
 
-							{item.children && (
-								<SubDropdown
-									styles={styles}
-									activeIndex={i}
-									data={item.children}
-									index={i}
-									toggle={toggle}
-									onClickCloseDropDown={onClickCloseDropDown}
-									handleMouseInDropdown={handleMouseInDropdown}
-									handleMouseOutDropdown={handleMouseOutDropdown}
-								/>
-							)}
-						</li>
-					)
-				} else {
-					return (
-						<li
-							onClick={() => handleMenuItemClick()}
-							className={`${styles.subMenuLi} ${active2 ? styles.activeSubMenuLi : ''}`}
-							key={i}>
-							{
-								<AnchorLink
+					if (item.children && item.children?.length) {
+						return (
+							<li
+								className={`${styles.subMenuLi} ${active2 ? styles.activeSubMenuLi : ''}  ${activeIndex === index && activeSubIndex === i ? styles.activeSub : ''}`}
+								key={i}>
+								<span
+									tabIndex={0}
 									className={`${styles.subLink} ${active ? styles.activeSubMenuLi : ''}`}
-									href={url!}
-									count={i}>
+									onMouseEnter={() => {
+										if (widthLess900) return
+										expandSubDropdown(i)
+									}}
+									onMouseLeave={() => {
+										if (widthLess900) return
+
+										collapseSubDropdown()
+									}}
+									onClick={() => {
+										if (!widthLess900) return
+										expandCollapseSubDropdown(i)
+									}}
+									onKeyDown={e => onKeyDownSub(e, i)}>
 									{menuName}
-								</AnchorLink>
-							}
-						</li>
-					)
-				}
-			})}
+								</span>
+
+								{item.children && <SubDropdown data={item.children} index={i} parentIndex={index} toggle={toggle} />}
+							</li>
+						)
+					} else {
+						return (
+							<li
+								onClick={() => {
+									onClickCollapseDropdown()
+									closeDashboardMenu?.()
+								}}
+								className={`${styles.subMenuLi} ${active2 ? styles.activeSubMenuLi : ''}`}
+								key={i}>
+								{
+									<AnchorLink
+										toggle={toggle}
+										className={`${styles.subLink} ${active ? styles.activeSubMenuLi : ''}`}
+										href={url!}
+										count={i}>
+										{menuName}
+									</AnchorLink>
+								}
+							</li>
+						)
+					}
+				})}
 		</ul>
 	)
 }

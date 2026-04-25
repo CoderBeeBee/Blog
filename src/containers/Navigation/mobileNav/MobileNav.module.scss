@@ -55,13 +55,14 @@
 			}
 		}
 	}
-
+	
 	.mobileLink {
 		display: flex;
 		flex-direction: column;
 		margin-top: 8rem;
 		width: 100%;
 		counter-reset: ctr;
+		transition: all 0.3s ease-in-out;
 
 		.link {
 			position: relative;
@@ -98,7 +99,7 @@
 			transition: all 0.3s ease-in-out;
 			overflow: hidden;
 			cursor: pointer;
-
+			// pointer-events: none;
 			&:hover .menuElement .title {
 				color: var(--lightGrayColor);
 			}
@@ -112,11 +113,11 @@
 				align-items: center;
 				justify-content: space-between;
 				width: 100%;
-				font-size: var(--menu-TextSize);
 
+				font-size: var(--menu-TextSize);
 				font-weight: 400;
 				color: var(--whiteColor);
-				pointer-events: none;
+				// pointer-events: none;
 
 				.title {
 					color: var(--whiteColor);
@@ -147,10 +148,10 @@
 
 			.subMenu {
 				display: block;
-
 				flex-direction: column;
-				height: 100%;
-				padding: 1.8rem 0;
+				// height: 100%;
+
+				margin-bottom: 2rem;
 				background: var(--blackColor);
 				opacity: 1;
 				visibility: visible;
@@ -158,12 +159,18 @@
 				transition: all 0.3s ease-in-out;
 				z-index: 1000;
 				.subMenuLi {
+					position: relative;
+					display: flex;
+					flex-direction: column;
+					max-height: 3rem;
+
+					transition: all 0.3s ease-in-out;
 					.subLink {
-						display: block;
+						display: flex;
 						width: 100%;
 						height: 100%;
-						white-space: nowrap;
 						line-height: 1.8rem;
+						white-space: nowrap;
 						padding: 0.7rem 3rem 0.7rem 2rem;
 						color: var(--lightGrayColor);
 						font-size: var(--subMenu-TextSize);
@@ -178,6 +185,9 @@
 					.activeSubMenuLi {
 						color: var(--whiteColor);
 					}
+				}
+				.activeSub {
+					max-height: 100%;
 				}
 			}
 		}
@@ -362,7 +372,6 @@
 .mobileContainer::-webkit-scrollbar {
 	display: none;
 }
-
 
 @media (max-width: 500px) {
 	.mobileContainer {

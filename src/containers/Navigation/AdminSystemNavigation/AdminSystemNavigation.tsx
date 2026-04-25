@@ -12,10 +12,7 @@ const AdminSystemNavigation = () => {
 		openCloseUserMenu,
 		onKeyDownAdminSystemMenu,
 		userRef,
-		handleAdminMouseIn,
-		handleAdminMouseOut,
-		handleAdminMouseInDropdown,
-		handleAdminMouseOutDropdown,
+		
 	} = useGlobalContext()
 
 	return (
@@ -27,10 +24,7 @@ const AdminSystemNavigation = () => {
 						data={item}
 						index={index + 1000}
 						styles={styles}
-						handleMouseIn={handleAdminMouseIn}
-						handleMouseOut={handleAdminMouseOut}
-						handleMouseInDropdown={handleAdminMouseInDropdown}
-						handleMouseOutDropdown={handleAdminMouseOutDropdown}
+						
 					/>
 				)
 			})}

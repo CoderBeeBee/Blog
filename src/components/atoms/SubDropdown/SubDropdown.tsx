@@ -1,43 +1,44 @@
-import type { MouseEvent } from 'react'
+import styles from './SubDropdown.module.scss'
 import type { MenuItem } from '../../../containers/Navigation/dataNavigation/dataNavigation'
 
 import AnchorLink from '../AnchorLink/AnchorLink'
 import { useLocation } from 'react-router'
 
-interface DropdownMenuProps {
+import useWindowSize from '../../../hooks/useWindowSize'
+import useGlobalContext from '../../../hooks/useGlobalContext'
+
+interface SubDropdownProps {
 	data: MenuItem[]
-	handleMouseInDropdown?: (e: MouseEvent<HTMLElement>) => void
-	handleMouseOutDropdown?: (e: MouseEvent<HTMLElement>) => void
-	onClickCloseDropDown?: () => void
-	
-	styles: { [key: string]: string }
 	toggle?: () => void
-	activeIndex?: number | null
 	index?: number
+	parentIndex: number | undefined
 }
 
-const SubDropdown = ({
-	data,
-	styles,
-	handleMouseInDropdown,
-	handleMouseOutDropdown,
-	onClickCloseDropDown,
-	toggle,
-	activeIndex,
-	index,
-}: DropdownMenuProps) => {
+const SubDropdown = ({ data, toggle, parentIndex, index }: SubDropdownProps) => {
+	const { widthLess900 } = useWindowSize()
 	const { pathname } = useLocation()
 
+	const { onClickCollapseDropdown, hoverOverSubdropdown, hoverOverCollapseSubdropdown, activeIndex, activeSubIndex } =
+		useGlobalContext()
+
 	const handleMenuItemClick = () => {
-		onClickCloseDropDown?.()
+		onClickCollapseDropdown()
 		toggle?.()
 	}
-    
+
 	return (
 		<ul
-			className={`${styles.subMenu} ${activeIndex === index ? styles.active : ''}`}
-			onMouseEnter={e => handleMouseInDropdown?.(e)}
-			onMouseLeave={e => handleMouseOutDropdown?.(e)}>
+			className={`${styles.subMenu} ${activeIndex === parentIndex && activeSubIndex === index ? styles.activeSub : ''}`}
+			onMouseEnter={() => {
+				if (widthLess900) return
+				hoverOverSubdropdown()
+				
+			}}
+			onMouseLeave={() => {
+				if (widthLess900) return
+
+				hoverOverCollapseSubdropdown()
+			}}>
 			{data.map((item, i: number) => {
 				const menuName = item.name ? item.name : item.title
 				const active = pathname === item.slug
@@ -45,24 +46,19 @@ const SubDropdown = ({
 				const active2 = pathname === item.href
 
 				const url = item ? (item.name ? item.slug : item.href) : '#'
-                console.log(data);
-				
-					return (
-						<li
-							onClick={() => handleMenuItemClick()}
-							className={`${styles.subMenuLi} ${active2 ? styles.activeSubMenuLi : ''}`}
-							key={i}>
-							{
-								<AnchorLink
-									className={`${styles.subLink} ${active ? styles.activeSubMenuLi : ''}`}
-									href={url!}
-									count={i}>
-									{menuName}
-								</AnchorLink>
-							}
-						</li>
-					)
-				
+
+				return (
+					<li
+						onClick={() => handleMenuItemClick()}
+						className={`${styles.subMenuLi} ${active2 ? styles.activeSubMenuLi : ''}`}
+						key={i}>
+						{
+							<AnchorLink className={`${styles.subLink} ${active ? styles.activeSubMenuLi : ''}`} href={url!} count={i}>
+								{menuName}
+							</AnchorLink>
+						}
+					</li>
+				)
 			})}
 		</ul>
 	)

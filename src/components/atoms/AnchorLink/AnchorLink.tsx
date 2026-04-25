@@ -1,6 +1,7 @@
 import type { KeyboardEvent, MouseEvent, ReactNode, RefObject } from 'react'
 import { removePaginationLinksTags } from '../../../utils/removePaginationLinksTag'
 import { useLocation, useNavigate } from 'react-router'
+import useWindowSize from '../../../hooks/useWindowSize'
 
 interface AnchorLink {
 	children: ReactNode
@@ -9,13 +10,14 @@ interface AnchorLink {
 	target?: string
 	className?: string
 	count?: number
+	index?: number
 	ariaLabel?: string
 	title?: string
 	ref?: RefObject<HTMLAnchorElement | null>
-	handleOpenCloseMenu?: () => void
 	handleClose?: () => void
 	onKeyDown?: (e: KeyboardEvent) => void
-	handleOpenCloseDropdown?: (e: MouseEvent<HTMLDivElement | HTMLAnchorElement>) => void
+	onClickCollapseDropdown?: () => void
+	toggle?: () => void
 }
 
 const AnchorLink = ({
@@ -27,23 +29,27 @@ const AnchorLink = ({
 	className,
 	ariaLabel,
 	ref,
+	toggle,
 	title,
-	handleOpenCloseMenu,
-	handleOpenCloseDropdown,
+	onClickCollapseDropdown,
 	handleClose,
 	onKeyDown,
 }: AnchorLink) => {
+	const { widthLess900 } = useWindowSize()
+
 	const navigate = useNavigate()
 	const location = useLocation()
 
-	// const isActive = location.pathname === href
-	// ${isActive ? styles.isActive : ''}
 	const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault()
 
 		removePaginationLinksTags()
-		handleOpenCloseMenu?.()
-		handleOpenCloseDropdown?.(e)
+
+		if (widthLess900) {
+			toggle?.()
+		}
+		
+
 		handleClose?.()
 		const url = new URL(window.location.origin + href)
 		const path = url.pathname
@@ -69,6 +75,10 @@ const AnchorLink = ({
 			ref={ref}
 			onKeyDown={e => onKeyDown?.(e)}
 			onClick={e => handleClick(e)}
+			onMouseEnter={() => {
+				if (widthLess900) return
+				onClickCollapseDropdown?.()
+			}}
 			rel={rel}
 			draggable={false}
 			target={target}
