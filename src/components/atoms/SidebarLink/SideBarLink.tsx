@@ -27,35 +27,11 @@ const SideBarLink = ({ data, index, activeDashboardIndex, expandCollapseDashboar
 	const { pathname } = useLocation()
 	const active = pathname === data.href
 
-	// const handleOpenCloseDropdown = () => {
-	// 	if (data.href !== 'admin') {
-	// 		if (!sideBarLinkRef.current?.classList.contains(styles.activeSubLinks)) {
-	// 			const activeElements = document.querySelectorAll(`.${styles.activeSubLinks}`)
-	// 			const activeArrows = document.querySelectorAll(`.${styles.rotateArrow}`)
 
-	// 			if (activeElements) {
-	// 				activeElements.forEach(item => {
-	// 					item.classList.remove(styles.activeSubLinks)
-	// 				})
-	// 			}
-	// 			if (activeArrows) {
-	// 				activeArrows.forEach(item => {
-	// 					item.classList.remove(styles.rotateArrow)
-	// 				})
-	// 			}
-
-	// 			sideBarLinkRef.current?.classList.add(styles.activeSubLinks)
-	// 			arrowRef.current?.classList.add(styles.rotateArrow)
-	// 		} else {
-	// 			sideBarLinkRef.current?.classList.remove(styles.activeSubLinks)
-	// 			arrowRef.current?.classList.remove(styles.rotateArrow)
-	// 		}
-	// 	}
-	// }
 
 	const onKeyDown = (e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
-			// handleOpenCloseDropdown()
+			
 			expandCollapseDashboardDropdown(index)
 		}
 	}
@@ -72,7 +48,7 @@ const SideBarLink = ({ data, index, activeDashboardIndex, expandCollapseDashboar
 					onKeyDown={e => onKeyDown(e)}
 					className={styles.sideBarLinkHelper}
 					onClick={() => {
-						// handleOpenCloseDropdown()
+						
 						expandCollapseDashboardDropdown(index)
 					}}>
 					<div className={styles.sideBarLinkName}>
