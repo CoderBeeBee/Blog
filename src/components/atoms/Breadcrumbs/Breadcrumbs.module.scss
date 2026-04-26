@@ -1,6 +1,6 @@
 .breadcrumbsWrapper {
 	padding: 1rem ;
-
+	border-bottom: 1px solid var(--lightGrayColor);
 	.breadcrumbs {
 		color: var(--blackColor);
 		font-size: var(--textSize_10);
@@ -8,11 +8,11 @@
 		text-transform: uppercase;
 
 		.breadcrumbsLink {
-			color: var(--blackColor);
+			color: var(--mainColor);
 			transition: all .3s;
 			
 			&:hover{
-				color: var(--mainColor);
+				color: var(--mainColorHover);
 				
 			}
 		}

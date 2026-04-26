@@ -9,7 +9,7 @@ const SingleCategoryPage = () => {
 	const slug = childSlug ? childSlug : categorySlug
 	
 	const { data: category } = useFetchSingleCategoryQuery(slug!, { skip: !slug })
-
+	
 	if (!category) return
 	return (
 		<>

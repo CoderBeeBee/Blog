@@ -25,20 +25,27 @@
 		position: absolute;
 		top: 0;
 		left: 150%;
-		display: none;
+		display: flex;
 		padding: 0.5rem;
 		width: 200px;
 		max-width: 200px;
 		background-color: #dbf0e4;
 		border-radius: var(--borderRadius06);
+		transform-origin: top;
+		transform: scaleY(0);
+		opacity: 0;
+		visibility: hidden;
 		z-index: 100;
-
+		transition: all 0.3s ease-in-out;
 		.tooltipText {
 			font-size: var(--textSize_10);
 			line-height: 1.6rem;
 		}
 	}
 	.displayToolTip {
-		display: flex;
+		
+		transform: scaleY(1);
+		opacity: 1;
+		visibility: visible;
 	}
 }

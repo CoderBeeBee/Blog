@@ -188,9 +188,7 @@ const AdminList = () => {
 
 										<div className={styles.info}>Email: {user.email}</div>
 										<div className={styles.info}>Role: {user.role}</div>
-										<div className={styles.info}>
-											Date created: {new Date(user.createdAt).toLocaleDateString(...longDateConverter())}
-										</div>
+										
 
 										<div className={styles.info}>
 											Last login:{' '}

@@ -35,23 +35,8 @@ const RHFInput = <T extends FieldValues>({
 	const { dateToDateTimeLocal } = useDateToDateTimeLocal()
 	const [visible, setVisible] = useState<boolean>(false)
 	const { control } = useFormContext()
-	const [displayToolTip, setDisplayToolTip] = useState<string>('')
-
-	const [timeOutTipIn, setTimeOutTipIn] = useState<ReturnType<typeof setTimeout>[]>([])
-
-	const onMouseEnterToolTip = (id: string) => {
-		timeOutTipIn.forEach(t => clearTimeout(t))
-
-		setDisplayToolTip(id)
-	}
-	const onMouseLeaveToolTip = () => {
-		const resetList = []
-		const resetTime = setTimeout(() => {
-			setDisplayToolTip('')
-		}, 1000)
-		resetList.push(resetTime)
-		setTimeOutTipIn(resetList)
-	}
+	
+	
 
 	return (
 		<Controller
@@ -67,9 +52,7 @@ const RHFInput = <T extends FieldValues>({
 							<ToolTip
 								id={id}
 								tipMessage={tipMessage}
-								displayToolTip={displayToolTip}
-								onMouseEnterToolTip={onMouseEnterToolTip}
-								onMouseLeaveToolTip={onMouseLeaveToolTip}
+								isSubmitting={isSubmitting}
 							/>
 						)}
 					</div>

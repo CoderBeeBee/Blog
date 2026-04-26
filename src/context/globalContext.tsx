@@ -41,7 +41,6 @@ interface MenuContextProps {
 
 interface GlobalContextProps {
 	openCloseUserMenu: () => void
-	expandCollapseDropdown: (index: number) => void
 	signOut: () => void
 	navRef: RefObject<HTMLDivElement | null>
 	userRef: RefObject<HTMLDivElement | null>
@@ -61,47 +60,55 @@ interface GlobalContextProps {
 	different: differentTypes
 	integrations: socialTypes
 	ads: AdsTypes
+
+	// Dropdown
+	expandCollapseDropdown: (index: number) => void
+
 	setActiveIndex: Dispatch<SetStateAction<number | null>>
 	setActiveSubIndex: Dispatch<SetStateAction<number | null>>
 	onKeyDown: (e: KeyboardEvent, index: number) => void
 	onKeyDownSub: (e: KeyboardEvent, index: number) => void
-	// Dropdown
 	expandMenu: (index: number) => void
 	collapseMenu: () => void
 	hoverOverDropdown: () => void
-	
-
 	expandCollapseSubDropdown: (index: number) => void
 	hoverOverSubdropdown: () => void
 	hoverOverCollapseSubdropdown: () => void
 	expandSubDropdown: (index: number) => void
 	collapseSubDropdown: () => void
 	onClickCollapseDropdown: () => void
-	
 	onKeyDownAdminSystemMenu: (e: KeyboardEvent) => void
+	// Tooltip
+	toolTipId: string
+	expandToolTip: (id: string) => void
+	collapseToolTip: () => void
 }
 
 const GlobalContext = createContext<GlobalContextProps | null>(null)
 
 const GlobalProvider = ({ children }: MenuContextProps) => {
+	const { pathname } = useLocation()
 	const navigate = useNavigate()
 	const [logOut] = useLogOutMutation()
-	const { pathname } = useLocation()
+	const sideBarMenu = useMobileSideBarMenu()
+	const { close } = sideBarMenu
 	const dispatch = useDispatch()
 	const mobileMenu = useMobileMenu()
 	const editContext = useCategory()
-	const sideBarMenu = useMobileSideBarMenu()
 	const navRef = useRef<HTMLDivElement>(null)
 	const sideBarRef = useRef<HTMLDivElement>(null)
+	// Mobile menu
+	const [toggleMenu, setToggleMenu] = useState<boolean>(false)
+	const userRef = useRef<HTMLDivElement>(null)
+	// Dropdown state
 	const [activeIndex, setActiveIndex] = useState<number | null>(null)
 	const [activeSubIndex, setActiveSubIndex] = useState<number | null>(null)
-	const userRef = useRef<HTMLDivElement>(null)
 	const [scrollMenu, setScrollMenu] = useState<boolean>(false)
-	const [toggleMenu, setToggleMenu] = useState<boolean>(false)
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const timeoutSubRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const [openedSub, setOpenedSub] = useState<boolean>(false)
-	const { close } = sideBarMenu
+
+	// Settings data
 	const { data: settings, isLoading } = useFetchSettingsQuery({})
 	const { basic, security, posts, interactions, analytics, different, integrations } = settings ?? {}
 
@@ -116,7 +123,6 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 
 	// Open close navigation mobile dropdown
 	const expandCollapseDropdown = (index: number) => {
-		
 		if (Number.isNaN(index)) return
 
 		if (activeIndex === index) {
@@ -167,20 +173,16 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 		if (toggleMenu) setToggleMenu(prev => !prev)
 	}
 	const collapseMenu = () => {
-		
 		timeoutRef.current = setTimeout(() => {
 			setActiveIndex(null)
 		}, 1000)
-		
 	}
 	const hoverOverDropdown = () => {
 		if (timeoutRef.current) {
 			clearTimeout(timeoutRef.current)
 			timeoutRef.current = null
 		}
-		
 	}
-	
 
 	const onClickCollapseDropdown = () => {
 		if (activeIndex === null) return
@@ -246,8 +248,22 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 		}, 500)
 	}
 
-	
-	
+	// ToolTip
+	const [toolTipId, setDisplayToolTip] = useState<string>('')
+	const timeoutToolTipRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+	const expandToolTip = (id: string) => {
+		if (timeoutToolTipRef.current) {
+			clearTimeout(timeoutToolTipRef.current)
+			timeoutToolTipRef.current = null
+		}
+		if (toolTipId === id) return
+		setDisplayToolTip(id)
+	}
+	const collapseToolTip = () => {
+		timeoutToolTipRef.current = setTimeout(() => {
+			setDisplayToolTip('')
+		}, 1000)
+	}
 
 	useEffect(() => {
 		const handleClickOutside = (e: globalThis.MouseEvent) => {
@@ -331,6 +347,10 @@ const GlobalProvider = ({ children }: MenuContextProps) => {
 		onKeyDownAdminSystemMenu,
 		onClickCollapseDropdown,
 		editContext,
+		// Tooltip
+		toolTipId,
+		expandToolTip,
+		collapseToolTip,
 	}
 	if (isLoading) {
 		return null

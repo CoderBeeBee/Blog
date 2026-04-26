@@ -32,7 +32,7 @@ const Navigation = () => {
 
 		const map = new Map<string, CategoryProps>()
 		const roots: CategoryProps[] = []
-		
+
 		categories.forEach(item => map.set(item._id, { ...item, children: [] }))
 
 		categories.forEach((cat: CategoryProps) => {
@@ -46,14 +46,13 @@ const Navigation = () => {
 				roots.push(map.get(cat._id)!)
 			}
 		})
-		setRoots(roots)
+		setRoots([...roots].sort((a, b) => a.name.localeCompare(b.name)))
 	}, [categories])
 
 	
 	const newDataMenu = dataNavigation.map(item => {
 		if (item.title === 'Categories') {
 			if (categories && categories?.length > 0) return { ...item, children: categories?.length ? roots : [] }
-
 			return item
 		}
 

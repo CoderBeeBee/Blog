@@ -22,6 +22,7 @@ import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 import { adminLinks } from '../../../utils/sideBarLinks'
 import { CloseSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 import { useFetchAllTagsQuery } from '../../../slices/api/tagsApi'
+import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
 
 interface PostFormProps {
 	editValues?: postSchemaTypes
@@ -183,7 +184,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 				articleContent: uploadedFiles.articleContent!,
 				seo: { ...data.seo, slug: pathname },
 			}
-
+			
 			let res
 			if (!editValues) {
 				res = await createPost({ updatedData }).unwrap()
@@ -249,39 +250,16 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 	if (isSubmitSuccessful) window.scrollTo({ top: 0, behavior: 'smooth' })
 
 	return (
-		<FormProvider {...methods}>
-			<div className={styles.postFormContainer}>
-				{progress > 0 && (
-					<div className={styles.progressWrapper}>
-						<div style={{ width: `${Math.ceil(animatedProgress)}%` }} className={styles.progress}>
-							<span className={styles.progressInfo}>{Math.ceil(animatedProgress)}%</span>
-						</div>
-					</div>
-				)}
-				<div className={styles.postFormControllersWrapper}>
-					<div className={styles.postFormControllers}>
-						{buttons.map((btn, index) => (
-							<button
-								type="button"
-								disabled={isSubmitting}
-								className={styles.postFormBtns}
-								key={index}
-								onClick={() => {
-									const newIndex = articleContent.length
-									if (btn === 'image') {
-										insert(newIndex, {
-											type: btn,
-											value: { src: null, alt: '', caption: '', public_id: '' },
-										})
-									} else {
-										insert(newIndex, { type: btn, value: '' })
-									}
-								}}>
-								+ {btn}
-							</button>
-						))}
+		<div className={styles.postFormContainer}>
+			<Breadcrumbs />
+			{progress > 0 && (
+				<div className={styles.progressWrapper}>
+					<div style={{ width: `${Math.ceil(animatedProgress)}%` }} className={styles.progress}>
+						<span className={styles.progressInfo}>{Math.ceil(animatedProgress)}%</span>
 					</div>
 				</div>
+			)}
+			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(onSumbit)} className={styles.formContainer} aria-busy={isSubmitting}>
 					<div className={styles.formWrapper}>
 						<div className={styles.formFlex}>
@@ -388,7 +366,31 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 										)}
 									</div>
 								))}
-
+							<div className={styles.postFormControllersWrapper}>
+								<p className={styles.addContent}>Add content</p>
+								<div className={styles.postFormControllers}>
+									{buttons.map((btn, index) => (
+										<button
+											type="button"
+											disabled={isSubmitting}
+											className={styles.postFormBtns}
+											key={index}
+											onClick={() => {
+												const newIndex = articleContent.length
+												if (btn === 'image') {
+													insert(newIndex, {
+														type: btn,
+														value: { src: null, alt: '', caption: '', public_id: '' },
+													})
+												} else {
+													insert(newIndex, { type: btn, value: '' })
+												}
+											}}>
+											+ {btn}
+										</button>
+									))}
+								</div>
+							</div>
 							<div className={styles.seoWrapper}>
 								<h3 className={styles.seoTitle}>Search Engine Optimize</h3>
 								<p className={`${styles.seoText}`}>
@@ -428,19 +430,21 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 							<div className={styles.formOptionsWrapper}>
 								<RHFCategorySelect<postSchemaTypes>
 									name="categories"
+									id="categories"
 									options={allCategories}
 									label="Categories"
-									max={3}
-									styles={styles}
+									max={2}
 									isSubmitting={isSubmitting}
+									tipMessage="You can select up to 2 categories"
 								/>
 								<RHFCategorySelect<postSchemaTypes>
 									name="tags"
+									id="tags"
 									options={allTags}
 									label="Tags"
 									max={10}
-									styles={styles}
 									isSubmitting={isSubmitting}
+									tipMessage="You can select up to 10 tags"
 								/>
 
 								<RHFSelect
@@ -508,18 +512,18 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 						)}
 					</div>
 				</form>
-				{editValues && isSubmitSuccessful && (
-					<div className={styles.updateWrapper}>
-						<div className={styles.updateBox}>
-							<p className={styles.updateInfo}>{postMessage}</p>
-							<AnchorLink href="/admin/blog/posts" className={styles.updatePostLink}>
-								Posts
-							</AnchorLink>
-						</div>
+			</FormProvider>
+			{editValues && isSubmitSuccessful && (
+				<div className={styles.updateWrapper}>
+					<div className={styles.updateBox}>
+						<p className={styles.updateInfo}>{postMessage}</p>
+						<AnchorLink href="/admin/blog/posts" className={styles.updatePostLink}>
+							Posts
+						</AnchorLink>
 					</div>
-				)}
-			</div>
-		</FormProvider>
+				</div>
+			)}
+		</div>
 	)
 }
 

@@ -1,16 +1,16 @@
 import { TipSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 import styles from './ToolTip.module.scss'
+import useGlobalContext from '../../../hooks/useGlobalContext'
 
 interface ToolTipProps {
 	id: string
 	tipMessage?: string
-	displayToolTip: string
-	onMouseEnterToolTip: (id: string) => void
-	onMouseLeaveToolTip: () => void
+	isSubmitting?: boolean
 }
 
-const ToolTip = ({ id, tipMessage, displayToolTip, onMouseEnterToolTip, onMouseLeaveToolTip }: ToolTipProps) => {
-	const isActive = id === displayToolTip
+const ToolTip = ({ id, tipMessage, isSubmitting }: ToolTipProps) => {
+	const { toolTipId, expandToolTip, collapseToolTip } = useGlobalContext()
+	const isActive = id === toolTipId
 
 	return (
 		<div className={`${styles.tooltipBox}`}>
@@ -18,11 +18,15 @@ const ToolTip = ({ id, tipMessage, displayToolTip, onMouseEnterToolTip, onMouseL
 				type="button"
 				aria-label="Tool tip"
 				className={`${styles.tooltip}`}
-				onMouseEnter={() => onMouseEnterToolTip(id)}
-				onMouseLeave={() => onMouseLeaveToolTip()}>
+				onMouseEnter={() => expandToolTip(id)}
+				onMouseLeave={() => collapseToolTip()}
+				disabled={isSubmitting}>
 				<TipSVG className={`${styles.tipSVG}`} />
 			</button>
-			<div className={`${styles.tooltipInfo} ${isActive && styles.displayToolTip}`}>
+			<div
+			onMouseEnter={() => expandToolTip(id)}
+				onMouseLeave={() => collapseToolTip()}
+			className={`${styles.tooltipInfo} ${isActive && styles.displayToolTip}`}>
 				<p className={`${styles.tooltipText}`}>{tipMessage}</p>
 			</div>
 		</div>

@@ -1,39 +1,12 @@
 .postFormContainer {
 	display: flex;
+	flex-direction: column;
 	width: 100%;
 	// min-height: 100dvh;
 	height: 100%;
 	max-width: 1300px;
 	color: var(--textColor);
 	background-color: var(--whiteColor);
-	.postFormControllersWrapper {
-		padding: 2rem;
-		border-right: 1px solid var(--lightGrayColor);
-		.postFormControllers {
-			position: sticky;
-			top: 7rem;
-			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-
-			.postFormBtns {
-				padding: 1rem 0.5em;
-				color: var(--darkColor);
-				background-color: var(--whiteColor);
-				font-size: var(--textSize_12);
-				border-radius: var(--borderRadius04);
-				border: none;
-
-				text-transform: uppercase;
-				transition: all 0.3s;
-				cursor: pointer;
-
-				&:hover {
-					color: var(--mainColor);
-				}
-			}
-		}
-	}
 
 	// FORM -------
 	.formContainer {
@@ -41,8 +14,9 @@
 		flex-direction: column;
 		width: 100%;
 		height: 100%;
-		padding: 2rem;
+		padding: 3rem 2rem;
 		margin-bottom: 4rem;
+
 		.formWrapper {
 			display: flex;
 			flex-direction: row;
@@ -90,22 +64,59 @@
 						}
 					}
 				}
+				.postFormControllersWrapper {
+					padding: 2rem;
+					border: 1px solid var(--lightGrayColor);
+					border-radius: var(--borderRadius06);
+					.addContent {
+						margin-bottom: 1rem;
+						font-size: var(--textSize_14);
+						font-family: var(--fontFamily);
+						color: var(--blackColor);
+						font-weight: 500;
+					}
+					.postFormControllers {
+						
+						display: flex;
+						flex-direction: row;
+						gap: 1rem;
+
+						.postFormBtns {
+							padding: 1.25rem;
+							width: 50%;
+							color: var(--whiteColor);
+							background-color: var(--mainColor);
+							font-size: var(--textSize_12);
+							border-radius: var(--borderRadius06);
+							border: none;
+
+							text-transform: uppercase;
+							transition: all 0.3s;
+							cursor: pointer;
+
+							&:hover {
+								background-color: var(--mainColorHover);
+							}
+						}
+					}
+				}
 				.seoWrapper {
 					display: flex;
 					flex-direction: column;
-					padding: 2rem;
-					margin-bottom: 2rem;
+					padding: 3rem 0 0;
+					margin-top: 4rem;
 					font-family: var(--fontFamily);
-					border: 1px solid var(--lightGrayColor);
-					border-radius: var(--borderRadius06);
+					border-top: 1px solid var(--lightGrayColor);
+					// border-bottom: 1px solid var(--lightGrayColor);
 					color: var(--blackColor);
 					.seoTitle {
 						margin-bottom: 1rem;
 						font-size: var(--textSize_16);
 					}
 					.seoText {
+						padding-left: 1rem;
 						padding-bottom: 2rem;
-						margin-bottom: 2rem;
+						margin-bottom: 3rem;
 						font-size: var(--textSize_14);
 						line-height: 2.2rem;
 						border-bottom: 1px solid var(--lightGrayColor);
@@ -124,52 +135,6 @@
 					display: flex;
 					flex-direction: column;
 					gap: 1rem;
-
-					// FORM CATEGORIES
-					.categoriesContainer {
-						display: flex;
-						flex-direction: column;
-						margin-bottom: 1rem;
-
-						.selectedCategoriesTitle {
-							margin-bottom: 1rem;
-							font-size: var(--textSize_20);
-							font-family: var(--font-2);
-							font-weight: 500;
-						}
-						.error {
-							margin-bottom: 1rem;
-						}
-
-						.categoriesOptions {
-							display: flex;
-							flex-direction: row;
-							flex-wrap: wrap;
-							gap: 1rem;
-
-							.checkbox {
-								display: flex;
-								align-items: center;
-								gap: 1rem;
-								padding: 0.75rem 1.5rem;
-								box-shadow: 0px 0px 2px 2px var(--lightGrayColor);
-								border-radius: var(--borderRadius06);
-								font-size: var(--textSize_14);
-								cursor: pointer;
-								transition: all 0.3s;
-								&:hover {
-									color: var(--mainColor);
-								}
-
-								input {
-									display: none;
-								}
-							}
-							.checked {
-								box-shadow: 0px 0px 2px 2px var(--mainColor);
-							}
-						}
-					}
 				}
 			}
 		}
@@ -180,7 +145,8 @@
 		gap: 2rem;
 		margin-top: 3rem;
 		flex-wrap: wrap;
-
+		padding: 2rem 0;
+		border-top: 1px solid var(--lightGrayColor);
 		.submitBtn {
 			display: flex;
 			align-self: flex-start;
@@ -371,15 +337,15 @@
 	}
 }
 
-@media (width <= 900px) {
-	.postFormContainer {
-		flex-direction: column;
+// @media (width <= 900px) {
+// 	.postFormContainer {
+// 		flex-direction: column;
 
-		.postFormControllersWrapper {
-			border-right: none;
-		}
-	}
-}
+// 		.postFormControllersWrapper {
+// 			border-right: none;
+// 		}
+// 	}
+// }
 
 @media (width <= 700px) {
 	.postFormContainer {

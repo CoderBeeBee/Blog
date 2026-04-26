@@ -34,23 +34,23 @@ const RHFTextArea = <T extends FieldValues>({
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const { control } = useFormContext()
 
-	const [displayToolTip, setDisplayToolTip] = useState<string>('')
+	// const [displayToolTip, setDisplayToolTip] = useState<string>('')
 
-	const [timeOutTipIn, setTimeOutTipIn] = useState<ReturnType<typeof setTimeout>[]>([])
+	// const [timeOutTipIn, setTimeOutTipIn] = useState<ReturnType<typeof setTimeout>[]>([])
 
-	const onMouseEnterToolTip = (id: string) => {
-		timeOutTipIn.forEach(t => clearTimeout(t))
+	// const onMouseEnterToolTip = (id: string) => {
+	// 	timeOutTipIn.forEach(t => clearTimeout(t))
 
-		setDisplayToolTip(id)
-	}
-	const onMouseLeaveToolTip = () => {
-		const resetList = []
-		const resetTime = setTimeout(() => {
-			setDisplayToolTip('')
-		}, 1000)
-		resetList.push(resetTime)
-		setTimeOutTipIn(resetList)
-	}
+	// 	setDisplayToolTip(id)
+	// }
+	// const onMouseLeaveToolTip = () => {
+	// 	const resetList = []
+	// 	const resetTime = setTimeout(() => {
+	// 		setDisplayToolTip('')
+	// 	}, 1000)
+	// 	resetList.push(resetTime)
+	// 	setTimeOutTipIn(resetList)
+	// }
 
 	const handleKeyDown =
 		(onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void) => (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -106,17 +106,9 @@ const RHFTextArea = <T extends FieldValues>({
 						<label htmlFor={id} className={`${required && styles.labelAfter}`}>
 							{label && `${label}`}
 						</label>
-						{tip && (
-							<ToolTip
-								id={id}
-								tipMessage={tipMessage}
-								displayToolTip={displayToolTip}
-								onMouseEnterToolTip={onMouseEnterToolTip}
-								onMouseLeaveToolTip={onMouseLeaveToolTip}
-							/>
-						)}
+						{tip && <ToolTip id={id} tipMessage={tipMessage} isSubmitting={isSubmitting} />}
 					</div>
-					
+
 					<div className={`${styles.textareaWrapper} ${isFocused ? styles.focusArea : ''}`}>
 						<textarea
 							id={id}

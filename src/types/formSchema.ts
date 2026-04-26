@@ -53,8 +53,8 @@ export const postSchema = z.object({
 		]),
 	),
 
-	categories: z.array(z.string()).min(1, { message: 'You must choose min 1 category' }).max(2, { message: 'Too many categories. Max 2 categories' }),
-	tags: z.array(z.string()).min(1, { message: 'You must choose min 1 tag' }),
+	categories: z.array(z.string()).min(1, { message: 'You must select min 1 category' }).max(2, { message: 'Too many categories. Max 2 categories' }),
+	tags: z.array(z.string()).min(1, { message: 'You must select min 1 tag' }),
 
 	seo: z.object({
 		slug: z

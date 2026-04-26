@@ -1,7 +1,7 @@
 import { Controller, useFormContext, type FieldValues, type Path } from 'react-hook-form'
 import styles from './RHFSelect.module.scss'
 import ToolTip from '../ToolTip/ToolTip'
-import { useState } from 'react'
+
 interface RHFSelectProps<T extends FieldValues> {
 	name: Path<T>
 	label: string
@@ -22,7 +22,6 @@ const RHFSelect = <T extends FieldValues>({
 	label,
 	id,
 	options,
-
 	isSubmitting = false,
 	tip = true,
 	tipMessage,
@@ -30,23 +29,6 @@ const RHFSelect = <T extends FieldValues>({
 }: RHFSelectProps<T>) => {
 	const { control } = useFormContext()
 
-	const [displayToolTip, setDisplayToolTip] = useState<string>('')
-
-	const [timeOutTipIn, setTimeOutTipIn] = useState<ReturnType<typeof setTimeout>[]>([])
-
-	const onMouseEnterToolTip = (id: string) => {
-		timeOutTipIn.forEach(t => clearTimeout(t))
-
-		setDisplayToolTip(id)
-	}
-	const onMouseLeaveToolTip = () => {
-		const resetList = []
-		const resetTime = setTimeout(() => {
-			setDisplayToolTip('')
-		}, 1000)
-		resetList.push(resetTime)
-		setTimeOutTipIn(resetList)
-	}
 	return (
 		<Controller
 			control={control}
@@ -58,15 +40,7 @@ const RHFSelect = <T extends FieldValues>({
 							<label htmlFor={id} className={`${styles.selectTitle} ${required && styles.labelAfter}`}>
 								{label && `${label}`}
 							</label>
-							{tip && (
-								<ToolTip
-									id={id}
-									tipMessage={tipMessage}
-									displayToolTip={displayToolTip}
-									onMouseEnterToolTip={onMouseEnterToolTip}
-									onMouseLeaveToolTip={onMouseLeaveToolTip}
-								/>
-							)}
+							{tip && <ToolTip id={id} tipMessage={tipMessage} isSubmitting={isSubmitting} />}
 						</div>
 						<select
 							onChange={e => {
@@ -89,7 +63,7 @@ const RHFSelect = <T extends FieldValues>({
 							aria-disabled={isSubmitting}
 							id={id}>
 							<>
-								<option value='null'>----</option>
+								<option value="null">----</option>
 								{options &&
 									options.map((option, index) => (
 										<option key={index} value={option.id}>

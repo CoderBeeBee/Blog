@@ -1,6 +1,6 @@
 import { Controller, useFormContext, type FieldValues, type Path } from 'react-hook-form'
 
-import { useState, type ReactNode, type RefObject } from 'react'
+import {  type ReactNode, type RefObject } from 'react'
 import { UploadSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 import styles from './RHFAddFile.module.scss'
 import ToolTip from '../ToolTip/ToolTip'
@@ -33,23 +33,7 @@ const RHFAddFile = <T extends FieldValues>({
 	required = true,
 }: RHFAddFileProps<T>) => {
 	const { control } = useFormContext()
-	const [displayToolTip, setDisplayToolTip] = useState<string>('')
-
-	const [timeOutTipIn, setTimeOutTipIn] = useState<ReturnType<typeof setTimeout>[]>([])
-
-	const onMouseEnterToolTip = (id: string) => {
-		timeOutTipIn.forEach(t => clearTimeout(t))
-
-		setDisplayToolTip(id)
-	}
-	const onMouseLeaveToolTip = () => {
-		const resetList = []
-		const resetTime = setTimeout(() => {
-			setDisplayToolTip('')
-		}, 1000)
-		resetList.push(resetTime)
-		setTimeOutTipIn(resetList)
-	}
+	
 	return (
 		<Controller
 			control={control}
@@ -63,9 +47,7 @@ const RHFAddFile = <T extends FieldValues>({
 								<ToolTip
 									id={id}
 									tipMessage={tipMessage}
-									displayToolTip={displayToolTip}
-									onMouseEnterToolTip={onMouseEnterToolTip}
-									onMouseLeaveToolTip={onMouseLeaveToolTip}
+									
 								/>
 							)}
 						</div>

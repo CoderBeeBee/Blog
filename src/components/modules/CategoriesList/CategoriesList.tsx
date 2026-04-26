@@ -24,8 +24,6 @@ const CategoriesList = () => {
 	const dragElement = useRef<HTMLElement | null>(null)
 	const [isDragging, setIsDragging] = useState(false)
 
-	
-
 	const handleDragStart = (e: PointerEvent, item: CategoryProps) => {
 		const el = e.currentTarget as HTMLElement
 
@@ -45,7 +43,6 @@ const CategoriesList = () => {
 		const id = target.dataset.element
 
 		if (!dragged || !dragElement.current) return
-
 
 		const dy = Math.abs(e.clientY - position!)
 
@@ -72,7 +69,6 @@ const CategoriesList = () => {
 		e.stopPropagation()
 		if (!dragged) return
 
-		
 		const name = dragged.name
 		const slug = name.toLowerCase().replace(/\s+/g, '-')
 
@@ -134,7 +130,7 @@ const CategoriesList = () => {
 				roots.push(map.get(cat._id)!)
 			}
 		})
-		setRoots(roots)
+		setRoots([...roots].sort((a, b) => a.name.localeCompare(b.name)))
 	}, [categories])
 
 	useEffect(() => {
@@ -149,7 +145,6 @@ const CategoriesList = () => {
 	}, [successMessage])
 	return (
 		<div
-			
 			data-element="1"
 			onPointerMove={e => handleDragMove(e)}
 			onPointerUp={e => handleDragEnd(e, null, null)}
@@ -162,7 +157,6 @@ const CategoriesList = () => {
 						key={c._id}
 						onPointerUp={e => handleDragEnd(e, c, c._id)}
 						onPointerMove={e => handleDragMove(e)}
-						
 						className={`${styles.categoryBox} ${targetId === c._id ? styles.targetCategory : ''}`}>
 						<span
 							data-id={c._id}

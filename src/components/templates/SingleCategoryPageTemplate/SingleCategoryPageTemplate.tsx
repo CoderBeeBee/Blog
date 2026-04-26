@@ -8,11 +8,11 @@ import Loader from '../../atoms/loader/Loader'
 
 const SingleCategoryPageTemplate = ({ name }: { name: string }) => {
 	const [currentPage, setCurrentPage] = useState<number>(1)
-	const { categorySlug } = useParams()
-	
+	const { categorySlug, childSlug } = useParams()
 
-	const { currentData } = useFetchPostsByCategoryQuery({ page: currentPage, category: categorySlug })
-	
+	const category = childSlug ? childSlug : categorySlug
+	const { currentData } = useFetchPostsByCategoryQuery({ page: currentPage, category })
+
 	useEffect(() => {
 		setCurrentPage(1)
 	}, [categorySlug])
