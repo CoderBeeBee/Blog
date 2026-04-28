@@ -1,6 +1,7 @@
 .sideBarLink {
 	display: flex;
 	flex-direction: column;
+	margin-top: 0.1rem;
 	width: 100%;
 	height: 0;
 	min-height: var(--sideBarLineHeight);
@@ -14,46 +15,69 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: space-between;
-		padding-left: 4rem;
+		
 
 		&:hover {
-			background-color: var(--pagesBgc);
-		}
-		.sideBarLinkName {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			gap: 1rem;
-			pointer-events: none;
-			font-size: var(--sideBarLinks);
-			font-weight: 500;
-
-			p {
-				display: -webkit-box;
-				-webkit-box-orient: vertical;
-				-webkit-line-clamp: 1;
-				text-overflow: ellipsis;
-				line-clamp: 1;
-				overflow: hidden;
+			.sideBarLinkFocus {
+				opacity: 1;
 			}
 		}
-		.chevron {
+		.sideBarLinkFocus {
 			margin-right: 2rem;
-			transition: all 0.3s;
-			pointer-events: none;
+			width: 8px;
+			height: 100%;
+			background-color: var(--mainColorHover);
+			border-top-right-radius: var(--borderRadius10);
+			border-bottom-right-radius: var(--borderRadius10);
+			opacity: 0;
+			
 		}
+		.divideSideBar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			.sideBarLinkName {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				gap: 1rem;
+				pointer-events: none;
+				font-size: var(--sideBarLinks);
+				font-weight: 500;
 
-		.rotateArrow {
-			rotate: 180deg;
+				p {
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 1;
+					text-overflow: ellipsis;
+					line-clamp: 1;
+					overflow: hidden;
+				}
+			}
+			.chevron {
+				min-width: 15px;
+				width: 15px;
+				margin-right: 2rem;
+				transition: all 0.3s;
+				pointer-events: none;
+			}
+
+			.rotateArrow {
+				rotate: 180deg;
+			}
 		}
 	}
 
 	.activeSideBarLink {
-		background-color: var(--pagesBgc);
+		.sideBarLinkFocus {
+			opacity: 1;
+		}
 
-		&:hover {
-			background-color: var(--pagesBgc);
+		.sideBarLinkName {
+			svg {
+				color: var(--mainColorHover);
+			}
 		}
 	}
 	.subMenu {
@@ -61,7 +85,6 @@
 		flex-direction: column;
 		height: 100%;
 		width: 100%;
-		margin-bottom: 1rem;
 		opacity: 1;
 		visibility: visible;
 		list-style: none;
@@ -69,7 +92,9 @@
 		z-index: 1000;
 
 		.subMenuLi {
-			padding: 0 4rem;
+			position: relative;
+			margin-top: 0.1rem;
+
 			.subLink {
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
@@ -77,28 +102,45 @@
 				text-overflow: ellipsis;
 				line-clamp: 1;
 				overflow: hidden;
-
 				width: 100%;
 				height: 100%;
 				white-space: nowrap;
 				line-height: 1.8rem;
-				padding: 0.7rem 3rem;
+				padding: 0.5rem 0 0.5rem 6rem;
 
 				color: var(--sideBarColor);
 				font-size: var(--sideBarSubLinks);
 				font-weight: 400;
 				transition: all 0.3s ease-in-out;
 			}
-
+			&::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				margin-right: 1rem;
+				width: 8px;
+				height: 100%;
+				background-color: var(--mainColorHover);
+				border-top-right-radius: var(--borderRadius10);
+				border-bottom-right-radius: var(--borderRadius10);
+				opacity: 0;
+			}
 			&:hover {
-				background-color: var(--pagesBgc);
+				&::before {
+					opacity: 1;
+				}
 			}
 		}
 		.activeSubMenuLi {
-			background-color: var(--pagesBgc);
+			
+			background-image: linear-gradient(to right, #fdfbfb 0%, #065f43 100%);
+			.subLink {
+				color: var(--whiteColor);
+			}
 
-			&:hover {
-				background-color: var(--pagesBgc);
+			&::before {
+				opacity: 1;
 			}
 		}
 	}
@@ -107,41 +149,9 @@
 	height: 100%;
 
 	.subMenu {
-		// opacity: 1;
 		display: flex;
+		background-image: linear-gradient(to right, #fdfbfb 0%, #ebedee 100%);
 	}
 }
 
-@media (width < 800px) {
-	.sideBarLink {
-		.sideBarLinkHelper {
-			padding-left: 3rem;
-		}
 
-		.subMenu {
-			.subMenuLi {
-				padding-left: 1rem;
-			}
-		}
-	}
-}
-@media (width < 700px) {
-	.sideBarLink {
-		.sideBarLinkHelper {
-			line-height: 50px;
-			min-height: 50px;
-			justify-content: center;
-			.arrow {
-				margin-left: 1rem;
-			}
-		}
-		.sideBarPadding {
-			padding-left: 0rem;
-		}
-		.subMenu {
-			.subMenuLi {
-				padding-left: 1rem;
-			}
-		}
-	}
-}

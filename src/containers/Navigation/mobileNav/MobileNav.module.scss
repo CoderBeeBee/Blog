@@ -167,11 +167,12 @@
 					transition: all 0.3s ease-in-out;
 					.subLink {
 						display: flex;
+						justify-content: space-between;
 						width: 100%;
 						height: 100%;
 						line-height: 1.8rem;
 						white-space: nowrap;
-						padding: 0.7rem 3rem 0.7rem 2rem;
+						padding: 0.7rem 0 0.7rem 2rem;
 						color: var(--lightGrayColor);
 						font-size: var(--subMenu-TextSize);
 						font-weight: 400;
@@ -184,6 +185,12 @@
 					}
 					.activeSubMenuLi {
 						color: var(--whiteColor);
+					}
+					.chevronSub{
+						min-width: 20px;
+					}
+					.chevronRotate {
+						rotate: 180deg;
 					}
 				}
 				.activeSub {

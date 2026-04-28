@@ -20,10 +20,10 @@ const adminLinks: sideBarLinksProps[] = [
 		icon: <DashboardSVG />,
 	},
 	{
-		title: 'Admin',
+		title: 'Administration',
 		href: '',
 		icon: <AdminSVG />,
-		children: [{ title: 'Admins&Moderators', href: '/admin/room' }],
+		children: [{ title: 'Administration', href: '/admin/administration' }],
 	},
 	{
 		title: 'Blog',
@@ -71,29 +71,23 @@ const adminLinks: sideBarLinksProps[] = [
 		href: '',
 		icon: <NewsletterSVG />,
 		children: [
-			{ title: 'Newsletter Campaign', href: '/admin/newsletter' },
-			{ title: 'Subscribers ', href: '/admin/subscribers' },
-			
+			{ title: 'Campaign', href: '/admin/newsletter/campaign' },
+			{ title: 'Subscribers ', href: '/admin/newsletter/subscribers' },
 		],
 	},
 	{
 		title: 'Ads',
 		href: '',
 		icon: <AdsSVG />,
-		children: [
-			{ title: 'Ads', href: '/admin/advertisements' },
-			
-			
-		],
+		children: [{ title: 'Ads', href: '/admin/ads' }],
 	},
 	{
-		title: 'Security',
+		title: 'Access Security',
 		href: '',
 		icon: <SecuritySVG />,
 		children: [
-			{ title: 'User Attempts', href: '/admin/security/user-attempts' },
-			{ title: 'Admin Attempts', href: '/admin/security/admin-attempts' },
-			
+			{ title: 'User Attempts', href: '/admin/access-security/user-attempts' },
+			{ title: 'Admin Attempts', href: '/admin/access-security/admin-attempts' },
 		],
 	},
 	{
@@ -110,21 +104,13 @@ const adminLinks: sideBarLinksProps[] = [
 			{ title: 'Integrations', href: '/admin/settings/integrations' },
 		],
 	},
-	
-	
-	
-	
-	
 ]
 const accountLinks: sideBarLinksProps[] = [
 	{
 		title: 'Account',
 		href: '',
 		icon: <ProfileSVG />,
-		children: [
-			{ title: 'Profile Info', href: '/account' },
-			
-		],
+		children: [{ title: 'Profile Info', href: '/account' }],
 	},
 ]
 

@@ -20,9 +20,17 @@ import {
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 import { adminLinks } from '../../../utils/sideBarLinks'
-import { CloseSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
+import {
+	BackSVG,
+	ClearSVG,
+	PlusSVG,
+	PostsSVG,
+	RestoreSVG,
+	SaveSVG,
+} from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 import { useFetchAllTagsQuery } from '../../../slices/api/tagsApi'
 import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
+import DeleteButton from '../../atoms/DeleteButton/DeleteButton'
 
 interface PostFormProps {
 	editValues?: postSchemaTypes
@@ -30,7 +38,7 @@ interface PostFormProps {
 }
 
 const PostForm = ({ editValues, postId }: PostFormProps) => {
-	const uploadFolder = import.meta.env.VITE_UPLOAD_CATEGORIES
+	const uploadFolder = import.meta.env.VITE_UPLOAD_PRESET
 	const buttons = ['text', 'image'] as const
 	const [scheduled, setScheduled] = useState<boolean>(false)
 	const fileRef = useRef<(HTMLInputElement | null)[]>([])
@@ -88,7 +96,8 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
-	const handleDeleteField = (index: number) => {
+	const handleDeleteField = (index: number | undefined) => {
+		if (typeof index === 'undefined') return
 		if (articleContent[index].type === 'image') {
 			const imageToDestroy = articleContent[index].value.public_id
 
@@ -152,7 +161,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 						src: uploadedData.secure_url,
 						public_id: uploadedData.public_id,
 						alt: uploadedFiles.mainImage?.alt || '',
-						caption: uploadedFiles.mainImage?.caption || '',
+						description: uploadedFiles.mainImage?.description || '',
 					}
 				} else if (fileObj.type === 'content' && fileObj.index !== undefined) {
 					const idx = fileObj.index
@@ -164,7 +173,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 								src: uploadedData.secure_url,
 								public_id: uploadedData.public_id,
 								alt: item.value.alt || '',
-								caption: item.value.caption || '',
+								description: item.value.description || '',
 							},
 						}
 					}
@@ -184,7 +193,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 				articleContent: uploadedFiles.articleContent!,
 				seo: { ...data.seo, slug: pathname },
 			}
-			
+
 			let res
 			if (!editValues) {
 				res = await createPost({ updatedData }).unwrap()
@@ -270,7 +279,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 								id={`title-title`}
 								placeholder="Title"
 								isSubmitting={isSubmitting}
-								tip={false}
+								tipMessage="At least 4 characters. Up to 100 characters"
 							/>
 							<RHFTextArea<postSchemaTypes>
 								name="introduction"
@@ -278,7 +287,7 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 								id="introduction"
 								placeholder="Introduction"
 								isSubmitting={isSubmitting}
-								tip={false}
+								tipMessage="At least 100 characters"
 							/>
 
 							<RHFAddFile<postSchemaTypes>
@@ -287,7 +296,10 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 								fileRef={fileRef}
 								fileIndex={-1}
 								id="mainImage"
-								isSubmitting={isSubmitting}>
+								isSubmitting={isSubmitting}
+								tipMessage="Maximum image size up to 5MB. 
+								Width between: 1600px - 2800px. 
+								Height between: 900px - 1575px.">
 								<div className={styles.imageBox}>
 									<RHFInput<postSchemaTypes>
 										name={`mainImage.alt`}
@@ -295,13 +307,15 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 										label="Alt"
 										id={`mainImageAlt`}
 										isSubmitting={isSubmitting}
+										tipMessage="At least 10 characters. Up to 100 characters"
 									/>
 									<RHFInput<postSchemaTypes>
-										name={`mainImage.caption`}
+										name={`mainImage.description`}
 										type="text"
-										label="Caption"
-										id={`mainImageCaption`}
+										label="Description"
+										id={`mainImageDescription`}
 										isSubmitting={isSubmitting}
+										tipMessage="This description will appear below the image. At least 10 characters. Up to 100 characters"
 									/>
 								</div>
 							</RHFAddFile>
@@ -319,12 +333,13 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 													isSubmitting={isSubmitting}
 												/>
 												{index >= 0 && (
-													<div
-														data-index={index}
-														onClick={() => handleDeleteField(index)}
-														className={styles.deleteBtnWrapper}>
-														<CloseSVG className={styles.icon} />
-													</div>
+													<DeleteButton
+														title="Delete Text"
+														ariaLabel="Delete Text"
+														isSubmitting={isSubmitting}
+														onClickDelete={handleDeleteField}
+														dataIndex={index}
+													/>
 												)}
 											</div>
 										)}
@@ -336,7 +351,10 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 													fileRef={fileRef}
 													fileIndex={index}
 													id={`file${index}`}
-													isSubmitting={isSubmitting}>
+													isSubmitting={isSubmitting}
+													tipMessage="Maximum image size up to 5MB. 
+								Width between: 1600px - 2800px. 
+								Height between: 900px - 1575px.">
 													<div className={styles.imageBox}>
 														<RHFInput<postSchemaTypes>
 															name={`articleContent.${index}.value.alt`}
@@ -346,21 +364,22 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 															isSubmitting={isSubmitting}
 														/>
 														<RHFInput<postSchemaTypes>
-															name={`articleContent.${index}.value.caption`}
+															name={`articleContent.${index}.value.description`}
 															type="text"
-															label="Caption"
-															id={`caption${index}`}
+															label="Description"
+															id={`description${index}`}
 															isSubmitting={isSubmitting}
 														/>
 													</div>
 												</RHFAddFile>
 												{index >= 0 && (
-													<div
-														data-index={index}
-														onClick={() => handleDeleteField(index)}
-														className={styles.deleteBtnWrapper}>
-														<CloseSVG className={styles.icon} />
-													</div>
+													<DeleteButton
+														title="Delete Image"
+														ariaLabel="Delete Image"
+														isSubmitting={isSubmitting}
+														onClickDelete={handleDeleteField}
+														dataIndex={index}
+													/>
 												)}
 											</div>
 										)}
@@ -380,13 +399,14 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 												if (btn === 'image') {
 													insert(newIndex, {
 														type: btn,
-														value: { src: null, alt: '', caption: '', public_id: '' },
+														value: { src: null, alt: '', description: '', public_id: '' },
 													})
 												} else {
 													insert(newIndex, { type: btn, value: '' })
 												}
 											}}>
-											+ {btn}
+											<PlusSVG />
+											{btn}
 										</button>
 									))}
 								</div>
@@ -472,8 +492,11 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 					<div className={styles.submitBtns}>
 						<FormBtn
 							type="submit"
+							ariaLabel="Save post"
 							isSubmitting={isSubmitting}
 							className={`${styles.submitBtn} ${isSubmitting ? styles.isSubmitting : ''} ${isDirty ? styles.save : ''}`}>
+							{' '}
+							<SaveSVG />
 							{isSubmitting ? (
 								<>
 									Saving
@@ -488,10 +511,12 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 
 						<FormBtn
 							type="button"
+							ariaLabel={editValues ? 'Restore previous values' : ' Clear Fields'}
 							isSubmitting={isSubmitting}
-							className={`${styles.clearButton} ${isSubmitting ? styles.isSubmitting : ''}`}
+							className={`${styles.submitBtn} ${styles.resetButton} ${isSubmitting ? styles.isSubmitting : ''}`}
 							handleResetFields={handleResetFields}>
-							Reset
+							{editValues ? <RestoreSVG /> : <ClearSVG />}
+							{editValues ? 'Restore' : 'Clear'}
 						</FormBtn>
 						{editValues && (
 							<>
@@ -499,26 +524,28 @@ const PostForm = ({ editValues, postId }: PostFormProps) => {
 									type="button"
 									isSubmitting={isSubmitting}
 									handleResetFields={handleClearFields}
-									className={`${styles.clearAllBtn} ${isSubmitting ? styles.isSubmitting : ''}`}>
-									Clear All
+									className={`${styles.submitBtn} ${styles.clearAllBtn} ${isSubmitting ? styles.isSubmitting : ''}`}>
+									{' '}
+									<ClearSVG />
+									Clear
 								</FormBtn>
 								<AnchorLink
 									href={adminLinks?.[2]?.children?.[0]?.href ?? '/'}
 									ariaLabel="Cancel"
 									className={`${styles.cancelUpdate} ${isSubmitting ? styles.isSubmitting : ''}`}>
-									Cancel
+									<BackSVG /> Cancel
 								</AnchorLink>
 							</>
 						)}
 					</div>
 				</form>
 			</FormProvider>
-			{editValues && isSubmitSuccessful && (
+			{postMessage && isSubmitSuccessful && (
 				<div className={styles.updateWrapper}>
 					<div className={styles.updateBox}>
 						<p className={styles.updateInfo}>{postMessage}</p>
 						<AnchorLink href="/admin/blog/posts" className={styles.updatePostLink}>
-							Posts
+							<PostsSVG className={styles.postSVG} /> Posts
 						</AnchorLink>
 					</div>
 				</div>

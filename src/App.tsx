@@ -141,7 +141,7 @@ const App = () => {
 					}>
 					<Route index element={<DashboardPage />} />
 
-					<Route path="room" element={<AdminRoomPage />} />
+					<Route path="administration" element={<AdminRoomPage />} />
 
 					<Route path="blog/">
 						<Route path="posts" element={<ListOfPostPage />} />
@@ -161,7 +161,7 @@ const App = () => {
 
 						<Route path="comments-history" element={<CommentsHistory />} />
 					</Route>
-					<Route path="security">
+					<Route path="access-security">
 						<Route path="user-attempts" element={<UserAttemptsPage />} />
 						<Route path="admin-attempts" element={<AdminAttemptsPage />} />
 					</Route>
@@ -179,9 +179,9 @@ const App = () => {
 						<Route path="terms-and-conditions" element={<LegalTermsPage />} />
 						<Route path="acknowledgments" element={<LegalAcknowledgmentsPage />} />
 					</Route>
-					<Route path="newsletter" element={<NewsletterPage />} />
-					<Route path="subscribers" element={<SubscribersPage />} />
-					<Route path="advertisements" element={<AdsPage />} />
+					<Route path="newsletter/campaign" element={<NewsletterPage />} />
+					<Route path="newsletter/subscribers" element={<SubscribersPage />} />
+					<Route path="ads" element={<AdsPage />} />
 				</Route>
 
 				{/* Settings */}

@@ -50,6 +50,8 @@
 						top: 0;
 						width: 30px;
 						height: 30px;
+						border: none;
+						background-color: transparent;
 
 						.icon {
 							color: var(--errorColor);
@@ -76,12 +78,15 @@
 						font-weight: 500;
 					}
 					.postFormControllers {
-						
 						display: flex;
 						flex-direction: row;
 						gap: 1rem;
 
 						.postFormBtns {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							gap: 0.5rem;
 							padding: 1.25rem;
 							width: 50%;
 							color: var(--whiteColor);
@@ -149,7 +154,9 @@
 		border-top: 1px solid var(--lightGrayColor);
 		.submitBtn {
 			display: flex;
-			align-self: flex-start;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
 			color: var(--darkColor);
 			background-color: var(--lightGrayColor);
 			cursor: not-allowed;
@@ -173,18 +180,15 @@
 			animation: animateDot 1.4s ease-in-out 0.6s infinite;
 		}
 
-		.clearButton {
-			transition: all 0.3s;
-			color: var(--darkColor);
-			background-color: var(--lightGrayColor);
+		.resetButton {
+			cursor: pointer;
 			&:hover {
 				color: var(--whiteColor);
 				background-color: var(--clearButtonBgc);
 			}
 		}
 		.clearAllBtn {
-			color: var(--darkColor);
-			background-color: var(--lightGrayColor);
+			cursor: pointer;
 
 			&:hover {
 				color: var(--whiteColor);
@@ -254,6 +258,10 @@
 				color: var(--mainColor);
 			}
 			.updatePostLink {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: .5rem;
 				margin-top: 4rem;
 				margin-bottom: 2rem;
 				padding: 1rem 2rem;
@@ -265,6 +273,13 @@
 
 				&:hover {
 					background-color: var(--mainColorHover);
+				}
+				.postSVG{
+
+					path{
+						fill: var(--whiteColor);
+
+					}
 				}
 			}
 		}
@@ -349,7 +364,7 @@
 
 @media (width <= 700px) {
 	.postFormContainer {
-		flex-direction: row;
+		
 
 		.postFormControllersWrapper {
 			padding: 2rem 1rem 1rem;

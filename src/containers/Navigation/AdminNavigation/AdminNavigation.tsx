@@ -9,7 +9,7 @@ import CloseButton from '../../../components/atoms/CloseButton/CloseButton'
 import { CloseSvg } from '../../../assets/icons/Icons'
 import type { KeyboardEvent } from 'react'
 import AnchorLink from '../../../components/atoms/AnchorLink/AnchorLink'
-import { WebsiteSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
+import { ProfileSVG, WebsiteSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 const AdminNavigation = () => {
 	const { isMobilePanel, widthLess1100 } = useWindowSize()
@@ -87,10 +87,10 @@ const AdminNavigation = () => {
 				<div className={`${styles.adminNavigationDropdown} ${toggleMenu ? styles.displayVisibility : ''} `}>
 					{isMobilePanel && <CloseButton styles={styles} handleClose={openCloseUserMenu} />}
 					<AnchorLink className={styles.adminNavigationLinks} href="/admin/profile">
-						Profile
+						<ProfileSVG/> Profile
 					</AnchorLink>
-					<LogoutButton ariaLabel="Sign Out button" className={styles.adminNavigationLinks}>
-						Logout
+					<LogoutButton ariaLabel="Log out" className={styles.adminNavigationLinks}>
+						Log out
 					</LogoutButton>
 				</div>
 			</div>

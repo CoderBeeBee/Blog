@@ -2,9 +2,9 @@
 	width: 20px;
 	height: 20px;
 
-	path {
-		fill: var(--sideBarColor);
-	}
+	// path {
+	// 	fill: var(--sideBarColor);
+	// }
 }
 
 .pencil {
@@ -39,9 +39,7 @@
 .commentsSVG {
 	width: 20px;
 	height: 20px;
-	path {
-		fill: var(--sideBarColor);
-	}
+	
 }
 .heartSVG {
 	width: 20px;
@@ -87,9 +85,9 @@
 	width: 20px;
 	height: 20px;
 
-	path:nth-child(2) {
-		fill: var(--sideBarColor);
-	}
+	// path:nth-child(2) {
+	// 	fill: var(--sideBarColor);
+	// }
 }
 .calendarSVG {
 	width: 20px;
@@ -98,7 +96,7 @@
 .settingSVG {
 	width: 20px;
 	height: 20px;
-	fill: var(--sideBarColor);
+	
 }
 
 .uploadSVG {
@@ -127,7 +125,10 @@
 }
 .plusSVG,
 .filterSVG,
-.tipSVG {
+.tipSVG,
+.saveSVG,
+.clearSVG,
+.restoreSVG,.backSVG {
 	width: 20px;
 	height: 20px;
 }

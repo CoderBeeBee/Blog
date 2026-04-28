@@ -6,12 +6,23 @@ interface FormBtnProps {
 	isSubmitting?: boolean
 	handleResetFields?: () => void
 	handleResend?: () => void
-	onClick?:()=>void
+	onClick?: () => void
 	className: string
-	ariaLabel?:string
+	ariaLabel?: string
+	
 }
 
-const FormBtn = ({ children, isSubmitting,onClick, handleResetFields,handleResend,ariaLabel, className, type }: FormBtnProps) => {
+const FormBtn = ({
+	children,
+	isSubmitting,
+	onClick,
+	handleResetFields,
+	handleResend,
+	ariaLabel,
+	
+	className,
+	type,
+}: FormBtnProps) => {
 	return (
 		<button
 			type={type}
@@ -22,6 +33,7 @@ const FormBtn = ({ children, isSubmitting,onClick, handleResetFields,handleResen
 				handleResend?.()
 			}}
 			aria-label={ariaLabel}
+			
 			className={` ${styles.postFormBtn} ${className ? className : ''}`}>
 			{children}
 		</button>

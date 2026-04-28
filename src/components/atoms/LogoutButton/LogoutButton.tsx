@@ -1,3 +1,4 @@
+import { LogoutSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 import useGlobalContext from '../../../hooks/useGlobalContext'
 
 import type { ReactNode } from 'react'
@@ -14,7 +15,7 @@ const LogoutButton = ({ children, className, ariaLabel }: LogoutButtonProps) => 
 	return (
 		<button
 			type="button"
-			title="Logout"
+			title="Log out"
 			aria-label={ariaLabel}
 			className={className}
 			onClick={() => {
@@ -22,7 +23,7 @@ const LogoutButton = ({ children, className, ariaLabel }: LogoutButtonProps) => 
 				toggle()
 				openCloseUserMenu()
 			}}>
-			{children}
+			<LogoutSVG /> {children}
 		</button>
 	)
 }

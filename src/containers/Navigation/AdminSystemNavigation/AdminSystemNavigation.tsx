@@ -1,3 +1,4 @@
+import { ProfileSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
 import AnchorLink from '../../../components/atoms/AnchorLink/AnchorLink'
 import LogoutButton from '../../../components/atoms/LogoutButton/LogoutButton'
@@ -40,10 +41,10 @@ const AdminSystemNavigation = () => {
 				</div>
 				<div className={`${styles.adminDropdown} ${toggleMenu ? styles.displayVisibility : ''}`}>
 					<AnchorLink className={styles.adminLinks} href="/admin/profile">
-						Profile
+					<ProfileSVG/>	Profile
 					</AnchorLink>
 
-					<LogoutButton className={styles.adminLinks}>Logout</LogoutButton>
+					<LogoutButton ariaLabel='Log out' className={styles.adminLinks}>Log out</LogoutButton>
 				</div>
 			</div>
 		</div>

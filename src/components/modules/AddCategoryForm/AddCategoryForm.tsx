@@ -19,6 +19,7 @@ import RHFAddFile from '../../atoms/RHFAddFile/RHFAddFile'
 import { useCreateCloudinarySignatureMutation } from '../../../slices/api/cloudinaryApi'
 import uploadToCloudinary from '../../../hooks/useUploadToCloudinary'
 import useGlobalContext from '../../../hooks/useGlobalContext'
+import { ClearSVG, SaveSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 const AddCategoryForm = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
@@ -305,8 +306,10 @@ const AddCategoryForm = () => {
 					<div className={styles.submitBtns}>
 						<FormBtn
 							type="submit"
-							isSubmitting={isSubmitting}
+							ariaLabel="Save"
+							isSubmitting={isSubmitting || !isDirty}
 							className={`${styles.submitBtn} ${isDirty ? styles.save : ''}`}>
+							<SaveSVG />
 							{isSubmitting ? (
 								<>
 									Saving
@@ -321,10 +324,11 @@ const AddCategoryForm = () => {
 
 						<FormBtn
 							type="button"
+							ariaLabel="Clear all fields"
 							isSubmitting={isSubmitting}
-							className={styles.clearButton}
+							className={`${styles.submitBtn} ${isDirty || editCategory ? styles.clearButton : ''}`}
 							handleResetFields={handleResetFields}>
-							Clear
+							<ClearSVG /> Clear
 						</FormBtn>
 					</div>
 				</form>

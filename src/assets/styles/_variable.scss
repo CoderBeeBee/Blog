@@ -15,6 +15,7 @@
 	--loaderBgc: #000000;
 	--pagesBgc: #007e561d;
 	// --pagesBgc: #1f614d31;
+	--backgroundGradient:linear-gradient(to right, #fdfbfb 00%, #065f43 100%);
 	--mainColor: #009062;
 	--mainColorHover: #065f43;
 	--whiteColor: #ffffff;
@@ -118,10 +119,10 @@
 
 	//  fontSize
 
-	--sideBarLinks: 1.6rem;
+	--sideBarLinks: 1.5rem;
 	--sideBarSubLinks: 1.4rem;
 	//  links lineheight
-	--sideBarLineHeight: calc(2 * 2.5rem);
+	--sideBarLineHeight: calc(2 * 2rem);
 
 	--textSize_10: 1rem;
 	--textSize_12: 1.2rem;

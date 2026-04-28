@@ -1,7 +1,4 @@
 import { useRef, type KeyboardEvent } from 'react'
-
-import useWindowSize from '../../../hooks/useWindowSize'
-
 import AnchorLink from '../AnchorLink/AnchorLink'
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import styles from './SideBarLink.module.scss'
@@ -15,26 +12,30 @@ interface SideBarLinkProps {
 	index: number
 	activeDashboardIndex: number | null
 	expandCollapseDashboardDropdown: (index: number) => void
+	
 }
 
-const SideBarLink = ({ data, index, activeDashboardIndex, expandCollapseDashboardDropdown }: SideBarLinkProps) => {
+const SideBarLink = ({
+	data,
+	index,
+	activeDashboardIndex,
+	
+	expandCollapseDashboardDropdown,
+}: SideBarLinkProps) => {
 	const { sideBarMenu } = useGlobalContext()
 	const { close } = sideBarMenu
-	const { width } = useWindowSize()
 
 	const arrowRef = useRef<SVGSVGElement | null>(null)
 	const sideBarLinkRef = useRef<HTMLDivElement | null>(null)
 	const { pathname } = useLocation()
+
 	const active = pathname === data.href
-
-
-
 	const onKeyDown = (e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
-			
 			expandCollapseDashboardDropdown(index)
 		}
 	}
+
 
 	if (data.href === '') {
 		return (
@@ -46,15 +47,21 @@ const SideBarLink = ({ data, index, activeDashboardIndex, expandCollapseDashboar
 				<div
 					tabIndex={0}
 					onKeyDown={e => onKeyDown(e)}
-					className={styles.sideBarLinkHelper}
+					className={`${styles.sideBarLinkHelper} ${activeDashboardIndex === index ? styles.activeSideBarLink : ''}`}
 					onClick={() => {
-						
 						expandCollapseDashboardDropdown(index)
 					}}>
-					<div className={styles.sideBarLinkName}>
-						{data.icon} {width >= 700 && <p>{data.title}</p>}
+					<div className={styles.sideBarLinkFocus}></div>
+
+					<div className={styles.divideSideBar}>
+						<div className={styles.sideBarLinkName}>
+							{data.icon} <p>{data.title}</p>
+						</div>
+						<ChevronDownSVG
+							arrowRef={arrowRef}
+							className={`${styles.chevron} ${activeDashboardIndex === index ? styles.rotateArrow : ''}`}
+						/>
 					</div>
-					<ChevronDownSVG arrowRef={arrowRef} className={`${styles.chevron} ${activeDashboardIndex === index ? styles.rotateArrow : ''}`} />
 				</div>
 
 				{data.children?.length ? (
@@ -77,12 +84,17 @@ const SideBarLink = ({ data, index, activeDashboardIndex, expandCollapseDashboar
 					close()
 				}}
 				className={styles.sideBarLink}
-				href={data.href}>
+				href={data.href}
+				ariaLabel={data.title}>
 				<div
 					tabIndex={0}
 					className={`${styles.sideBarLinkHelper} ${styles.sideBarPadding} ${active ? styles.activeSideBarLink : ''}`}>
-					<div className={styles.sideBarLinkName}>
-						{data.icon} {width >= 700 && <p>{data.title}</p>}
+					<div className={styles.sideBarLinkFocus}></div>
+
+					<div className={styles.divideSideBar}>
+						<div className={styles.sideBarLinkName}>
+							{data.icon} <p>{data.title}</p>
+						</div>
 					</div>
 				</div>
 			</AnchorLink>

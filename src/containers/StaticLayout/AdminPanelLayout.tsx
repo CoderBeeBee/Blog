@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router'
+import { Outlet, useLocation } from 'react-router'
 import SideBar from '../../components/organism/SideBar/SideBar'
 
 import styles from './AdminPanelLayout.module.scss'
@@ -8,9 +8,10 @@ import { adminLinks } from '../../utils/sideBarLinks'
 import SideBarLink from '../../components/atoms/SidebarLink/SideBarLink'
 
 import AdminNavigation from '../Navigation/AdminNavigation/AdminNavigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const AdminPanelLayout = () => {
+	const { pathname } = useLocation()
 	const [activeDashboardIndex, setActiveDashboardIndex] = useState<number | null>(null)
 	const expandCollapseDashboardDropdown = (index: number) => {
 		if (typeof index !== 'number') return
@@ -21,6 +22,14 @@ const AdminPanelLayout = () => {
 			setActiveDashboardIndex(index)
 		}
 	}
+	
+	useEffect(() => {
+		// const ind = adminLinks.findIndex(i => pathname.includes(i.title.toLowerCase()))
+		const ind = adminLinks.findIndex(i => pathname.split('-').join('').includes(i.title.toLowerCase().split(' ').join('')))
+
+		if (ind) setActiveDashboardIndex(ind)
+	}, [pathname])
+
 	return (
 		<GlobalProvider>
 			<div className={styles.adminPanelLayoutContainer}>

@@ -22,7 +22,7 @@ interface ArticleMiddleSideProps {
 
 type ArticleBlock =
 	| { type: 'text' | 'add'; value: string; client?: string; slot?: string }
-	| { type: 'image'; value: { src: string; alt: string; caption: string } }
+	| { type: 'image'; value: { src: string; alt: string; description: string } }
 
 const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 	const isDev = import.meta.env.VITE_NODE_ENV === 'development'
@@ -119,7 +119,7 @@ const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 								<div key={index} className={styles.articleImage}>
 									<ResponsiveArticleImage mainImageSrc={item.value.src} imageAlt={item.value.alt} />
 
-									<span className={styles.articleImageText}>{item.value.caption}</span>
+									<span className={styles.articleImageText}>{item.value.description}</span>
 								</div>
 							)
 						}

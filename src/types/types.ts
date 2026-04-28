@@ -22,12 +22,12 @@ export interface ArticleContentProps {
 	_id: string
 	title: string
 	introduction: string
-	mainImage: { src: string; alt: string; caption: string; public_id?: string }
+	mainImage: { src: string; alt: string; description: string; public_id?: string }
 	author: { name: string; avatar: { src: string; public_id: string }; createdAt: string }
 	articleContent?: [
 		{ type: 'text' | 'add'; value: string },
 
-		{ type: 'image'; value: { src: string; alt: string; caption: string } },
+		{ type: 'image'; value: { src: string; alt: string; description: string } },
 	]
 	categories: string[]
 	tags?: string[]

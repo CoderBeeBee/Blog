@@ -9,6 +9,7 @@ import LogoutButton from '../LogoutButton/LogoutButton'
 import { CloseSvg } from '../../../assets/icons/Icons'
 import type { KeyboardEvent } from 'react'
 import CloseButton from '../CloseButton/CloseButton'
+import { WebsiteSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 const UserNavigation = () => {
 	const { isMobile, isMobilePanel } = useWindowSize()
@@ -68,10 +69,10 @@ const UserNavigation = () => {
 				<div className={`${styles.userNavigationDropdown} ${toggleMenu ? styles.displayVisibility : ''} `}>
 					{isMobilePanel && <CloseButton styles={styles} handleClose={openCloseUserMenu} />}
 					<AnchorLink ariaLabel="Home" href="/" className={styles.userNavigationLinks} title="Home">
-						Home
+						<WebsiteSVG /> Home
 					</AnchorLink>
-					<LogoutButton ariaLabel="Sign Out button" className={styles.userNavigationLinks}>
-						Logout
+					<LogoutButton ariaLabel="Log out" className={styles.userNavigationLinks}>
+						Log out
 					</LogoutButton>
 				</div>
 			</div>

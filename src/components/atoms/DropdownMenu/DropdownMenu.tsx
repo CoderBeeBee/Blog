@@ -5,6 +5,7 @@ import { useLocation } from 'react-router'
 import SubDropdown from '../SubDropdown/SubDropdown'
 import useGlobalContext from '../../../hooks/useGlobalContext'
 import useWindowSize from '../../../hooks/useWindowSize'
+import { ChevronDownSVG } from '../../../assets/icons/Icons'
 
 interface DropdownMenuProps {
 	data: MenuItem
@@ -76,6 +77,7 @@ const DropdownMenu = ({ data, styles, index, closeDashboardMenu }: DropdownMenuP
 									}}
 									onKeyDown={e => onKeyDownSub(e, i)}>
 									{menuName}
+									<ChevronDownSVG className={`${styles.chevronSub} ${activeSubIndex === i ? styles.chevronRotate : ''}`} />
 								</span>
 
 								{item.children && <SubDropdown data={item.children} index={i} parentIndex={index} toggle={toggle} />}

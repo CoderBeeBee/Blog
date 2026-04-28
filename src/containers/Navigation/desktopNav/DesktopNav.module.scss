@@ -62,13 +62,18 @@
 			z-index: 1000;
 
 			.subMenuLi {
+				display: flex;
+				align-items: center;
 				position: relative;
 				.subLink {
-					display: block;
+					// display: block;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
 					width: 100%;
 					white-space: nowrap;
 					line-height: 1.8rem;
-					padding: 0.7rem 3rem 0.7rem 2rem;
+					padding: 0.7rem .5rem 0.7rem 2rem;
 					color: var(--lightGrayColor);
 					font-size: var(--subMenu-TextSize);
 					font-weight: 400;
@@ -77,6 +82,13 @@
 					&:hover {
 						color: var(--whiteColor);
 						background-color: var(--blackColor);
+
+					}
+					.chevronSub{
+						min-width: 20px;
+					}
+					.chevronRotate {
+						rotate: -90deg;
 					}
 				}
 				.activeSubMenuLi {

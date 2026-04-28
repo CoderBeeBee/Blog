@@ -9,7 +9,7 @@ interface RHFCategorySelectProps<T extends FieldValues> {
 	options: CategoryProps[] | { name: string }[]
 	label: string
 	max: number
-	// styles: Record<string, string>
+	
 	isSubmitting?: boolean
 	tipMessage?: string
 	required?: boolean

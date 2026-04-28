@@ -7,9 +7,9 @@ export const postSchema = z.object({
 	title: z
 		.string()
 		.trim()
-		.min(4, { message: 'The Title is too short. Min 4 characters' })
-		.max(100, { message: 'The Title is too long. Max 100 characters' }),
-	introduction: z.string().trim().min(1, { message: 'Please fill introduction' }),
+		.min(4, { message: 'The Title is too short. At least 4 characters' })
+		.max(160, { message: 'The Title is too long. Up to 160 characters' }),
+	introduction: z.string().trim().min(100, { message: 'Please fill introduction' }),
 
 	mainImage: z.object({
 		src: imageSrcSchema.superRefine(
@@ -21,8 +21,16 @@ export const postSchema = z.object({
 				maxHeight: 1575,
 			}),
 		),
-		alt: z.string().trim().min(1, { message: 'Please fill alt' }),
-		caption: z.string().trim().min(1, { message: 'Please fill caption' }),
+		alt: z
+			.string()
+			.trim()
+			.min(10, { message: 'The alt is too short. At least 10 characters' })
+			.max(100, { message: 'The alt is too long. Up to 100 characters' }),
+		description: z
+			.string()
+			.trim()
+			.min(10, { message: 'The description is too short. At least 10 characters' })
+			.max(100, { message: 'The description is too long. Up to 100 characters' }),
 		public_id: z.string(),
 	}),
 
@@ -45,15 +53,27 @@ export const postSchema = z.object({
 							maxHeight: 1575,
 						}),
 					),
-					alt: z.string().min(1, 'Please fill alt'),
-					caption: z.string().min(1, 'Please fill caption'),
+					alt: z
+						.string()
+						.trim()
+						.min(10, { message: 'The alt is too short. At least 10 characters' })
+						.max(100, { message: 'The alt is too long. Up to 100 characters' }),
+					description: z
+						.string()
+						.trim()
+						.min(10, { message: 'The description is too short. At least 10 characters' })
+						.max(100, { message: 'The description is too long. Up to 100 characters' }),
+
 					public_id: z.string(),
 				}),
 			}),
 		]),
 	),
 
-	categories: z.array(z.string()).min(1, { message: 'You must select min 1 category' }).max(2, { message: 'Too many categories. Max 2 categories' }),
+	categories: z
+		.array(z.string())
+		.min(1, { message: 'You must select min 1 category' })
+		.max(2, { message: 'Too many categories. Max 2 categories' }),
 	tags: z.array(z.string()).min(1, { message: 'You must select min 1 tag' }),
 
 	seo: z.object({
@@ -86,7 +106,7 @@ export const defaultValues: postSchemaTypes = {
 	mainImage: {
 		src: null,
 		alt: '',
-		caption: '',
+		description: '',
 		public_id: '',
 	},
 	articleContent: [],

@@ -8,7 +8,7 @@ import type { KeyboardEvent } from 'react'
 import LogoutButton from '../LogoutButton/LogoutButton'
 import useWindowSize from '../../../hooks/useWindowSize'
 import { ChevronDownSVG } from '../../../assets/icons/Icons'
-
+import { ProfileSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 interface ControlPanelUserProps {
 	styles: Record<string, string>
@@ -17,8 +17,8 @@ interface ControlPanelUserProps {
 const ControlPanelUser = ({ styles }: ControlPanelUserProps) => {
 	const { width } = useWindowSize()
 	const { name, avatar } = useSelector((state: RootState) => state.auth)
-	const { userRef,toggleMenu,openCloseUserMenu } = useGlobalContext()
-	
+	const { userRef, toggleMenu, openCloseUserMenu } = useGlobalContext()
+
 	const account = accountLinks[0].children![0].href
 
 	const onKeyDown = (e: KeyboardEvent) => {
@@ -44,10 +44,10 @@ const ControlPanelUser = ({ styles }: ControlPanelUserProps) => {
 			</div>
 			<div className={`${styles.controlSettings} ${toggleMenu ? styles.displayVisibility : ''}`}>
 				<AnchorLink className={styles.controlLinks} href={account}>
-					Profile
+					<ProfileSVG /> Profile
 				</AnchorLink>
 
-				<LogoutButton className={styles.logout}>Logout</LogoutButton>
+				<LogoutButton className={styles.logout} ariaLabel='Log out'> Log out</LogoutButton>
 			</div>
 		</div>
 	)
