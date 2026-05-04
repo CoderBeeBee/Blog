@@ -15,7 +15,9 @@
 	--loaderBgc: #000000;
 	--pagesBgc: #007e561d;
 	// --pagesBgc: #1f614d31;
-	--backgroundGradient:linear-gradient(to right, #fdfbfb 00%, #065f43 100%);
+	--backgroundGradient:linear-gradient(to right, #f0f0f0 00%, #065f43 100%);
+	--sideBarHoverGradient:linear-gradient(to right, #f0f0f0 0%, #065f43 100%);
+	--sideBarGradient:linear-gradient(to right, #fdfbfb 0%, #ebedee 100%);
 	--mainColor: #009062;
 	--mainColorHover: #065f43;
 	--whiteColor: #ffffff;

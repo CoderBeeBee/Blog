@@ -9,6 +9,8 @@ import { legalDefaults, legalSchema, type legalTypes } from '../../../types/lega
 import { useCreateLegalDocumentsMutation, useFetchLegalDocumentsQuery } from '../../../slices/api/legalDocumentsApi'
 import RHFInput from '../../atoms/RHFInput/RHFInput'
 import RHFTextArea from '../../atoms/RHFTextArea/RHFTextArea'
+import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
+import {  RestoreSVG, SaveSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 const LegalTerms = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
@@ -91,12 +93,11 @@ const LegalTerms = () => {
 
 	return (
 		<div className={styles.legalTermsWrapper}>
-			<h3 className={styles.wrapperTitle}> Terms and Conditions</h3>
+			<Breadcrumbs />
 
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper} aria-busy={isSubmitting}>
 					<RHFInput
-						styles={styles}
 						type="text"
 						name="version"
 						label="Version"
@@ -105,7 +106,6 @@ const LegalTerms = () => {
 						isSubmitting={isSubmitting}
 					/>
 					<RHFInput
-						styles={styles}
 						type="text"
 						name="language"
 						label="Language"
@@ -113,7 +113,7 @@ const LegalTerms = () => {
 						placeholder="ex. en"
 						isSubmitting={isSubmitting}
 					/>
-					<RHFTextArea styles={styles} name="content" id="content" label="Content" isSubmitting={isSubmitting} />
+					<RHFTextArea name="content" id="content" label="Content" isSubmitting={isSubmitting} />
 
 					{(errors.root?.message || successMessage) && (
 						<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
@@ -122,7 +122,12 @@ const LegalTerms = () => {
 					)}
 
 					<div className={styles.submitBtns}>
-						<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.submitBtn : ''}>
+						<FormBtn
+							type="submit"
+							isSubmitting={isSubmitting}
+							ariaLabel="Save"
+							className={`${styles.submitBtn} ${isSubmitting ? styles.isSubmitting : ''} ${isDirty ? styles.save : ''}`}>
+							<SaveSVG />
 							{isSubmitting ? (
 								<>
 									Saving
@@ -138,9 +143,11 @@ const LegalTerms = () => {
 						<FormBtn
 							type="button"
 							isSubmitting={isSubmitting}
-							className={styles.clearButton}
+							className={`${styles.submitBtn} ${styles.clearButton}`}
+							ariaLabel="Reset"
 							handleResetFields={handleResetFields}>
-							Clear
+							<RestoreSVG />
+							Reset
 						</FormBtn>
 					</div>
 				</form>

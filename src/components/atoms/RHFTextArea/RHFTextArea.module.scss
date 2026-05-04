@@ -45,6 +45,7 @@
 			width: 100%;
 			height: 100%;
 			max-width: 1150px;
+			max-height: 300px;
 			padding: 1rem;
 			color: var(--textColor);
 			font-size: var(--textSize_14);
@@ -59,6 +60,16 @@
 				box-shadow 0.3s;
 
 			
+
+			&::-webkit-scrollbar {
+				width: 5px;
+			}
+			&::-webkit-scrollbar-thumb {
+				background-color: var(--blackColor);
+			}
+			&::-webkit-scrollbar-track {
+				background-color: var(--lightGrayColor);
+			}	
 		}
 		&:hover {
 			box-shadow: 0px 0px 0px 2px var(--lightGrayColor);

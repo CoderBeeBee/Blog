@@ -7,7 +7,7 @@ interface RHFSelectProps<T extends FieldValues> {
 	label: string
 	options: {
 		name: string
-		id?: string
+		id?: string | number
 	}[]
 
 	isSubmitting?: boolean
@@ -34,6 +34,7 @@ const RHFSelect = <T extends FieldValues>({
 			control={control}
 			name={name}
 			render={({ field: { onChange, value }, fieldState: { error } }) => {
+				
 				return (
 					<div className={styles.selectContainer}>
 						<div className={`${styles.labelBox}`}>
@@ -44,26 +45,27 @@ const RHFSelect = <T extends FieldValues>({
 						</div>
 						<select
 							onChange={e => {
-								const target = e.target.value
+								const value = e.target.value
 
-								if (target === 'true') {
+								if (value === 'true') {
 									onChange(true)
 									return
 								}
-								if (target === 'false') {
+								if (value === 'false') {
 									onChange(false)
 									return
 								}
 
-								onChange(target)
+								onChange(value)
 							}}
 							className={styles.selectOption}
-							value={value ?? ''}
+							value={value ? value : ''}
 							disabled={isSubmitting}
 							aria-disabled={isSubmitting}
+							
 							id={id}>
 							<>
-								<option value="null">----</option>
+								<option value="">----</option>
 								{options &&
 									options.map((option, index) => (
 										<option key={index} value={option.id}>

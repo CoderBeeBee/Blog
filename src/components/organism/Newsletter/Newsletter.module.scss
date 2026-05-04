@@ -1,207 +1,29 @@
 .newsletterWrapper {
 	display: flex;
 	flex-direction: column;
-	.boxTitle {
-		margin-bottom: 2rem;
-		font-weight: 500;
-		line-height: 4rem;
-		font-family: var(--font-2);
-		font-size: var(--textSize_20);
-		color: var(--textColor);
-	}
+	flex-grow: 1;
+	width: 100%;
+	height: 100%;
+	border-radius: var(--borderRadius06);
+	border: 1px solid var(--lightGrayColor);
+	background-color: var(--whiteColor);
 
 	.formWrapper {
 		display: flex;
 		flex-direction: column;
+		margin: 0 auto;
+		padding: 2rem;
+		width: 100%;
+		max-width: 1100px;
 
-		.formInputBox {
-			display: flex;
-			flex-direction: column;
-			font-family: var(--font-2);
-			width: 100%;
-			margin-bottom: 1.5rem;
-			label {
-				margin-bottom: 1rem;
-				font-size: var(--textSize_18);
-				font-weight: 500;
-				color: var(--textColor);
-			}
-			.formInput {
-				position: relative;
-				margin-bottom: 1rem;
-				input {
-					width: 100%;
-					padding: var(--vspace-0_25);
-					color: var(--textColor);
-					font-size: var(--textSize_16);
-					font-family: var(--font-2);
-					border: 1px solid var(--lightGrayColor);
-					border-radius: var(--borderRadius06);
-					outline: none;
-					transition: all 0.3s;
-
-					&:hover {
-						box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-						border-color: var(--whiteColor);
-					}
-
-					&:focus {
-						box-shadow: 0px 0px 0px 2px var(--mainColor);
-						border-color: var(--whiteColor);
-					}
-				}
-			}
-		}
-		.textAreaContainer {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			height: 100%;
-			gap: 0.5rem;
-			margin-bottom: 2rem;
-			font-family: var(--font-2);
-
-			.textareaWrapper {
-				textarea {
-					field-sizing: content;
-					resize: vertical;
-					display: flex;
-					min-height: 150px;
-					width: 100%;
-					height: 100%;
-					padding: 1rem;
-					color: var(--textColor);
-					font-family: var(--font-2);
-					font-size: var(--textSize_14);
-					line-height: 2rem;
-					border: 1px solid var(--lightGrayColor);
-					border-radius: var(--borderRadius06);
-					outline: none;
-					transition:
-						border-color 0.3s,
-						box-shadow 0.3s;
-
-					&:hover {
-						box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-						border-color: var(--whiteColor);
-					}
-
-					&:focus {
-						box-shadow: 0px 0px 0px 2px var(--mainColor);
-						border-color: var(--whiteColor);
-					}
-				}
-			}
-		}
 		.disableMinimarkdown {
 			display: none;
 		}
 
-		.selectContainer {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			margin-bottom: 2rem;
-			font-family: var(--font-2);
-			.selectTitle {
-				margin-bottom: 1rem;
-				color: var(--textColor);
-				font-size: var(--textSize_18);
-				font-family: var(--font-2);
-				font-weight: 500;
-			}
-			.selectOption {
-				appearance: none;
-				-moz-appearance: none;
-				-webkit-appearance: none;
-				width: 100%;
-				margin-bottom: 1rem;
-				padding: var(--vspace-0_25);
-				color: var(--textColor);
-				background-color: var(--mainFormBgc);
-				font-size: var(--textSize_16);
-				border: 1px solid var(--lightGrayColor);
-				border-radius: var(--borderRadius06);
-				background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-				background-repeat: no-repeat;
-				background-position: right 10px center;
-				background-size: 16px;
-				outline: none;
-				cursor: pointer;
-				transition: all 0.3s;
-				&:hover {
-					box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-					border-color: var(--whiteColor);
-				}
-
-				&:focus {
-					box-shadow: 0px 0px 0px 2px var(--mainColor);
-					border-color: var(--whiteColor);
-				}
-				option {
-					background-color: var(--whiteColor);
-					width: 100%;
-				}
-			}
-		}
 		.shippingEnabled {
-			.formCheckbox {
-				label {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					justify-content: space-between;
-					line-height: 20px;
-					font-family: var(--font-2);
-					margin-bottom: 2rem;
-					font-size: var(--textSize_18);
-					font-weight: 500;
-					color: var(--textColor);
-					z-index: 100;
-					cursor: pointer;
-				}
-				input {
-					display: none;
-				}
-			}
-			.formInputBox {
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
-				flex-wrap: wrap;
-				margin-bottom: 2rem;
-
-				label {
-					line-height: 20px;
-					color: var(--textColor);
-					font-family: var(--font-2);
-					font-size: var(--textSize_18);
-					font-weight: 500;
-				}
-				.formInput {
-					input {
-						width: 100%;
-						padding: var(--vspace-0_25);
-						font-size: var(--textSize_16);
-						font-family: var(--font-2);
-						color: var(--textColor);
-						border: 1px solid var(--lightGrayColor);
-						outline: none;
-						transition: all 0.3s;
-
-						&:hover {
-							box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-							border-color: var(--whiteColor);
-						}
-
-						&:focus {
-							box-shadow: 0px 0px 0px 2px var(--mainColor);
-							border-color: var(--whiteColor);
-						}
-					}
-				}
-			}
+			
+			max-width: 300px;
+			
 		}
 	}
 
@@ -211,14 +33,17 @@
 		margin-top: 3rem;
 		.submitBtn {
 			display: flex;
-			align-self: flex-start;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			color: var(--darkColor);
+			background-color: var(--lightGrayColor);
 			cursor: not-allowed;
 		}
 		.save {
-			cursor: pointer;
-
 			color: var(--whiteColor);
 			background-color: var(--mainColor);
+			cursor: pointer;
 
 			&:hover {
 				background-color: var(--mainColorHover);
@@ -235,36 +60,33 @@
 		}
 		.clearButton {
 			transition: all 0.3s;
+			cursor: pointer;
 			&:hover {
 				color: var(--whiteColor);
 				background-color: var(--clearButtonBgc);
 			}
 		}
-	}
-}
+		.isSubmitting {
+			background-color: var(--lightGrayColor);
+			color: var(--darkColor);
+			cursor: not-allowed;
 
-.error {
-	color: var(--errorColor);
-	font-size: var(--textSize_14);
-}
-@media (width < 800px) {
-	.newsletterWrapper {
-		.formWrapper {
-			.svgBox {
-				.tooltip {
-					.exampleSVG {
-						top: 3rem;
-						left: -10rem;
-					}
-				}
+			&:hover {
+				color: var(--darkColor);
+				background-color: var(--lightGrayColor);
 			}
 		}
 	}
 }
+
+
 @media (width < 800px) {
 	.newsletterWrapper {
-		margin-left: auto;
-		margin-right: auto;
+		.formWrapper {
+			.shippingEnabled {
+				max-width: 100%;
+			}
+		}
 	}
 }
 @keyframes animateDot {

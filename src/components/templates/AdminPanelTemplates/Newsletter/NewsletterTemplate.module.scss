@@ -1,11 +1,18 @@
 .newsletterContainer {
 	display: flex;
 	flex-direction: column;
-	min-height: 100dvh;
+	align-items: center;
+	min-height: calc(100dvh - var(--headerHeight));
 	height: 100%;
 	width: 100%;
-	background-color: var(--pagesBgc);
+	// background-color: var(--pagesBgc);
+	background-image: var(--backgroundGradient);
 	padding: 2rem;
 	overflow: hidden;
 }
 
+@media (width < 800px) {
+	.newsletterContainer {
+		padding: 0;
+	}
+}

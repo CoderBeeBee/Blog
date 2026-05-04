@@ -9,8 +9,10 @@ import { useAdminCreateUserMutation } from '../../../slices/api/userApi'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { useEffect, useState } from 'react'
-import WrapperBox from '../../atoms/WrapperBox/WrapperBox'
+
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
+import { ClearSVG, SaveSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
+import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
 
 const userSchema = z.object({
 	name: z.string().trim().min(4, { message: 'Min 4 characters' }),
@@ -92,21 +94,14 @@ const AddUserForm = () => {
 	}
 	return (
 		<div className={styles.addUserWrapper}>
+			<Breadcrumbs />
 			<FormProvider {...methods}>
-				<WrapperBox>
-					<p className={styles.addUserTitle}>Add User</p>
+				
 					<form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
-						<RHFInput type="text" name="name" label="Name" styles={styles} id="name" isSubmitting={isSubmitting} />
-						<RHFInput type="email" name="email" label="Email" styles={styles} id="email" isSubmitting={isSubmitting} />
-						<RHFInput
-							type="password"
-							name="password"
-							label="Password"
-							styles={styles}
-							id="password"
-							isSubmitting={isSubmitting}
-						/>
-						<RHFSelect name="role" id="role" label="Role" options={role} styles={styles} isSubmitting={isSubmitting} />
+						<RHFInput type="text" name="name" label="Name" id="name" isSubmitting={isSubmitting} />
+						<RHFInput type="email" name="email" label="Email" id="email" isSubmitting={isSubmitting} />
+						<RHFInput type="password" name="password" label="Password" id="password" isSubmitting={isSubmitting} />
+						<RHFSelect name="role" id="role" label="Role" options={role} isSubmitting={isSubmitting} />
 
 						{(errors.root?.message || successMessage) && (
 							<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
@@ -118,7 +113,9 @@ const AddUserForm = () => {
 							<FormBtn
 								type="submit"
 								isSubmitting={isSubmitting}
-								className={`${styles.submitBtn} ${isDirty ? styles.save : ''}`}>
+								ariaLabel={`${isSubmitting ? 'Saving' : 'Save'}`}
+								className={`${styles.submitBtn} ${isSubmitting ? styles.isSubmitting : ''} ${isDirty ? styles.save : ''}`}>
+								<SaveSVG />
 								{isSubmitting ? (
 									<>
 										Saving
@@ -134,13 +131,15 @@ const AddUserForm = () => {
 							<FormBtn
 								type="button"
 								isSubmitting={isSubmitting}
-								className={styles.clearButton}
+								className={`${styles.submitBtn} ${styles.clearButton}`}
+								ariaLabel="Clear"
 								handleResetFields={handleResetFields}>
+								<ClearSVG />
 								Clear
 							</FormBtn>
 						</div>
 					</form>
-				</WrapperBox>
+				
 			</FormProvider>
 		</div>
 	)

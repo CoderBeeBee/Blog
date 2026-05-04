@@ -15,7 +15,6 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		
 
 		&:hover {
 			.sideBarLinkFocus {
@@ -30,7 +29,6 @@
 			border-top-right-radius: var(--borderRadius10);
 			border-bottom-right-radius: var(--borderRadius10);
 			opacity: 0;
-			
 		}
 		.divideSideBar {
 			display: flex;
@@ -133,8 +131,7 @@
 			}
 		}
 		.activeSubMenuLi {
-			
-			background-image: linear-gradient(to right, #fdfbfb 0%, #065f43 100%);
+			background-image: var(--sideBarHoverGradient);
 			.subLink {
 				color: var(--whiteColor);
 			}
@@ -150,8 +147,6 @@
 
 	.subMenu {
 		display: flex;
-		background-image: linear-gradient(to right, #fdfbfb 0%, #ebedee 100%);
+		background-image: var(--sideBarGradient);
 	}
 }
-
-

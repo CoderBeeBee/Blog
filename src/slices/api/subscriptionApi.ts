@@ -3,14 +3,15 @@ const API_URL = import.meta.env.VITE_API_URL
 const SUB_URL = import.meta.env.VITE_SUB_URL
 
 interface SubscribersProps {
-	subscribers: {
-		_id: string
-		email: string
-		isVerified: boolean
-		createdAt: string
-		lastSent: string
-		nextSent: string
-	}[]
+	_id: string
+	email: string
+	isVerified: boolean
+	createdAt: string
+	lastSent: string
+	nextSent: string
+}
+interface SubscriberProps {
+	subscribers: SubscribersProps[]
 	totalPages: number
 	total: number
 }
@@ -47,7 +48,7 @@ export const subscriptionApi = createApi({
 				url: `${SUB_URL}/confirm-unsubscribe?token=${token}`,
 			}),
 		}),
-		fetchSubscribers: builder.query<SubscribersProps, fetchSubscribersProps>({
+		fetchSubscribers: builder.query<SubscriberProps, fetchSubscribersProps>({
 			query: params => {
 				const queryParams = new URLSearchParams(
 					Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)])),
@@ -55,14 +56,33 @@ export const subscriptionApi = createApi({
 
 				return `${SUB_URL}/?${queryParams}`
 			},
+			async onCacheEntryAdded(_, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
+				await cacheDataLoaded
+
+				const es = new EventSource(`${SUB_URL}/stream-delete`)
+
+				es.onmessage = e => {
+					const { id } = JSON.parse(e.data)
+					console.log(id);
+					updateCachedData(draft => {
+						draft.subscribers = draft.subscribers.filter(sub => sub._id !== id)
+						draft.total -= 1
+					})
+				}
+
+				await cacheEntryRemoved
+				es.close()
+			},
 			providesTags: () => [{ type: 'SUB' }],
 		}),
 		deleteSubscriber: builder.mutation({
-			query: ({ subId }) => ({
-				url: `${SUB_URL}/${subId}`,
+			query: subIds => ({
+				url: `${SUB_URL}/delete`,
 				method: 'DELETE',
+				headers: { 'Content-type': 'application/json' },
+				body: { subIds },
 			}),
-			invalidatesTags: () => [{ type: 'SUB' }],
+			// invalidatesTags: () => [{ type: 'SUB' }],
 		}),
 	}),
 })

@@ -1,12 +1,12 @@
 import z from 'zod'
 
 export const newsletterSchema = z.object({
-	newsletterTitle: z.string().trim().min(1, { message: 'Field is required' }),
-	newsletterMessage: z.string().trim().min(1, { message: 'Field is required' }),
-	shippingDay: z.string().trim().min(1, { message: 'Field is required' }),
+	newsletterTitle: z.string().trim().min(1, { message: 'Newsletter title is required' }),
+	newsletterMessage: z.string().trim().min(1, { message: 'Newsletter message is required' }),
+	shippingDay: z.string().trim().min(1, { message: 'Shipping day is required' }),
 	shippingTime: z
 		.number({
-			message: 'Field is required',
+			message: 'Shipping time is required',
 		})
 		.int('Limit must be an integer')
 		.min(0, 'Min 0')
@@ -24,4 +24,12 @@ export const newsletterDefault: newsletterTypes = {
 }
 
 
-export const shippingDays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+export const shippingDays: { id: number; name: string }[] = [
+	{ id: 0, name: 'Sunday' },
+	{ id: 1, name: 'Monday' },
+	{ id: 2, name: 'Tuesday' },
+	{ id: 3, name: 'Wednesday' },
+	{ id: 4, name: 'Thursday' },
+	{ id: 5, name: 'Friday' },
+	{ id: 6, name: 'Saturday' },
+]

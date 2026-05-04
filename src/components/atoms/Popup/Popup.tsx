@@ -5,18 +5,14 @@ import styles from './Popup.module.scss'
 import { type ReactNode } from 'react'
 interface PopupProps {
 	children: ReactNode
-	
+
 	handleClosePopup: () => void
 	popUpMessage: string
 	handleDelete: () => void
 }
 const Popup = ({ children, popUpMessage, handleClosePopup, handleDelete }: PopupProps) => {
-
-
-
-
 	return (
-		<div  className={styles.popupContainer}>
+		<div className={styles.popupContainer}>
 			<div className={styles.popupWrapper}>
 				<p className={styles.popupTitle}>Confirm Deletion</p>
 				{children}
@@ -28,7 +24,10 @@ const Popup = ({ children, popUpMessage, handleClosePopup, handleDelete }: Popup
 						type="button"
 						aria-label={popUpMessage ? 'Close button' : 'Delete button'}
 						className={`${styles.popupBtn} ${popUpMessage ? styles.closePopupBtn : styles.deleteBtn}`}
-						onClick={popUpMessage ? handleClosePopup : handleDelete}>
+						onClick={() => {
+							handleClosePopup()
+							handleDelete()
+						}}>
 						{popUpMessage ? 'Close ' : 'Delete'}
 					</FormBtn>
 				</div>

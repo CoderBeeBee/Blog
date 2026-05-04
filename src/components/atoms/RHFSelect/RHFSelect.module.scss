@@ -59,3 +59,8 @@
 		}
 	}
 }
+.error {
+	color: var(--errorColor);
+	font-family: var(--fontFamily);
+	font-size: var(--textSize_14);
+}

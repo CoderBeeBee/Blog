@@ -9,6 +9,8 @@ import { legalDefaults, legalSchema, type legalTypes } from '../../../types/lega
 import { useCreateLegalDocumentsMutation, useFetchLegalDocumentsQuery } from '../../../slices/api/legalDocumentsApi'
 import RHFInput from '../../atoms/RHFInput/RHFInput'
 import RHFTextArea from '../../atoms/RHFTextArea/RHFTextArea'
+import { RestoreSVG, SaveSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
+import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
 
 const LegalPrivacy = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
@@ -65,11 +67,11 @@ const LegalPrivacy = () => {
 		reset(data)
 	}
 
-	useEffect(()=>{
-		if(data){
+	useEffect(() => {
+		if (data) {
 			reset(data)
 		}
-	},[data, reset])
+	}, [data, reset])
 
 	useEffect(() => {
 		if (successMessage) {
@@ -91,12 +93,11 @@ const LegalPrivacy = () => {
 
 	return (
 		<div className={styles.legalPrivacyWrapper}>
-			<h3 className={styles.wrapperTitle}> Privacy Policy</h3>
+			<Breadcrumbs />
 
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper} aria-busy={isSubmitting}>
 					<RHFInput
-						styles={styles}
 						type="text"
 						name="version"
 						label="Version"
@@ -105,7 +106,6 @@ const LegalPrivacy = () => {
 						isSubmitting={isSubmitting}
 					/>
 					<RHFInput
-						styles={styles}
 						type="text"
 						name="language"
 						label="Language"
@@ -113,7 +113,7 @@ const LegalPrivacy = () => {
 						placeholder="ex. en"
 						isSubmitting={isSubmitting}
 					/>
-					<RHFTextArea styles={styles} name="content" id="content" label="Content" isSubmitting={isSubmitting} />
+					<RHFTextArea name="content" id="content" label="Content" isSubmitting={isSubmitting} />
 
 					{(errors.root?.message || successMessage) && (
 						<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
@@ -122,7 +122,12 @@ const LegalPrivacy = () => {
 					)}
 
 					<div className={styles.submitBtns}>
-						<FormBtn type="submit" isSubmitting={isSubmitting} className={isDirty ? styles.submitBtn : ''}>
+						<FormBtn
+							type="submit"
+							isSubmitting={isSubmitting}
+							ariaLabel="Save"
+							className={`${styles.submitBtn} ${isSubmitting ? styles.isSubmitting : ''} ${isDirty ? styles.save : ''}`}>
+							<SaveSVG />
 							{isSubmitting ? (
 								<>
 									Saving
@@ -138,9 +143,11 @@ const LegalPrivacy = () => {
 						<FormBtn
 							type="button"
 							isSubmitting={isSubmitting}
-							className={styles.clearButton}
+							ariaLabel="Reset"
+							className={`${styles.submitBtn} ${styles.clearButton}`}
 							handleResetFields={handleResetFields}>
-							Clear
+							<RestoreSVG />
+							Reset
 						</FormBtn>
 					</div>
 				</form>

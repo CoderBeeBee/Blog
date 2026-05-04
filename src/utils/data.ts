@@ -60,7 +60,7 @@ export const theadAttempts = [
 ]
 export const theadHistory = ['ID', 'action', 'performed By', 'created At', 'source', 'details']
 
-export const theadSubscribers = ['email', 'isVerified', 'createdAt', 'lastSent', 'nextSent', 'operations']
+export const theadSubscribers = ['checkmark', 'ID','email', 'is Verified', 'created At', 'last Sent', 'next Sent']
 
 export const noChevron = ['details', 'ID', 'operations', 'checkmark', 'image']
 

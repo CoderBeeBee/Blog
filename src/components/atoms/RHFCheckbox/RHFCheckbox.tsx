@@ -1,13 +1,13 @@
 import { Controller, useFormContext, type FieldValues, type Path } from 'react-hook-form'
 // import CheckMark from '../Checkmark/CheckMark'
 import type { ReactNode } from 'react'
-
+import styles from './RHFCheckbox.module.scss'
 interface RHFInputProps<T extends FieldValues> {
 	name: Path<T>
 	label?: string
-	styles: Record<string, string>
+	
 	id: string
-	children?:ReactNode
+	children?: ReactNode
 	placeholder?: string
 
 	isSubmitting?: boolean
@@ -17,7 +17,7 @@ const RHFCheckbox = <T extends FieldValues>({
 	name,
 	placeholder,
 	label,
-	styles,
+	
 	id,
 	children,
 	isSubmitting = false,
@@ -29,10 +29,11 @@ const RHFCheckbox = <T extends FieldValues>({
 			control={control}
 			render={({ field: { onChange, value }, fieldState: { error } }) => (
 				<div className={styles.formCheckbox}>
-					<label htmlFor={id}>{label && `${label}`}
-                    
+					<label htmlFor={id}>
+						{label && `${label}`}
+
 						{children}
-                    </label>
+					</label>
 					<input
 						value={value ?? ''}
 						id={id}
@@ -41,7 +42,7 @@ const RHFCheckbox = <T extends FieldValues>({
 							onChange(value)
 						}}
 						type="checkbox"
-                        checked={!!value}
+						checked={!!value}
 						placeholder={placeholder}
 						disabled={isSubmitting}
 						aria-readonly={isSubmitting}

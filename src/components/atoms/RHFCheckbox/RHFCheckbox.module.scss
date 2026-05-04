@@ -1,0 +1,24 @@
+.formCheckbox {
+	label {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		line-height: 20px;
+		font-family: var(--font-2);
+		margin-bottom: 2rem;
+		font-size: var(--textSize_18);
+		font-weight: 500;
+		color: var(--textColor);
+		z-index: 100;
+		cursor: pointer;
+	}
+	input {
+		display: none;
+	}
+}
+.error {
+	color: var(--errorColor);
+	font-family: var(--fontFamily);
+	font-size: var(--textSize_14);
+}

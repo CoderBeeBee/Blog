@@ -6,5 +6,13 @@
 	min-height: 100dvh;
 	height: 100%;
 	width: 100%;
-	background-color: var(--pagesBgc);
+	padding: 2rem;
+	// background-color: var(--pagesBgc);
+	background-image: var(--backgroundGradient);
+}
+
+@media (width < 800px) {
+	.addPostContainer {
+		padding: 0;
+	}
 }

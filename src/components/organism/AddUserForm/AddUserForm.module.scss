@@ -1,105 +1,17 @@
 .addUserWrapper {
 	display: flex;
 	flex-direction: column;
-	.addUserTitle {
-		margin-bottom: 2rem;
-		font-size: var(--textSize_20);
-		font-weight: 400;
-		line-height: 4rem;
-		font-family: var(--font-2);
-		color: var(--sideBarColor);
-	}
-
+	width: 100%;
+	height: 100%;
+	border-radius: var(--borderRadius06);
+	border: 1px solid var(--lightGrayColor);
+	background-color: var(--whiteColor);
+	
 	.formWrapper {
 		display: flex;
 		flex-direction: column;
-
-		.formInputBox {
-			display: flex;
-			flex-direction: column;
-			font-family: var(--font-2);
-			width: 100%;
-			margin-bottom: 2rem;
-			label {
-				margin-bottom: 1rem;
-				font-size: var(--textSize_18);
-				font-weight: 500;
-				color: var(--textColor);
-			}
-			.formInput {
-				position: relative;
-				margin-bottom: 1rem;
-				input {
-					width: 100%;
-					padding: var(--vspace-0_25);
-					color: var(--blackColor);
-					font-size: var(--textSize_16);
-					font-family: var(--font-2);
-					border: 1px solid var(--lightGrayColor);
-					border-radius: var(--borderRadius06);
-					outline: none;
-					transition: all 0.3s;
-
-					&:hover {
-						box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-						border-color: var(--whiteColor);
-					}
-
-					&:focus {
-						box-shadow: 0px 0px 0px 2px var(--mainColor);
-						border-color: var(--whiteColor);
-					}
-				}
-			}
-		}
-
-		.selectContainer {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			margin-bottom: 2rem;
-			font-family: var(--font-2);
-			.selectTitle {
-				margin-bottom: 1rem;
-				color: var(--textColor);
-				font-size: var(--textSize_18);
-				font-family: var(--font-2);
-				font-weight: 500;
-			}
-			.selectOption {
-				appearance: none;
-				-moz-appearance: none;
-				-webkit-appearance: none;
-				width: 100%;
-				margin-bottom: 1rem;
-				padding: var(--vspace-0_25);
-				color: var(--textColor);
-				background-color: var(--mainFormBgc);
-				font-size: var(--textSize_16);
-				border: 1px solid var(--lightGrayColor);
-				border-radius: var(--borderRadius06);
-				background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-				background-repeat: no-repeat;
-				background-position: right 10px center;
-				background-size: 16px;
-				outline: none;
-				cursor: pointer;
-				transition: all 0.3s;
-				&:hover {
-					box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-					border-color: var(--whiteColor);
-				}
-
-				&:focus {
-					box-shadow: 0px 0px 0px 2px var(--mainColor);
-					border-color: var(--whiteColor);
-				}
-				option {
-					background-color: var(--whiteColor);
-					width: 100%;
-				}
-			}
-		}
+		max-width: 600px;
+		padding: 2rem;
 	}
 
 	.submitBtns {
@@ -109,13 +21,17 @@
 
 		.submitBtn {
 			display: flex;
-			align-self: flex-start;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
 			color: var(--darkColor);
 			background-color: var(--lightGrayColor);
+			cursor: not-allowed;
 		}
 		.save {
 			color: var(--whiteColor);
 			background-color: var(--mainColor);
+			cursor: pointer;
 
 			&:hover {
 				background-color: var(--mainColorHover);
@@ -132,19 +48,25 @@
 		}
 		.clearButton {
 			transition: all 0.3s;
-			color: var(--darkColor);
-			background-color: var(--lightGrayColor);
+			cursor: pointer;
 			&:hover {
 				color: var(--whiteColor);
 				background-color: var(--clearButtonBgc);
 			}
 		}
+		.isSubmitting {
+			background-color: var(--lightGrayColor);
+			color: var(--darkColor);
+			cursor: not-allowed;
+
+			&:hover {
+				color: var(--darkColor);
+				background-color: var(--lightGrayColor);
+			}
+		}
 	}
 }
-.error {
-	color: var(--errorColor);
-	font-size: var(--textSize_14);
-}
+
 .marginError {
 	margin-bottom: 1rem;
 }

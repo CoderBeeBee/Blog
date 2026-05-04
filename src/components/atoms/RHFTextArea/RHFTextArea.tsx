@@ -34,23 +34,7 @@ const RHFTextArea = <T extends FieldValues>({
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const { control } = useFormContext()
 
-	// const [displayToolTip, setDisplayToolTip] = useState<string>('')
-
-	// const [timeOutTipIn, setTimeOutTipIn] = useState<ReturnType<typeof setTimeout>[]>([])
-
-	// const onMouseEnterToolTip = (id: string) => {
-	// 	timeOutTipIn.forEach(t => clearTimeout(t))
-
-	// 	setDisplayToolTip(id)
-	// }
-	// const onMouseLeaveToolTip = () => {
-	// 	const resetList = []
-	// 	const resetTime = setTimeout(() => {
-	// 		setDisplayToolTip('')
-	// 	}, 1000)
-	// 	resetList.push(resetTime)
-	// 	setTimeOutTipIn(resetList)
-	// }
+	
 
 	const handleKeyDown =
 		(onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void) => (e: KeyboardEvent<HTMLTextAreaElement>) => {

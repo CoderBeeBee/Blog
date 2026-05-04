@@ -3,6 +3,8 @@
 	justify-content: center;
 	height: calc(100dvh - var(--navPanelHeight));
 	width: 100%;
-	background-color: var(--pagesBgc);
+	// background-color: var(--pagesBgc);
+	background-image: var(--backgroundGradient);
+	padding: 2rem;
 	overflow: hidden;
 }

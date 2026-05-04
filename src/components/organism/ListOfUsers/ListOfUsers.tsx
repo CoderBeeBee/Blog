@@ -1,4 +1,4 @@
-import { DetailsSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
+import { ProfileSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 import type { UsersProps } from '../../../types/types'
 import styles from './ListOfUsers.module.scss'
 import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
@@ -259,7 +259,7 @@ const ListOfUsers = () => {
 												aria-label="Profile"
 												className={styles.detailsButton}
 												href={`/admin/users/profile/${user._id}`}>
-												<DetailsSVG />
+												<ProfileSVG />
 											</AnchorLink>
 										</td>
 									</tr>

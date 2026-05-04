@@ -150,6 +150,7 @@ const AddCategoryForm = () => {
 			}
 		}
 	}
+	
 	useEffect(() => {
 		if (catId) {
 			reset(editCategory)

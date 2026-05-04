@@ -1,117 +1,18 @@
 .legalTermsWrapper {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+
 	width: 100%;
 	max-width: 1000px;
 	height: 100%;
 	background-color: var(--whiteColor);
 	border-radius: var(--borderRadius06);
-	padding: 2rem;
-
-	.wrapperTitle {
-		margin-bottom: 1rem;
-		font-weight: 500;
-		line-height: 4rem;
-		font-family: var(--font-2);
-		font-size: var(--textSize_20);
-		color: var(--textColor);
-	}
 
 	.formWrapper {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-
-		.formInputBox {
-			display: flex;
-			flex-direction: column;
-			font-family: var(--font-2);
-			width: 100%;
-			margin-bottom: 1.5rem;
-			label {
-				margin-bottom: 1rem;
-				font-size: var(--textSize_18);
-				font-weight: 500;
-				color: var(--textColor);
-			}
-			.formInput {
-				position: relative;
-				margin-bottom: 1rem;
-				input {
-					width: 100%;
-					padding: var(--vspace-0_25);
-					color: var(--textColor);
-					font-size: var(--textSize_16);
-					font-family: var(--font-2);
-					border: 1px solid var(--lightGrayColor);
-					border-radius: var(--borderRadius06);
-					outline: none;
-					transition: all 0.3s;
-
-					&:hover {
-						box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-						border-color: var(--whiteColor);
-					}
-
-					&:focus {
-						box-shadow: 0px 0px 0px 2px var(--mainColor);
-						border-color: var(--whiteColor);
-					}
-				}
-			}
-		}
-
-		.textAreaContainer {
-			display: flex;
-			flex-direction: column;
-			font-family: var(--font-2);
-			width: 100%;
-			height: 100%;
-			
-			label {
-				margin-bottom: 1rem;
-				font-size: var(--textSize_18);
-				font-weight: 500;
-			}
-			.textareaWrapper {
-				display: flex;
-				flex-direction: column;
-				width: 100%;
-				margin-bottom: 1rem;
-				border-radius: var(--borderRadius06);
-				border: 1px solid var(--lightGrayColor);
-				background-color: var(--whiteColor);
-				transition: all 0.3s;
-				overflow: hidden;
-				textarea {
-					field-sizing: content;
-					resize: vertical;
-					min-height: 150px;
-					width: 100%;
-					height: 100%;
-					max-width: 1150px;
-					padding: var(--vspace-0_25) var(--vspace-0_25) 3rem;
-					color: var(--textColor);
-					line-height: var(--textLineHeight);
-					font-size: var(--textSize_16);
-					font-family: var(--font-2);
-					
-					border: none;
-					outline: none;
-					transition: border-color 0.3s, box-shadow 0.3s;
-				}
-				&:hover {
-					box-shadow: 0px 0px 0px 2px var(--lightGrayColor);
-					border-color: var(--whiteColor);
-				}
-			}
-			.focusArea {
-				&:hover {
-					box-shadow: 0px 0px 0px 2px var(--mainColor);
-				}
-			}
-		}
+		padding: 2rem;
 	}
 
 	.submitBtns {
@@ -121,9 +22,17 @@
 
 		.submitBtn {
 			display: flex;
-			align-self: flex-start;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			color: var(--darkColor);
+			background-color: var(--lightGrayColor);
+			cursor: not-allowed;
+		}
+		.save {
 			color: var(--whiteColor);
 			background-color: var(--mainColor);
+			cursor: pointer;
 
 			&:hover {
 				background-color: var(--mainColorHover);
@@ -140,16 +49,23 @@
 		}
 		.clearButton {
 			transition: all 0.3s;
+			cursor: pointer;
 			&:hover {
 				color: var(--whiteColor);
 				background-color: var(--clearButtonBgc);
 			}
 		}
+		.isSubmitting {
+			background-color: var(--lightGrayColor);
+			color: var(--darkColor);
+			cursor: not-allowed;
+
+			&:hover {
+				color: var(--darkColor);
+				background-color: var(--lightGrayColor);
+			}
+		}
 	}
-}
-.error {
-	color: var(--errorColor);
-	font-size: var(--textSize_14);
 }
 
 @keyframes animateDot {
