@@ -114,7 +114,7 @@ const ConfirmResetPassword = () => {
 							name="newPassword"
 							isSubmitting={isSubmitting}
 							label="New Password"
-							styles={styles}
+					
 						/>
 						<RHFInput
 							type="password"
@@ -122,7 +122,7 @@ const ConfirmResetPassword = () => {
 							name="confirmNewPassword"
 							isSubmitting={isSubmitting}
 							label="Confirm New Password"
-							styles={styles}
+							
 						/>
 
 						{(errors.root?.message || successMessage) && (

@@ -112,18 +112,18 @@ const SecuritySettings = () => {
 							name="registrationEnabled"
 							id="registration"
 							label="Registration"
-							styles={styles}
+							
 							isSubmitting={isSubmitting}>
 							<SwitchButton switchButton={registrationEnabled} isSubmitting={isSubmitting} />
 						</RHFCheckbox>
-						<RHFCheckbox name="loginEnabled" id="login" label="Login" styles={styles} isSubmitting={isSubmitting}>
+						<RHFCheckbox name="loginEnabled" id="login" label="Login"  isSubmitting={isSubmitting}>
 							<SwitchButton switchButton={loginEnabled} isSubmitting={isSubmitting} />
 						</RHFCheckbox>
 						<RHFCheckbox
 							name="maintenanceMode.maintenance"
 							id="maintenance"
 							label="Maintenance"
-							styles={styles}
+						
 							isSubmitting={isSubmitting}>
 							<SwitchButton switchButton={maintenanceMode.maintenance} isSubmitting={isSubmitting} />
 						</RHFCheckbox>
@@ -133,7 +133,7 @@ const SecuritySettings = () => {
 							id="breakUntil"
 							label="Break until"
 							isSubmitting={isSubmitting}
-							styles={styles}
+							
 						/>
 						{(errors.root?.message || successMessage) && (
 							<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>

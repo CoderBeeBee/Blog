@@ -78,7 +78,7 @@ const Ads = () => {
 
 					<form aria-busy={isSubmitting} onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
 						<RHFInput
-							styles={styles}
+							
 							type="text"
 							name="client"
 							label="Client"
@@ -87,7 +87,7 @@ const Ads = () => {
 						/>
 
 						{AD_SLOTS.map(slot => {
-							return <AdSlot key={slot.key} slot={slot} styles={styles} isSubmitting={isSubmitting} />
+							return <AdSlot key={slot.key} slot={slot}  isSubmitting={isSubmitting} />
 						})}
 
 						{(errors.root?.message || successMessage) && (

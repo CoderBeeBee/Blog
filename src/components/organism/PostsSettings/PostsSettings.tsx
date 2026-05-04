@@ -91,7 +91,7 @@ const PostsSettings = () => {
 							name="heroPostLimit"
 							id="heroPostLimit"
 							label="Home Page Post Limit"
-							styles={styles}
+							
 							isSubmitting={isSubmitting}
 						/>
 						<RHFInput
@@ -99,7 +99,7 @@ const PostsSettings = () => {
 							name="postPerPage"
 							id="postPerPage"
 							label="Post Per Page"
-							styles={styles}
+							
 							isSubmitting={isSubmitting}
 						/>
 

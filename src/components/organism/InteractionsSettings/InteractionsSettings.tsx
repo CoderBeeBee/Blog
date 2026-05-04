@@ -107,7 +107,7 @@ const InteractionsSettings = () => {
 							name="commentsEnabled"
 							id="comments"
 							label="Comments"
-							styles={styles}
+							
 							isSubmitting={isSubmitting}>
 							<SwitchButton switchButton={commentsEnabled} isSubmitting={isSubmitting} />
 						</RHFCheckbox>
@@ -116,11 +116,11 @@ const InteractionsSettings = () => {
 							name="moderation"
 							id="moderation"
 							label="Comments moderation"
-							styles={styles}
+							
 							isSubmitting={isSubmitting}>
 							<SwitchButton switchButton={moderation} isSubmitting={isSubmitting} />
 						</RHFCheckbox>
-						<RHFCheckbox name="likesEnabled" id="likes" label="Likes" styles={styles} isSubmitting={isSubmitting}>
+						<RHFCheckbox name="likesEnabled" id="likes" label="Likes"  isSubmitting={isSubmitting}>
 							<SwitchButton switchButton={likesEnabled} isSubmitting={isSubmitting} />
 						</RHFCheckbox>
 

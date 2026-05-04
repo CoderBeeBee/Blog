@@ -89,7 +89,7 @@ const AddTagsForm = () => {
 							<RHFInput
 								name="tag"
 								type="text"
-								styles={styles}
+								
 								label="Tag Name"
 								id="tag"
 								isSubmitting={isSubmitting}

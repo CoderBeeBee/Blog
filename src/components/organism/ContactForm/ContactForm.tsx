@@ -161,7 +161,7 @@ const ContactForm = () => {
 						tip={false}
 					/>
 					<div className={styles.checkbox}>
-						<RHFCheckbox name="policy" id="policy" styles={styles} isSubmitting={isSubmitting}>
+						<RHFCheckbox name="policy" id="policy"  isSubmitting={isSubmitting}>
 							<>
 								<CheckMark isChecked={policy} className={styles.checkMark} />
 								<span>

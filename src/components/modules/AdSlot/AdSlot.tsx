@@ -4,12 +4,12 @@ import RHFCheckbox from '../../atoms/RHFCheckbox/RHFCheckbox'
 import SwitchButton from '../../atoms/SwitchButton/SwitchButton'
 
 interface AdSlotProps {
-	styles: Record<string, string>
+	
 	slot: Record<string, string >
     isSubmitting:boolean
 }
 
-const AdSlot = ({ slot, styles,isSubmitting }: AdSlotProps) => {
+const AdSlot = ({ slot,isSubmitting }: AdSlotProps) => {
 	const { control } = useFormContext()
 
 	const enabled = useWatch({
@@ -20,7 +20,7 @@ const AdSlot = ({ slot, styles,isSubmitting }: AdSlotProps) => {
 	return (
 		<div key={slot.key}>
 			<RHFInput
-				styles={styles}
+				
 				type="text"
 				name={`slots.${slot.key}.slot`}
 				label={slot.label}
@@ -31,7 +31,7 @@ const AdSlot = ({ slot, styles,isSubmitting }: AdSlotProps) => {
 				name={`slots.${slot.key}.enableAd`}
 				id={`slots.${slot.key}.enableAd`}
 				label="Enable Ad"
-				styles={styles}
+				
 				isSubmitting={isSubmitting}>
 				<SwitchButton switchButton={enabled} isSubmitting={isSubmitting} />
 			</RHFCheckbox>

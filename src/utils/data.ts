@@ -42,7 +42,7 @@ export const theadUsers = [
 export const theadComments = ['checkmark', 'ID', 'comment', 'post Title', 'author', 'created At', 'operations']
 
 export const adminsAndModerators = ['Admin', 'Moderator', 'Editor']
-export const role = ['Admin', 'Moderator', 'Editor', 'User']
+export const role = [{name:'Admin'}, {name:'Moderator'}, {name:'Editor'}, {name:'User'}]
 export const rowsNumbers = [10, 25, 50]
 
 export const postStatus = [{ name: 'Draft' }, { name: 'Published' }, { name: 'Scheduled' }]

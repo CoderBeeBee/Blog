@@ -80,7 +80,7 @@ const IntegrationsSocialLinks = () => {
 
 					<form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper} aria-busy={isSubmitting}>
 						<RHFInput
-							styles={styles}
+							
 							type="text"
 							name="instagram"
 							label="Instagram"
@@ -88,7 +88,7 @@ const IntegrationsSocialLinks = () => {
 							isSubmitting={isSubmitting}
 						/>
 						<RHFInput
-							styles={styles}
+							
 							type="text"
 							name="youTube"
 							label="Youtube"
@@ -96,7 +96,7 @@ const IntegrationsSocialLinks = () => {
 							isSubmitting={isSubmitting}
 						/>
 						<RHFInput
-							styles={styles}
+							
 							type="text"
 							name="twitter"
 							label="Twitter"
@@ -105,7 +105,7 @@ const IntegrationsSocialLinks = () => {
 						/>
 
 						<RHFInput
-							styles={styles}
+							
 							type="text"
 							name="facebook"
 							label="Facebook"

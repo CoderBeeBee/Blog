@@ -104,7 +104,7 @@ const DifferentSettings = () => {
 						name="searchEngine"
 						id="searchEngine"
 						label="Search Engine"
-						styles={styles}
+						
 						isSubmitting={isSubmitting}>
 						<SwitchButton switchButton={searchEngine} isSubmitting={isSubmitting} />
 					</RHFCheckbox>
@@ -112,7 +112,7 @@ const DifferentSettings = () => {
 						name="contactForm"
 						id="contactForm"
 						label="Contact Form"
-						styles={styles}
+						
 						isSubmitting={isSubmitting}>
 						<SwitchButton switchButton={contactForm} isSubmitting={isSubmitting} />
 					</RHFCheckbox>
@@ -120,7 +120,7 @@ const DifferentSettings = () => {
 						name="subscriptions"
 						id="subscriptions"
 						label="Subscriptions"
-						styles={styles}
+						
 						isSubmitting={isSubmitting}>
 						<SwitchButton switchButton={subscriptions} isSubmitting={isSubmitting} />
 					</RHFCheckbox>

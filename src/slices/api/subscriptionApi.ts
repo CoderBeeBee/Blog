@@ -60,7 +60,7 @@ export const subscriptionApi = createApi({
 				await cacheDataLoaded
 
 				const es = new EventSource(`${SUB_URL}/stream-delete`)
-
+				console.log(es);
 				es.onmessage = e => {
 					const { id } = JSON.parse(e.data)
 					console.log(id);

@@ -21,7 +21,7 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 const Subscribers = () => {
 	const filtersOption = ['-----']
-	const { handleCheckMark, checked, handleCheckMarkAll, isCheckedAll, handleClearCheckedSet } = useCheckMark()
+	const { handleCheckMark, checked, handleCheckMarkAll, isCheckedAll } = useCheckMark()
 	const { sort, listRef, handleSetSort, focusedChevron, handleResetSort } = useSort()
 	const { openPopup, popUpMessage, setPopUpMessage, handleOpenPopup, handleClosePopup } = useOpenClosePopup()
 

@@ -161,7 +161,7 @@ const Registration = () => {
 							tip={false}
 						/>
 						<div className={styles.checkbox}>
-							<RHFCheckbox name="consents" id="consents" isSubmitting={isSubmitting} styles={styles}>
+							<RHFCheckbox name="consents" id="consents" isSubmitting={isSubmitting} >
 								<>
 									<CheckMark isChecked={consents} className={styles.checkMark} />
 									<span>

@@ -11,7 +11,7 @@ interface DesktopProps {
 }
 
 const DesktopNav = ({  dataMenu }: DesktopProps) => {
-	const { mobileMenu, handleMouseIn, handleMouseOut, handleMouseInDropdown, handleMouseOutDropdown } = useGlobalContext()
+	const { mobileMenu } = useGlobalContext()
 	const { close, isVisible } = mobileMenu
 	const {widthGreater900} = useWindowSize()
 	
@@ -33,10 +33,7 @@ const DesktopNav = ({  dataMenu }: DesktopProps) => {
 						styles={styles}
 						data={item}
 						index={index}
-						handleMouseIn={handleMouseIn}
-						handleMouseOut={handleMouseOut}
-						handleMouseInDropdown={handleMouseInDropdown}
-						handleMouseOutDropdown={handleMouseOutDropdown}
+						
 					/>
 				)
 			})}

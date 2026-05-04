@@ -13,7 +13,7 @@ import WrapperBox from '../../atoms/WrapperBox/WrapperBox'
 import { smtpDefaults, smtpSchema, type smtpTypes } from '../../../types/emailSchema'
 
 const EmailSettings = () => {
-	const options = ['true', 'false']
+	const options = [{name:'true'},{name:'false'}]
 	const [email, setEmail] = useState<string>('')
 	const [successMessage, setSuccessMessage] = useState<string>('')
 	const [testMessage, setTestMessage] = useState<string>('')
@@ -126,7 +126,7 @@ const EmailSettings = () => {
 					<FormProvider {...methods}>
 						<form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper} aria-busy={isSubmitting}>
 							<RHFInput
-								styles={styles}
+								
 								type="text"
 								name="provider"
 								label="Provider"
@@ -134,12 +134,12 @@ const EmailSettings = () => {
 								placeholder="ex. Gmail"
 								isSubmitting={isSubmitting}
 							/>
-							<RHFInput styles={styles} type="text" name="host" label="Host" id="post" isSubmitting={isSubmitting} />
-							<RHFInput styles={styles} type="number" name="port" label="Port" id="port" isSubmitting={isSubmitting} />
-							<RHFSelect name="secure" label="Secure" options={options} styles={styles} isSubmitting={isSubmitting} />
-							<RHFInput styles={styles} type="text" name="user" label="User" id="user" isSubmitting={isSubmitting} />
+							<RHFInput  type="text" name="host" label="Host" id="post" isSubmitting={isSubmitting} />
+							<RHFInput  type="number" name="port" label="Port" id="port" isSubmitting={isSubmitting} />
+							<RHFSelect name="secure" id='secure' label="Secure" options={options}  isSubmitting={isSubmitting} />
+							<RHFInput  type="text" name="user" label="User" id="user" isSubmitting={isSubmitting} />
 							<RHFInput
-								styles={styles}
+								
 								type="password"
 								name="password"
 								label="Password"
@@ -149,7 +149,7 @@ const EmailSettings = () => {
 
 							<h3 className={styles.boxTitle}>Email sending settings </h3>
 							<RHFInput
-								styles={styles}
+						
 								type="text"
 								name="fromName"
 								label="Company Name"
@@ -158,7 +158,7 @@ const EmailSettings = () => {
 								isSubmitting={isSubmitting}
 							/>
 							<RHFInput
-								styles={styles}
+								
 								type="text"
 								name="fromEmail"
 								label="Company Email"
@@ -167,7 +167,7 @@ const EmailSettings = () => {
 								isSubmitting={isSubmitting}
 							/>
 							<RHFInput
-								styles={styles}
+								
 								type="text"
 								name="replyTo"
 								label="Reply to"

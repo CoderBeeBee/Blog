@@ -103,7 +103,7 @@ const AnalyticsSettings = () => {
 							name="analyticsEnabled"
 							id="analytics"
 							label="Analytics"
-							styles={styles}
+							
 							isSubmitting={isSubmitting}>
 							<SwitchButton switchButton={analyticsEnabled} isSubmitting={isSubmitting} />
 						</RHFCheckbox>

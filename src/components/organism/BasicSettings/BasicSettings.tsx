@@ -148,7 +148,7 @@ const BasicSettings = () => {
 							name="siteName"
 							id="site-name"
 							label="Site Name"
-							styles={styles}
+					
 							isSubmitting={isSubmitting}
 							placeholder="Enter site name"
 						/>
@@ -157,7 +157,7 @@ const BasicSettings = () => {
 							name="siteUrl"
 							id="site-url"
 							label="Site Url"
-							styles={styles}
+							
 							isSubmitting={isSubmitting}
 							placeholder="Enter site url"
 						/>
@@ -168,7 +168,7 @@ const BasicSettings = () => {
 							isSubmitting={isSubmitting}
 							fileIndex={0}
 							fileRef={fileRef}
-							styles={styles}
+							
 						/>
 						<RHFAddFile
 							name="favicon.src"
@@ -177,7 +177,7 @@ const BasicSettings = () => {
 							isSubmitting={isSubmitting}
 							fileIndex={1}
 							fileRef={fileRef}
-							styles={styles}
+							
 							className={styles.favIcon}
 						/>
 

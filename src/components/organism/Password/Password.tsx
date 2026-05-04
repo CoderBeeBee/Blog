@@ -137,7 +137,7 @@ const Password = ({ handleAccountPopup }: PasswordProps) => {
 						id="currentPassword"
 						name="currentPassword"
 						label="Current Password"
-						styles={styles}
+						
 						isSubmitting={isSubmitting}
 					/>
 					<button
@@ -154,7 +154,7 @@ const Password = ({ handleAccountPopup }: PasswordProps) => {
 						id="newPassword"
 						name="newPassword"
 						label="New Password"
-						styles={styles}
+						
 						isSubmitting={isSubmitting}>
 						<ul className={styles.newPasswordInfo}>
 							<li className={`${isValidLength ? styles.highlightLi : isErrorLength ? styles.errorLi : ''}`}>
@@ -173,7 +173,7 @@ const Password = ({ handleAccountPopup }: PasswordProps) => {
 						name="confirmPassword"
 						label="Confirm Password"
 						isSubmitting={isSubmitting}
-						styles={styles}
+						
 					/>
 					<FormBtn
 						type="submit"
