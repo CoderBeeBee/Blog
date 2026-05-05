@@ -21,11 +21,11 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 const Subscribers = () => {
 	const filtersOption = ['-----']
-	const { handleCheckMark, checked, handleCheckMarkAll, isCheckedAll } = useCheckMark()
+	const { handleCheckMark, checked, handleCheckMarkAll, isCheckedAll, handleClearCheckedSet } = useCheckMark()
 	const { sort, listRef, handleSetSort, focusedChevron, handleResetSort } = useSort()
 	const { openPopup, popUpMessage, setPopUpMessage, handleOpenPopup, handleClosePopup } = useOpenClosePopup()
 
-	const [deleteSubscriber, ] = useDeleteSubscriberMutation()
+	const [deleteSubscriber] = useDeleteSubscriberMutation()
 	const [rows, setRows] = useState<number>(10)
 	const [currentPage, setCurrentPage] = useState<number>(1)
 	const { filters, setFilters } = useFilters()
@@ -39,19 +39,15 @@ const Subscribers = () => {
 	const [inputValue, setInputValue] = useState<string>('')
 	const search = useDebounce(inputValue, 500)
 
-	const { data } = useFetchSubscribersQuery({
+	const { data, refetch } = useFetchSubscribersQuery({
 		limit: rows,
 		page: currentPage,
 		search: search,
 		sortBy: sort.sortBy,
 		order: sort.order,
 	})
-	// console.log(data);
-	const { subscribers = [], totalPages = 1, total = 1 } = data ?? {}
 
-	// useEffect(() => {
-	// 	refetch()
-	// }, [data, refetch])
+	const { subscribers = [], totalPages = 1, total = 1 } = data ?? {}
 
 	const handleSetInputValue = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.target as HTMLInputElement
@@ -90,11 +86,7 @@ const Subscribers = () => {
 				const res = await deleteSubscriber([...checked]).unwrap()
 
 				if (res) setPopUpMessage(res.message as string)
-				console.log(res)
-				// handleClearCheckedSet()
 			}
-
-			// refetch()
 		} catch (error) {
 			if (typeof error === 'object' && error !== null) {
 				const fetchError = error as FetchBaseQueryError
@@ -109,12 +101,30 @@ const Subscribers = () => {
 			}
 		}
 	}
-	
+
 	const checkMarkAll = () => {
 		const subId = subscribers.map(sub => sub._id)
 
 		handleCheckMarkAll(subId)
 	}
+
+	useEffect(() => {
+		if ( data?.id) {
+			setTimeout(() => {
+				refetch()
+			}, 600)
+		}
+	}, [data, refetch])
+
+	useEffect(() => {
+		if (data?.done) {
+			setTimeout(() => {
+				handleClearCheckedSet()
+				setPopUpMessage('')
+				
+			}, 1000);
+		}
+	}, [data, handleClearCheckedSet, setPopUpMessage])
 	return (
 		<div className={styles.subscribersWrapper}>
 			<Breadcrumbs />
@@ -203,15 +213,17 @@ const Subscribers = () => {
 							subscribers?.map((sub, index: number) => {
 								const isChecked = checked.has(sub._id)
 								const shouldShow = isChecked && popUpMessage
-								const message = popUpMessage && isChecked ? popUpMessage : 'Deleting'
+								const message = isChecked && sub._id === data?.id ? 'Success' :
+									popUpMessage && isChecked ? popUpMessage :  ''
+								
 								return (
-									<tr key={index} className={`${styles.tr} `}>
+									<tr key={index} className={`${styles.tr} ${data && data.id === sub._id ? styles.anim : ''} ${shouldShow ? styles.trDelete : ''}`}>
 										<td className={styles.td} onClick={() => handleCheckMark(sub._id)}>
-											<CheckMark className={styles.checkmark} isChecked={isChecked} />
+											<CheckMark isChecked={isChecked} />
 										</td>
 										<td className={styles.td}>{index + 1}</td>
 										<td className={styles.td}>{sub.email}</td>
-										<td className={styles.td}>{`${sub.isVerified}`}</td>
+										<td className={styles.td}>{`${sub.isVerified ? 'Yes' : 'No'}`}</td>
 										<td className={styles.td}>{new Date(sub.createdAt).toLocaleDateString(...longDateConverter())}</td>
 										<td className={styles.td}>
 											{sub.lastSent !== null
@@ -223,7 +235,7 @@ const Subscribers = () => {
 												? new Date(sub.nextSent).toLocaleDateString(...longDateConverter())
 												: '-----'}
 										</td>
-										{shouldShow && <div className={styles.deletedSub}>{message}</div>}
+										{shouldShow && <td className={`${styles.deletedSub} ${isChecked && sub._id === data?.id ? styles.success : ''}` }>{message} </td>}
 									</tr>
 								)
 							})}

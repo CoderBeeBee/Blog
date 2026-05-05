@@ -14,6 +14,8 @@ interface SubscriberProps {
 	subscribers: SubscribersProps[]
 	totalPages: number
 	total: number
+	done?: false
+	id?: string
 }
 
 interface fetchSubscribersProps {
@@ -59,15 +61,22 @@ export const subscriptionApi = createApi({
 			async onCacheEntryAdded(_, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
 				await cacheDataLoaded
 
-				const es = new EventSource(`${SUB_URL}/stream-delete`)
-				console.log(es);
+				const es = new EventSource(`${API_URL}${SUB_URL}/stream-delete`)
+
 				es.onmessage = e => {
-					const { id } = JSON.parse(e.data)
-					console.log(id);
+					const data = JSON.parse(e.data)
+
 					updateCachedData(draft => {
-						draft.subscribers = draft.subscribers.filter(sub => sub._id !== id)
-						draft.total -= 1
+						if (data.done) draft.done = data.done
+
+						if (data.id) draft.id = data.id
 					})
+					setTimeout(() => {
+						updateCachedData(draft => {
+							draft.subscribers = draft.subscribers.filter(sub => sub._id !== data.id)
+							draft.total -= 1
+						})
+					}, 500)
 				}
 
 				await cacheEntryRemoved
