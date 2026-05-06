@@ -66,38 +66,38 @@
 				gap: 1rem;
 				margin-bottom: 2rem;
 
-				.formCheckbox {
-					label {
-						display: flex;
-						flex-direction: row;
-						align-items: center;
-						line-height: 20px;
-					}
-					input {
-						display: none;
-					}
+				// .formCheckbox {
+				// 	label {
+				// 		display: flex;
+				// 		flex-direction: row;
+				// 		align-items: center;
+				// 		line-height: 20px;
+				// 	}
+				// 	input {
+				// 		display: none;
+				// 	}
 
-					span {
-						color: var(--textColor);
-						margin-left: 1rem;
-						font-size: var(--textSize_14);
-						font-family: var(--font-2);
+				// 	span {
+				// 		color: var(--textColor);
+				// 		margin-left: 1rem;
+				// 		font-size: var(--textSize_14);
+				// 		font-family: var(--font-2);
 
-						a {
-							color: var(--textColor);
-							font-weight: bold;
+				// 		a {
+				// 			color: var(--textColor);
+				// 			font-weight: bold;
 
-							&:hover {
-								color: #0498ec;
-							}
-						}
-					}
-					.error {
-						margin-left: 2.5rem;
-						font-size: var(--textSize_12);
-						color: var(--errorColor);
-					}
-				}
+				// 			&:hover {
+				// 				color: #0498ec;
+				// 			}
+				// 		}
+				// 	}
+				// 	.error {
+				// 		margin-left: 2.5rem;
+				// 		font-size: var(--textSize_12);
+				// 		color: var(--errorColor);
+				// 	}
+				// }
 			}
 			.signInButton {
 				margin-top: var(--vspace-0_5);

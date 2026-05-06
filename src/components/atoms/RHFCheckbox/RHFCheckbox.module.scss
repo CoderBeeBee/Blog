@@ -5,13 +5,30 @@
 		align-items: center;
 		justify-content: space-between;
 		line-height: 20px;
-		font-family: var(--font-2);
-		margin-bottom: 2rem;
-		font-size: var(--textSize_18);
+		font-family: var(--fontFamily);
+		margin-bottom: 1rem;
+		font-size: var(--textSize_16);
 		font-weight: 500;
 		color: var(--textColor);
 		z-index: 100;
 		cursor: pointer;
+
+		span {
+			color: var(--textColor);
+			margin-left: 1rem;
+			font-size: var(--textSize_14);
+			
+
+			a {
+				color: var(--textColor);
+				font-weight: bold;
+
+				&:hover {
+					// color: #0498ec;
+					color: var(--mainColor);
+				}
+			}
+		}
 	}
 	input {
 		display: none;

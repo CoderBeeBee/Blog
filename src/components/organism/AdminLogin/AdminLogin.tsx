@@ -34,8 +34,8 @@ const AdminLogin = () => {
 		reValidateMode: 'onChange',
 		resolver: zodResolver(adminloginSchema),
 		defaultValues: {
-			email: '',
-			password: '',
+			email: 'mod@gmail.com',
+			password: 'mode3232',
 		},
 	})
 

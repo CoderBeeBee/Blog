@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from 'react-router'
+import { Navigate, useLocation, useNavigate } from 'react-router'
 import { useResendVerificationMutation, useVerifyAccountQuery } from '../../../slices/api/userApi'
 import styles from './VerifyAccount.module.scss'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
@@ -9,7 +9,7 @@ import Logo from '../../atoms/logo/Logo'
 
 const VerifyAccount = () => {
 	const { search } = useLocation()
-
+	const navigate = useNavigate()
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
 	const [successMessage, setSuccessMessage] = useState<string | null>(null)
 	const [verificationSuccess, setVerificationSuccess] = useState<boolean>(false)
@@ -97,12 +97,21 @@ const VerifyAccount = () => {
 		if (successMessage) {
 			const timer = setTimeout(() => {
 				setSuccessMessage('')
-			}, 60000)
+			}, 6000)
 
 			return () => clearTimeout(timer)
 		}
 	}, [successMessage])
 
+	useEffect(()=>{
+		if(verificationSuccess) {
+			const timer = setTimeout(() => {
+				navigate('/')
+			}, 5000);
+
+			return () => clearTimeout(timer)
+		}
+	},[navigate, verificationSuccess])
 	if (!token) return <Navigate to={'/'} replace />
 	if (isLoading) return null
 	return (

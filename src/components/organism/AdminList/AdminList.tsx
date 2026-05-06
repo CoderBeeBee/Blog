@@ -25,8 +25,11 @@ import useSort from '../../../hooks/useSort'
 import DeleteAllButton from '../../atoms/DeleteAllButton/DeleteAllButton'
 import CheckMark from '../../atoms/Checkmark/CheckMark'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import { useSelector } from 'react-redux'
+import type { RootState } from '../../../store'
 
 const AdminList = () => {
+	const {role} = useSelector((state:RootState)=> state.auth)
 	const filtersOption = ['name', 'created At', 'last Login', 'total posts', 'total comments']
 	const { handleCheckMark, checked, isCheckedAll, handleClearCheckedSet } = useCheckMark()
 	const { filters, setFilters } = useFilters()
@@ -159,7 +162,7 @@ const AdminList = () => {
 						return (
 							<div key={index} className={`${styles.adminCard} `}>
 								<div className={styles.adminCardHeader}>
-									{user.role !== 'Admin' && (
+									{(role === 'Admin' && user.role !== 'Admin') && (
 										<div onClick={() => handleCheckMark(user._id)} className={styles.checkedBox}>
 											<CheckMark isChecked={isChecked} />
 										</div>

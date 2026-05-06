@@ -133,7 +133,7 @@ const Profile = () => {
 					className={`${styles.formWrapper} ${profileSuccessMessage || profileErrorMessage ? '' : styles.topDistance}`}>
 					<div className={styles.profileBox}>
 						{(profileSuccessMessage || profileErrorMessage) && (
-							<APIResponseMessage messageType={profileSuccessMessage ? 'succes' : 'error'}>
+							<APIResponseMessage messageType={profileSuccessMessage ? 'success' : 'error'}>
 								{profileSuccessMessage ? profileSuccessMessage : <>{profileErrorMessage}</>}
 							</APIResponseMessage>
 						)}
