@@ -201,7 +201,9 @@
 		.cancelUpdate {
 			display: flex;
 			align-items: center;
-			padding: 1rem 2.5rem;
+			gap: .5rem;
+			padding: .7rem 2rem;
+
 			font-size: var(--textSize_18);
 			border: none;
 			color: var(--darkColor);

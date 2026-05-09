@@ -28,6 +28,12 @@
 					color: var(--mainColor);
 				}
 			}
+			&::after {
+				content: '*';
+				margin-left: 0.5rem;
+				color: var(--errorColor);
+				font-size: var(--textSize_16);
+			}
 		}
 	}
 	input {

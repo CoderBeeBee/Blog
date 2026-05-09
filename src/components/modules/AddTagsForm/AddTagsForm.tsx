@@ -7,9 +7,10 @@ import FormBtn from '../../atoms/FormBtn/FormBtn'
 
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { useEffect, useState } from 'react'
-import WrapperBox from '../../atoms/WrapperBox/WrapperBox'
+
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
 import { useCreateTagMutation } from '../../../slices/api/tagsApi'
+import { ClearSVG, SaveSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 const tagSchema = z.object({
 	tag: z.string().trim().min(4, { message: 'Min 4 characters' }),
 })
@@ -42,7 +43,7 @@ const AddTagsForm = () => {
 	const onSubmit: SubmitHandler<tagTypes> = async (data: tagTypes) => {
 		try {
 			if (!data) return
-			 const {tag} = data
+			const { tag } = data
 			const res = await createTag({ tag }).unwrap()
 
 			if (res) setSuccessMessage(res.message)
@@ -82,53 +83,50 @@ const AddTagsForm = () => {
 	return (
 		<div className={styles.addTagsWrapper}>
 			<FormProvider {...methods}>
-				<WrapperBox>
-					<h3 className={styles.addTagsTitle}>Add Tag</h3>
-					<form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-						<div className={styles.formWrapper}>
-							<RHFInput
-								name="tag"
-								type="text"
-								
-								label="Tag Name"
-								id="tag"
-								isSubmitting={isSubmitting}
-							/>
-						</div>
+				<h3 className={styles.addTagsTitle}>Add Tag</h3>
+				<form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+					<div className={styles.formWrapper}>
+						<RHFInput name="tag" type="text" label="Tag Name" id="tag" isSubmitting={isSubmitting} />
 
-						{(errors.root?.message || successMessage) && (
-							<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
-								{errors.root?.message ? errors.root.message : successMessage}
-							</APIResponseMessage>
-						)}
 
-						<div className={styles.submitBtns}>
-							<FormBtn
-								type="submit"
-								isSubmitting={isSubmitting}
-								className={`${styles.submitBtn} ${isDirty ? styles.save : ''}`}>
-								{isSubmitting ? (
-									<>
-										Saving
-										<span className={styles.animate1}>.</span>
-										<span className={styles.animate2}>.</span>
-										<span className={styles.animate3}>.</span>
-									</>
-								) : (
-									'Save'
-								)}
-							</FormBtn>
+					{(errors.root?.message || successMessage) && (
+						<APIResponseMessage messageType={successMessage ? 'success' : 'error'}>
+							{errors.root?.message ? errors.root.message : successMessage}
+						</APIResponseMessage>
+					)}
+					</div>
 
-							<FormBtn
-								type="button"
-								isSubmitting={isSubmitting}
-								className={styles.clearButton}
-								handleResetFields={handleResetFields}>
-								Clear
-							</FormBtn>
-						</div>
-					</form>
-				</WrapperBox>
+
+					<div className={styles.submitBtns}>
+						<FormBtn
+							type="submit"
+							isSubmitting={isSubmitting}
+							ariaLabel={`${isSubmitting ? 'Saving' : 'Save'}`}
+							className={`${styles.submitBtn} ${isSubmitting ? styles.isSubmitting : ''} ${isDirty ? styles.save : ''}`}>
+							{' '}
+							<SaveSVG />
+							{isSubmitting ? (
+								<>
+									Saving
+									<span className={styles.animate1}>.</span>
+									<span className={styles.animate2}>.</span>
+									<span className={styles.animate3}>.</span>
+								</>
+							) : (
+								'Save'
+							)}
+						</FormBtn>
+
+						<FormBtn
+							type="button"
+							isSubmitting={isSubmitting}
+							ariaLabel="Clear"
+							className={`${styles.submitBtn} ${styles.clearButton}`}
+							handleResetFields={handleResetFields}>
+							<ClearSVG /> Clear
+						</FormBtn>
+					</div>
+				</form>
 			</FormProvider>
 		</div>
 	)

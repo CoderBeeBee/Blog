@@ -14,6 +14,7 @@ import AnchorLink from '../../atoms/AnchorLink/AnchorLink'
 import CheckMark from '../../atoms/Checkmark/CheckMark'
 import useGlobalContext from '../../../hooks/useGlobalContext'
 import SocialLinks from '../../modules/SocialLinks/SocialLinks'
+import { NewsletterSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 const contactSchema = z.object({
 	firstName: z.string().trim().min(1, { message: 'First name is required' }),
@@ -50,7 +51,7 @@ const ContactForm = () => {
 		handleSubmit,
 		reset,
 		setError,
-		formState: { isSubmitting, errors },
+		formState: { isSubmitting, errors, isDirty },
 	} = methods
 
 	const policy = useWatch({ control, name: 'policy' })
@@ -122,7 +123,7 @@ const ContactForm = () => {
 							placeholder="Enter your First Name"
 							isSubmitting={isSubmitting}
 							tip={false}
-							/>
+						/>
 						<RHFInput
 							type="text"
 							name="lastName"
@@ -131,7 +132,7 @@ const ContactForm = () => {
 							isSubmitting={isSubmitting}
 							placeholder="Enter your Last Name"
 							tip={false}
-							/>
+						/>
 					</div>
 					<RHFInput
 						type="email"
@@ -141,7 +142,7 @@ const ContactForm = () => {
 						isSubmitting={isSubmitting}
 						placeholder="Enter a valid email address"
 						tip={false}
-						/>
+					/>
 					<RHFInput
 						type="text"
 						name="subject"
@@ -150,7 +151,7 @@ const ContactForm = () => {
 						isSubmitting={isSubmitting}
 						placeholder="Enter subject"
 						tip={false}
-						/>
+					/>
 					<RHFTextArea
 						name="message"
 						id="message"
@@ -161,7 +162,7 @@ const ContactForm = () => {
 						tip={false}
 					/>
 					<div className={styles.checkbox}>
-						<RHFCheckbox name="policy" id="policy"  isSubmitting={isSubmitting}>
+						<RHFCheckbox name="policy" id="policy" isSubmitting={isSubmitting}>
 							<>
 								<CheckMark isChecked={policy} className={styles.checkMark} />
 								<span>
@@ -178,8 +179,22 @@ const ContactForm = () => {
 						</APIResponseMessage>
 					)}
 
-					<FormBtn type="submit" isSubmitting={isSubmitting} className={styles.sendMessage}>
-						Send
+					<FormBtn
+						type="submit"
+						isSubmitting={isSubmitting}
+						ariaLabel={`${isSubmitting ? 'Sending' : 'Send'}`}
+						className={`${styles.submitBtn} ${isSubmitting ? styles.isSubmitting : ''} ${isDirty ? styles.send : ''}`}>
+						<NewsletterSVG />{' '}
+						{isSubmitting ? (
+							<>
+								Sending
+								<span className={styles.animate1}>.</span>
+								<span className={styles.animate2}>.</span>
+								<span className={styles.animate3}>.</span>
+							</>
+						) : (
+							'Send'
+						)}
 					</FormBtn>
 				</form>
 			</div>

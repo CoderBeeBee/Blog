@@ -11,9 +11,9 @@
 		justify-content: space-between;
 		max-width: 40%;
 		padding: 4rem;
-		font-size: var(--textSize_18);
+		font-size: var(--textSize_16);
 		color: var(--darkColor);
-		font-family: var(--font-2);
+		font-family: var(--fontFamily);
 		.favIcon {
 			height: 200px;
 			width: 200px;
@@ -21,7 +21,6 @@
 			background-color: transparent;
 			object-fit: cover;
 			transition: all 0.3s ease-in-out;
-
 		}
 		.companyInfo {
 			margin-bottom: 3rem;
@@ -31,14 +30,14 @@
 		.subTitle {
 			margin-bottom: 1rem;
 		}
-		
+
 		.socialWrapper {
 			display: flex;
 			flex-direction: column;
 			gap: 1.5rem;
 			margin-top: 4rem;
-			
-			.linksBox{
+
+			.linksBox {
 				display: flex;
 				flex-direction: row;
 				gap: 2rem;
@@ -57,43 +56,58 @@
 			width: 100%;
 		}
 
-		
-		
 		.checkbox {
 			display: flex;
 			align-items: center;
 			gap: 1rem;
 			margin-bottom: 2rem;
+		}
+		.submitBtn {
+			display: flex;
+			// align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			color: var(--darkColor);
+			width: 100%;
+			max-width: 200px;
+			background-color: var(--lightGrayColor);
+			cursor: not-allowed;
 
-			.formCheckbox {
-				label {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					line-height: 20px;
-				}
-				input {
-					display: none;
-				}
+			.animate1 {
+				animation: animateDot 1.4s ease-in-out 0.2s infinite;
+			}
+			.animate2 {
+				animation: animateDot 1.4s ease-in-out 0.4s infinite;
+			}
+			.animate3 {
+				animation: animateDot 1.4s ease-in-out 0.6s infinite;
+			}
+			// .emailSVG {
+			// 	width: 25px;
+			// 	height: 25px;
+			// }
+		}
+		.send {
+			color: var(--whiteColor);
+			background-color: var(--mainColor);
+			cursor: pointer;
 
-				span {
-					margin-left: 1rem;
-					font-size: var(--textSize_14);
-					font-family: var(--font-2);
+			&:hover {
+				background-color: var(--mainColorHover);
+			}
+		}
 
-					a {
-						color: var(--blackColor);
-						font-weight: bold;
+		.isSubmitting {
+			background-color: var(--lightGrayColor);
+			color: var(--darkColor);
+			cursor: not-allowed;
 
-						&:hover {
-							color: #0498ec;
-						}
-					}
-				}
+			&:hover {
+				color: var(--darkColor);
+				background-color: var(--lightGrayColor);
 			}
 		}
 		.sendMessage {
-			width: 200px;
 			background-color: var(--mainColor);
 			color: var(--whiteColor);
 			transition: all 0.3s ease;
@@ -134,5 +148,13 @@
 				}
 			}
 		}
+	}
+}
+@keyframes animateDot {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
 	}
 }

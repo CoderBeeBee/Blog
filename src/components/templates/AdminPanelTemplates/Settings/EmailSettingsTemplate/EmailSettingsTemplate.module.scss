@@ -8,6 +8,10 @@
 	background-image: var(--backgroundGradient);
 	padding: 2rem;
 	overflow: hidden;
+}
 
-	
+@media (width < 800px) {
+	.emailSettingsTemplateContainer {
+		padding: 0;
+	}
 }

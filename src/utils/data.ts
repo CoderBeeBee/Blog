@@ -40,6 +40,7 @@ export const theadUsers = [
 ]
 
 export const theadComments = ['checkmark', 'ID', 'comment', 'post Title', 'author', 'created At', 'operations']
+export const theadTags = ['checkmark', 'ID', 'name', 'author', 'created At']
 
 export const adminsAndModerators = ['Admin', 'Moderator', 'Editor']
 export const role = [{name:'Admin'}, {name:'Moderator'}, {name:'Editor'}, {name:'User'}]

@@ -2,9 +2,19 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 const API_URL = import.meta.env.VITE_API_URL
 const TAGS_URL = import.meta.env.VITE_TAGS_URL
 
-interface TagProps {
+export interface AllTagsProps {
 	_id: string
 	name: string
+	createdAt: string
+	author: {
+		_id: string
+		name: string
+	}
+}
+interface TagProps {
+	allTags: AllTagsProps[]
+	totalPages: number
+	total: number
 }
 
 export const tagsApi = createApi({
@@ -22,14 +32,23 @@ export const tagsApi = createApi({
 			invalidatesTags: () => [{ type: 'Tag' }],
 		}),
 
-		fetchAllTags: builder.query<TagProps[], void>({
-			query: () => `${TAGS_URL}`,
+		fetchAllTags: builder.query<
+			TagProps,
+			{ limit: number; page: number; search: string; sortBy: string; order: string }
+		>({
+			query: params => {
+				const queryString = new URLSearchParams(
+					Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)])),
+				).toString()
+
+				return `${TAGS_URL}/?${queryString}`
+			},
 			providesTags: () => [{ type: 'Tag' }],
 		}),
 		deleteTag: builder.mutation({
 			query: tagId => ({
 				url: `${TAGS_URL}/${tagId}`,
-                method:'DELETE'
+				method: 'DELETE',
 			}),
 			invalidatesTags: () => [{ type: 'Tag' }],
 		}),
