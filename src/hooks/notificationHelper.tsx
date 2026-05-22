@@ -5,7 +5,7 @@ interface notificationHelperProps {
 	notif: {
 		action: string
 		role: string
-		entityType: 'User' | 'Post' | 'Comment' | 'Like'
+		entityType: 'User' | 'Post' | 'Comment' | 'Like' | 'Tag'
 		name: string
 		avatar: string
 		createdAt: string
@@ -20,26 +20,39 @@ interface notificationHelperProps {
 	className?: string
 }
 const notificationTemplates: Record<string, (title: string) => string> = {
-	'New post': title => `New post „${title}” has been added`,
-	'Post updated': title => `Post „${title}” has been updated`,
-	'Post deleted': title => `Post „${title}” has been deleted`,
-	'Post published': title => `New post „${title}” has been published`,
-	'New comment': title => `New comment on post „${title}”`,
-	'Comment updated': title => `Updated comment in post „${title}”`,
-	'Comment deleted': title => `Comment removed from post „${title}”`,
+	'New post': title => `New post: „${title}” has been added`,
+	'Post updated': title => `Post: „${title}” has been updated`,
+	'Post deleted': title => `Post: „${title}” has been deleted`,
+	'Post published': title => `New post: „${title}” has been published`,
+	'New comment': title => `New comment on post: „${title}”`,
+	'Comment updated': title => `Updated comment in post: „${title}”`,
+	'Comment deleted': title => `Comment removed from post: „${title}”`,
 	'Post liked': title => `New post like: „${title}”`,
 	'Post unliked': title => `Unliked post: „${title}”`,
+	'New tag': title => `New tag: „${title}”  has been added`,
+	'Deleted tag': title => `Tag: „${title}” has been deleted`,
+	'Admin created user': title => `Admin created user: „${title}”`,
+	'Admin deleted user': title => `Admin deleted user: „${title}”`,
 }
 
 const renderNotification = (action: string, title?: string, url?: string, className?: string) => {
 	if (!title) return action
-
+	const strong = ['Admin deleted user', 'Admin created user','Post deleted']
 	const template = notificationTemplates[action]
 	if (!template) return action
 
 	const text = template(title)
 
 	const [before, after] = text.split(`„${title}”`)
+
+	if (strong.includes(action))
+		return (
+			<>
+				{before}
+				<span className={className}>{title}</span>
+				{after}
+			</>
+		)
 
 	return (
 		<>
@@ -53,15 +66,16 @@ const renderNotification = (action: string, title?: string, url?: string, classN
 }
 
 const notificationHelper = ({ notif, className }: notificationHelperProps) => {
-	const title = notif.changes?.postTitle
+	const title = notif.changes?.postTitle || notif.changes?.tag || notif.changes.name
 	const postId = notif.changes?.postId
+	const href = notif.entityType === 'Tag' ? '/admin/blog/tags' : '#'
 	const url =
 		postId && notif.categories && notif.seo
 			? createUrl({
 					_id: postId,
 					slug: notif.seo.slug,
 				})
-			: '#'
+			: href
 
 	return renderNotification(notif.action as string, title, url, className)
 }

@@ -71,52 +71,52 @@
 				border-radius: var(--borderRadius08);
 			}
 			.pageViews {
-				background-color: #ecf1fd;
+				background-color: var(--viewsBgc);
 			}
 			.users {
-				background-color: #e7f6fa;
+				background-color: var(--userBgc);
 
 				svg {
 					width: 30px;
 					height: 30px;
 					path {
-						fill: #0aa8c0;
+						fill: var(--userColor);
 					}
 				}
 			}
 			.posts {
-				background-color: #fff4e8;
+				background-color: var(--postBgc);
 
 				svg {
 					width: 25px;
 					height: 25px;
-					fill: #ff8300;
+					fill: var(--postColor);
 					g {
 						path {
-							fill: #ff8300;
+							fill: var(--postColor);
 						}
 					}
 				}
 			}
 			.likes {
-				background-color: #ffeff0;
+				background-color: var(--likesBgc);
 
 				svg {
 					width: 25px;
 					height: 25px;
 					path {
-						fill: #ff4d6e;
+						fill: var(--likesColor);
 					}
 				}
 			}
 			.comments {
-				background-color: #e8fded;
+				background-color: var(--commentBgc);
 
 				svg {
 					width: 25px;
 					height: 25px;
 					path {
-						fill: #37b44b;
+						fill: var(--commentColor);
 					}
 				}
 			}

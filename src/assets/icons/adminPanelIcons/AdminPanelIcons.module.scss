@@ -51,7 +51,7 @@
 .viewsSVG {
 	width: 30px;
 	height: 25px;
-	color: #4a72fe;
+	color: var(--viewsColor);
 }
 .closeSVG {
 	width: 20px;
@@ -128,7 +128,7 @@
 .tipSVG,
 .saveSVG,
 .clearSVG,
-.restoreSVG,.backSVG {
+.restoreSVG,.backSVG,.tagSVG {
 	width: 20px;
 	height: 20px;
 }

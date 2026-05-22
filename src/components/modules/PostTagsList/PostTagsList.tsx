@@ -22,7 +22,7 @@ const PostTagsList = () => {
 	const [deleteTag] = useDeleteTagMutation()
 	const { openPopup, popUpMessage, setPopUpMessage, handleOpenPopup, handleClosePopup } = useOpenClosePopup()
 	const { sort, listRef, handleSetSort, focusedChevron } = useSort()
-	// const { filters, setFilters } = useFilters()
+	
 	const { handleCheckMark, checked, handleCheckMarkAll, isCheckedAll, handleClearCheckedSet } = useCheckMark()
 
 	const [rows, setRows] = useState<number>(10)
@@ -44,7 +44,7 @@ const PostTagsList = () => {
 		const value = target.value
 		setInputValue(value)
 	}
-	console.log(data);
+	
 	const { allTags = [], totalPages = 1, total = 1 } = data ?? {}
 
 	const handleChangePage = (e: MouseEvent<HTMLButtonElement>) => {

@@ -6,7 +6,7 @@
 	background-color: var(--whiteColor);
 	border-radius: var(--borderRadius16);
 	overflow: hidden;
-	
+
 	.notificationsTitle {
 		margin-bottom: 2rem;
 		color: var(--lighterBlackColor);
@@ -40,29 +40,51 @@
 					width: 30px;
 					height: 30px;
 				}
+
 				.user {
 					path {
-						fill: #0aa8c0;
+						fill: var(--userColor);
 					}
 				}
 				.post {
-					fill: #ff8300;
+					fill: var(--postColor);
 					g {
 						path {
-							fill: #ff8300;
+							fill: var(--postColor);
 						}
 					}
 				}
 				.like {
 					path {
-						fill: #ff4d6e;
+						fill: var(--likesColor);
 					}
 				}
 				.comment {
 					path {
-						fill: #37b44b;
+						fill: var(--commentColor);
 					}
 				}
+				.tag {
+					path {
+						fill:var(--tagBgc);
+						stroke:var(--tagColor)
+					}
+				}
+			}
+			.User {
+				background-color: var(--userBgc);
+			}
+			.Post {
+				background-color: var(--postBgc);
+			}
+			.Like {
+				background-color: var(--likesBgc);
+			}
+			.Comment{
+				background-color: var(--commentBgc);
+			}
+			.Tag{
+				background-color: var(--tagBgc);
 			}
 			.notificationsAvatar {
 				position: absolute;
