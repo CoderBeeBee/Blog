@@ -48,16 +48,16 @@ export const rowsNumbers = [10, 25, 50]
 
 export const postStatus = [{ name: 'Draft' }, { name: 'Published' }, { name: 'Scheduled' }]
 
-export const theadAttempts = [
+export const theadAttempts = ['ID',
 	'action',
 	'result',
 	'user',
-	'createdAt',
+	'created At',
 	'source',
-	'ipAddress',
-	'location',
-	'device',
-	'data',
+	// 'ip Address',
+	// 'location',
+	// 'device',
+	'details',
 ]
 export const theadHistory = ['ID', 'action', 'performed By', 'created At', 'source', 'details']
 

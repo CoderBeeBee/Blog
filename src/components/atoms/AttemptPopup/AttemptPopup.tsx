@@ -19,6 +19,7 @@ const AttemptPopup = ({ setOpenPopup, attemptData, auditlogData }: AttemptPopupP
 	const changes = attemptData?.metadata ? attemptData?.metadata : auditlogData?.changes
 	const createdAt = attemptData?.createdAt ? attemptData?.createdAt : auditlogData?.createdAt
 	const location = attemptData?.location ? attemptData?.location : auditlogData?.metadata?.location
+	const ipAddress = attemptData?.ipAddress
 	const device = attemptData?.userAgent.device ? attemptData?.userAgent.device : auditlogData?.metadata?.device
 	const os = attemptData?.userAgent.os ? attemptData?.userAgent.os : auditlogData?.metadata?.os
 	const browser = attemptData?.userAgent.browser ? attemptData?.userAgent.browser : auditlogData?.metadata?.browser
@@ -37,6 +38,7 @@ const AttemptPopup = ({ setOpenPopup, attemptData, auditlogData }: AttemptPopupP
 					))}
 					<li className={styles.dataLi}>Created at : {date}</li>
 					<li className={styles.dataLi}>Location : {location}</li>
+					<li className={styles.dataLi}>Ip address : {ipAddress}</li>
 					<li className={styles.dataLi}>Device: {device}</li>
 					<li className={styles.dataLi}>OS: {os}</li>
 					<li className={styles.dataLi}>Browser: {browser}</li>

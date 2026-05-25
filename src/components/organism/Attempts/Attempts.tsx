@@ -1,27 +1,33 @@
 import {
 	useEffect,
-	useRef,
 	useState,
 	type ChangeEvent,
 	type Dispatch,
+	type KeyboardEvent,
 	type MouseEvent,
-	type ReactNode,
+	
+	type RefObject,
 	type SetStateAction,
 } from 'react'
 import styles from './Attempts.module.scss'
 import TabelSearch from '../../modules/TabelSearch/TabelSearch'
-import { ChevronDownSVG, SearchSVG } from '../../../assets/icons/Icons'
+import { ChevronDownSVG} from '../../../assets/icons/Icons'
 import TabelPagination from '../../modules/TabelPagination/TabelPagination'
-import { resultAttempt, rowsNumbers, theadAttempts, userAgentDevice } from '../../../utils/data'
+import { noChevron, resultAttempt, rowsNumbers, theadAttempts } from '../../../utils/data'
 import type { attemptsProps } from '../../../types/types'
 import longDateConverter from '../../../hooks/longDateConverter'
 
 import AttemptPopup from '../../atoms/AttemptPopup/AttemptPopup'
+import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
+import FilterButton from '../../atoms/FilterButton/FilterButton'
+import useFilters from '../../../hooks/useFilters'
+
+import useScaleUpDropdown from '../../../hooks/useScaleUpDropdown'
+import { DetailsSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 interface AttemptsProps {
-	children: ReactNode
 	attempts: attemptsProps[]
-	setAction: Dispatch<SetStateAction<string>>
+	
 	setInputValue: Dispatch<SetStateAction<string>>
 	setCurrentPage: Dispatch<SetStateAction<number>>
 	currentPage: number
@@ -29,87 +35,53 @@ interface AttemptsProps {
 	setRows: Dispatch<SetStateAction<number>>
 	setStart: Dispatch<SetStateAction<number>>
 	setEnd: Dispatch<SetStateAction<number>>
-	setSort: Dispatch<SetStateAction<{ sortBy: string; order: string }>>
+	
+	handleSetSort: (e: MouseEvent<HTMLDivElement | HTMLButtonElement> | KeyboardEvent) => void
+	handleResetSort:()=>void
+	handleSetAction: ({ sort, action }: { sort: string; action: string }) => void
+	focusedChevron: string
 	totalPages: number
 	total: number
 	rows: number
 	start: number
 	end: number
+	listRef: RefObject<HTMLDivElement | null>
 }
 
 const Attempts = ({
-	children,
 	attempts,
 	setInputValue,
-	setAction,
+	// setAction,
 	setCurrentPage,
 	currentPage,
 	attempActions,
 	setRows,
 	setStart,
 	setEnd,
-	setSort,
+	// setSort,
+	handleSetSort,
+	handleSetAction,handleResetSort,
+	focusedChevron,
 	totalPages,
 	total,
 	rows,
 	start,
 	end,
+	listRef,
 }: AttemptsProps) => {
-	const [focusedChevron, setFocusedChevron] = useState<string>('')
+	const {  setFilters } = useFilters()
+	const { scaleUp, handleScaleUpDropdown, scaleRef } = useScaleUpDropdown()
+	
 	const [openPopup, setOpenPopup] = useState<boolean>(false)
 	const [attemptData, setAttemptData] = useState<attemptsProps | null>(null)
-	const listRef = useRef<HTMLDivElement | null>(null)
+	
 	const handleSetInputValue = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.target as HTMLInputElement
 		const value = target.value
 		setInputValue(value)
 	}
 
-	const handleSetSort = (e: MouseEvent<HTMLDivElement>) => {
-		const target = e.currentTarget as HTMLDivElement
-		const el = target.dataset.element
-		const lastChild = target.lastElementChild
-
-		const allLastChild = document.querySelectorAll(`.${styles.scaleUp}`)
-
-		if (!lastChild?.classList.contains(styles.scaleUp)) {
-			if (allLastChild) allLastChild.forEach(el => el.classList.remove(styles.scaleUp))
-
-			lastChild?.classList.add(styles.scaleUp)
-		} else {
-			lastChild?.classList.remove(styles.scaleUp)
-		}
-		if (!el) return
-		if (el !== focusedChevron) {
-			setFocusedChevron(el)
-		} else {
-			setFocusedChevron('')
-		}
-		if (el === 'action' || el === 'result' || el === 'device') return
-		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-		if (el === 'createdAt') {
-			setSort(prev => {
-				const newOrder = prev.sortBy === el ? (prev.order === 'asc' ? 'desc' : 'asc') : 'desc'
-
-				return { sortBy: el, order: newOrder }
-			})
-			return
-		}
-
-		setSort(prev => {
-			const newOrder = prev.sortBy === el ? (prev.order === 'desc' ? 'asc' : 'desc') : 'asc'
-
-			return { sortBy: el, order: newOrder }
-		})
-	}
-
-	const handleSetAction = (attempt: string, item: string) => {
-		setAction(attempt)
-
-		setSort({ sortBy: item, order: 'asc' })
-
-		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-	}
+	
 
 	useEffect(() => {
 		const start = (currentPage - 1) * rows + 1
@@ -146,108 +118,146 @@ const Attempts = ({
 
 	return (
 		<div className={styles.attemptsWrapper}>
-			<div className={styles.listWrapperHeader}>
-				<h3 className={styles.listTitle}>{children}</h3>
-				<TabelSearch  handleSetInputValue={handleSetInputValue} />
+			<Breadcrumbs />
+			<div className={styles.listWrapperTools}>
+				<div className={styles.listTools}>
+					<TabelSearch handleSetInputValue={handleSetInputValue} className={styles.margin} />
+					<FilterButton setFilters={setFilters} handleResetSort={handleResetSort} />
+
+					<TabelPagination
+						rows={rows}
+						rowsNumbers={rowsNumbers}
+						start={start}
+						end={end}
+						total={total}
+						setRows={setRows}
+						handleChangePage={handleChangePage}
+					/>
+				</div>
+
+				
 			</div>
 
-			<div ref={listRef} className={styles.listContainer}>
-				<div className={styles.tableContainer}>
-					<div className={styles.thead}>
+			<div ref={listRef} className={styles.listWrapper}>
+				<table className={styles.tableWrapper}>
+					<thead className={styles.thead}>
 						{attempts && (
-							<div className={styles.tr}>
+							<tr className={styles.tr}>
 								{theadAttempts.map((item, index) => {
-									if (item !== 'data') {
-										if (item === 'action' || item === 'result' || item === 'device') {
+									if (!noChevron.includes(item)) {
+										if (item === 'action' || item === 'result') {
 											return (
-												<div data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
+												<th
+													ref={el => {
+														scaleRef.current[index] = el
+													}}
+													tabIndex={0}
+													data-element={item}
+													className={styles.th}
+													key={index}
+													onClick={e => {
+														handleSetSort(e)
+														handleScaleUpDropdown(index)
+													}}
+													onKeyDown={e => {
+														if ('key' in e && e.key === 'Enter') {
+															handleSetSort(e)
+														}
+													}}>
 													{item} <ChevronDownSVG className={`${item === focusedChevron ? styles.chevronRotate : ''}`} />
 													{item === 'action' && (
-														<div className={styles.theadDropDown}>
+														<div className={`${styles.theadDropDown} ${scaleUp === index ? styles.scaleUp : ''}`}>
 															{attempActions?.map((attempt, index) => (
-																<div onClick={() => handleSetAction(attempt, item)} data-element={attempt} key={index}>
+																<div
+																	onClick={() => handleSetAction({ sort: item, action: attempt })}
+																	onKeyDown={e => {
+																		if ('key' in e && e.key === 'Enter') {
+																			handleSetAction({ sort: item, action: attempt })
+																		}
+																	}}
+																	data-element={attempt}
+																	key={index}>
 																	{attempt}
 																</div>
 															))}
 														</div>
 													)}
 													{item === 'result' && (
-														<div className={styles.theadDropDown}>
+														<div className={`${styles.theadDropDown} ${scaleUp === index ? styles.scaleUp : ''}`}>
 															{resultAttempt &&
 																resultAttempt.map((result: string, index) => (
-																	<div onClick={() => handleSetAction(result, item)} key={index} data-element={result}>
+																	<div
+																		onClick={() => handleSetAction({ sort: item, action: result })}
+																		onKeyDown={e => {
+																			if ('key' in e && e.key === 'Enter') {
+																				handleSetAction({ sort: item, action: result })
+																			}
+																		}}
+																		key={index}
+																		data-element={result}>
 																		{result}
 																	</div>
 																))}
 														</div>
 													)}
-													{item === 'device' && (
-														<div className={styles.theadDropDown}>
-															{userAgentDevice &&
-																userAgentDevice.map((device: string, index) => (
-																	<div onClick={() => handleSetAction(device, item)} key={index} data-element={device}>
-																		{device}
-																	</div>
-																))}
-														</div>
-													)}
-												</div>
+													
+												</th>
 											)
 										} else {
 											return (
-												<div data-element={item} className={styles.th} key={index} onClick={e => handleSetSort(e)}>
+												<th
+													tabIndex={0}
+													data-element={item}
+													className={styles.th}
+													key={index}
+													onClick={e => handleSetSort(e)}
+													onKeyDown={e => {
+														if ('key' in e && e.key === 'Enter') {
+															handleSetSort(e)
+														}
+													}}>
 													{item} <ChevronDownSVG className={`${item === focusedChevron ? styles.chevronRotate : ''}`} />
-												</div>
+												</th>
 											)
 										}
 									} else {
 										return (
-											<div className={styles.th} key={index}>
+											<th className={styles.th} key={index}>
 												{item}
-											</div>
+											</th>
 										)
 									}
 								})}
-							</div>
+							</tr>
 						)}
-					</div>
-					<div className={styles.tbody}>
+					</thead>
+					<tbody className={styles.tbody}>
 						{attempts &&
 							attempts?.map((attempt, index: number) => (
-								<div key={index} className={`${styles.tr}`}>
-									<div className={styles.td}>{attempt.action}</div>
-									<div className={styles.td}>{attempt.result}</div>
-									<div className={styles.td}>{attempt.user.name}</div>
-									<div className={styles.td}>
+								<tr key={index} className={`${styles.tr}`}>
+									<td className={styles.td}>{index + 1}</td>
+									<td className={styles.td}>{attempt.action}</td>
+									<td className={styles.td}>{attempt.result}</td>
+									<td className={styles.td}>{attempt.user.name}</td>
+									<td className={styles.td}>
 										{new Date(attempt.createdAt).toLocaleDateString(...longDateConverter())}
-									</div>
+									</td>
 
-									<div className={styles.td}>{attempt.source}</div>
-									<div className={styles.td}>{attempt.ipAddress}</div>
-									<div className={styles.td}>{attempt.location}</div>
-									<div className={styles.td}>{attempt.userAgent.device}</div>
-									<div className={styles.td}>
+									<td className={styles.td}>{attempt.source}</td>
+									
+									<td className={styles.td}>
 										<button
 											type="button"
 											onClick={() => handleOpenData(attempt._id)}
 											className={styles.searchIconWrapper}>
-											<SearchSVG className={styles.searchIcon} />
+											<DetailsSVG  />
 										</button>
-									</div>
-								</div>
+									</td>
+								</tr>
 							))}
-					</div>
-				</div>
+					</tbody>
+				</table>
 			</div>
-			<TabelPagination
-				rows={rows}
-				rowsNumbers={rowsNumbers}
-				start={start}
-				end={end}
-				total={total}
-				setRows={setRows}
-				handleChangePage={handleChangePage}
-			/>
 
 			{openPopup && <AttemptPopup setOpenPopup={setOpenPopup} attemptData={attemptData} />}
 		</div>

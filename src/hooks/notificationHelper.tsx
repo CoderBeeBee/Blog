@@ -26,7 +26,7 @@ const notificationTemplates: Record<string, (title: string) => string> = {
 	'Post published': title => `New post: „${title}” has been published`,
 	'New comment': title => `New comment on post: „${title}”`,
 	'Comment updated': title => `Updated comment in post: „${title}”`,
-	'Comment deleted': title => `Comment removed from post: „${title}”`,
+	'Comments deleted': title => `Comment removed from post: „${title}”`,
 	'Post liked': title => `New post like: „${title}”`,
 	'Post unliked': title => `Unliked post: „${title}”`,
 	'New tag': title => `New tag: „${title}”  has been added`,
@@ -66,7 +66,8 @@ const renderNotification = (action: string, title?: string, url?: string, classN
 }
 
 const notificationHelper = ({ notif, className }: notificationHelperProps) => {
-	const title = notif.changes?.postTitle || notif.changes?.tag || notif.changes.name
+	const title = notif.changes?.postTitle || notif.changes?.tag || notif.changes.name || notif.changes.title
+	console.log(notif);
 	const postId = notif.changes?.postId
 	const href = notif.entityType === 'Tag' ? '/admin/blog/tags' : '#'
 	const url =

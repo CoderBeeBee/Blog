@@ -22,11 +22,11 @@ const useSort = () => {
 			setFocusedChevron('')
 		}
 
-		if (pathname.includes('posts') && (el === 'status' || el === 'categories')) return
+		if ((pathname.includes('posts') || pathname.includes('attempts')) && (el === 'status' || el === 'categories' || el === 'action' || el === 'result' )) return
 
 		setAction('')
 		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-
+		
 		if (
 			el === 'created At' ||
 			el === 'published At' ||
