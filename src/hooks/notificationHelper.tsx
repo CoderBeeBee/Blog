@@ -67,7 +67,7 @@ const renderNotification = (action: string, title?: string, url?: string, classN
 
 const notificationHelper = ({ notif, className }: notificationHelperProps) => {
 	const title = notif.changes?.postTitle || notif.changes?.tag || notif.changes.name || notif.changes.title
-	console.log(notif);
+	
 	const postId = notif.changes?.postId
 	const href = notif.entityType === 'Tag' ? '/admin/blog/tags' : '#'
 	const url =

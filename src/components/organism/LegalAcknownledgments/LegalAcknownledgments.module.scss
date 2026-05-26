@@ -1,16 +1,19 @@
 .legalAcknowledgmentsWrapper {
 	display: flex;
 	flex-direction: column;
+	flex-grow: 1;
 	width: 100%;
-	max-width: 1000px;
 	height: 100%;
 	background-color: var(--whiteColor);
 	border-radius: var(--borderRadius06);
-
+	border: 1px solid var(--lightGrayColor);
+	
 	.formWrapper {
 		display: flex;
 		flex-direction: column;
+		margin: 0 auto;
 		width: 100%;
+		max-width: 1000px;
 		padding: 2rem;
 	}
 

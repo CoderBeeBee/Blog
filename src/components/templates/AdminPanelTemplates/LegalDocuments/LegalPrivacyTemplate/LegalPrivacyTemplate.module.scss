@@ -2,11 +2,16 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	min-height: 100dvh;
+	min-height: calc(100dvh - var(--headerHeight));
 	height: 100%;
 	width: 100%;
 	// background-color: var(--pagesBgc);
 	background-image: var(--backgroundGradient);
 	padding: 2rem;
 	overflow: hidden;
+}
+@media (width < 800px) {
+	.legalPrivacyContainer {
+		padding: 0;
+	}
 }
