@@ -1,19 +1,21 @@
-import type { ReactNode } from 'react'
 import styles from './HeaderText.module.scss'
 
 interface HeaderTextProps {
-    children:ReactNode
+	name: string
+	image: string
+	description: string
 }
 
-const HeaderText = ({children}:HeaderTextProps) => {
-  return (
-    <div className={`${styles.designHeader} row`}>
-          <div className={styles.column}>
-            <span>Category</span>
-            {children}
-          </div>
-      </div>
-  )
+const HeaderText = ({ name, image, description }: HeaderTextProps) => {
+	return (
+		<div style={{ backgroundImage: `url(${image})` }} className={`${styles.designHeader}`}>
+			<div className={styles.column}>
+				<span>Category</span>
+				<h1>{name}</h1>
+				<span>{description}</span>
+			</div>
+		</div>
+	)
 }
 
 export default HeaderText

@@ -10,9 +10,8 @@ interface SeoProps {
 	type?: 'website' | 'article'
 	publishedTime?: string
 	modifiedTime?: string
-
 	twitterSite?: string
-	defaultLogo?: string
+	favIcon?: string
 }
 
 const defaultSeo = {
@@ -21,7 +20,7 @@ const defaultSeo = {
 	keywords: 'Podróże, przygody, blog podróżniczy',
 	author: 'Coding Bee',
 	ogImage: 'https://twoja-strona.pl/default-og-image.jpg',
-	defaultLogo: '',
+	favIcon: '',
 	siteName: 'Moja Strona Podróżnicza',
 	twitterCard: 'summary_large_image',
 	canonicalUrl: `${import.meta.env.VITE_SITE_URL}`,
@@ -38,7 +37,7 @@ const Seo = ({
 	publishedTime,
 	modifiedTime,
 	twitterSite,
-	defaultLogo,
+	favIcon,
 }: SeoProps) => {
 	const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : defaultSeo.canonicalUrl)
 
@@ -47,7 +46,7 @@ const Seo = ({
 	const seoKeywords = keywords || defaultSeo.keywords
 	const seoAuthor = author || defaultSeo.author
 	const seoOgImage = ogImage || defaultSeo.ogImage
-	const seoDefaultLogo = defaultLogo || defaultSeo.defaultLogo
+	const seoDefaultLogo = favIcon ??  defaultSeo.favIcon
 	return (
 		<Helmet>
 			{/* Podstawowe meta */}

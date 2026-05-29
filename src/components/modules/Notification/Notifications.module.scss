@@ -64,6 +64,10 @@
 						fill: var(--commentColor);
 					}
 				}
+				.category{
+					fill: var(--categoryColor);
+					
+				}
 				.tag {
 					path {
 						fill:var(--tagBgc);
@@ -85,6 +89,9 @@
 			}
 			.Tag{
 				background-color: var(--tagBgc);
+			}
+			.Category{
+				background-color: var(--categoryBgc);
 			}
 			.notificationsAvatar {
 				position: absolute;

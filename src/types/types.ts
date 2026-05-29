@@ -37,6 +37,7 @@ export interface ArticleContentProps {
 	href?: string
 	left?: string
 	top?: string
+	publishedAt:string
 	articleRef?: React.Ref<HTMLElement>
 	styles?: { [key: string]: string }
 	onImageLoad?: () => void
@@ -120,6 +121,32 @@ export type CategoryProps = {
 	_id: string
 	children?: CategoryProps[]
 } & categoryTypes
+
+export interface CategoryTypes {
+	_id:string
+	id:string
+	name: string
+	slug: string
+	description: string
+
+	image: {
+		src: string
+		public_id: string
+	}
+
+	metaTitle: string
+	metaDescription: string
+
+	metaImage: {
+		src: string
+		public_id: string
+	}
+
+	parent: string | null
+	status: string
+}
+
+
 export interface StatCardProps {
 	title: string
 	stats: Stat

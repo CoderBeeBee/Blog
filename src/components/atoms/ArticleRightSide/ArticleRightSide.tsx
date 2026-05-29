@@ -2,11 +2,9 @@ import { useLocation } from 'react-router'
 import { useFetchPostCreatedAtQuery } from '../../../slices/api/postApi'
 import AnchorLink from '../AnchorLink/AnchorLink'
 import createUrl from '../../../hooks/createUrl'
-interface ArticleRightSideProps {
-	styles: { [key: string]: string }
-}
+import styles from './ArticleRightSide.module.scss'
 
-const ArticleRightSide = ({ styles }: ArticleRightSideProps) => {
+const ArticleRightSide = () => {
 	const { search } = useLocation()
 	const query = new URLSearchParams(search)
 	const postId = query.get('id')

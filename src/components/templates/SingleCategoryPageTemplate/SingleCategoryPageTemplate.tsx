@@ -6,7 +6,13 @@ import { useFetchPostsByCategoryQuery } from '../../../slices/api/postApi'
 import { useParams } from 'react-router'
 import Loader from '../../atoms/loader/Loader'
 
-const SingleCategoryPageTemplate = ({ name }: { name: string }) => {
+interface CategoryProps {
+	name: string
+	image: string
+	description: string
+}
+
+const SingleCategoryPageTemplate = ({ name, image, description }: CategoryProps) => {
 	const [currentPage, setCurrentPage] = useState<number>(1)
 	const { categorySlug, childSlug } = useParams()
 
@@ -19,10 +25,8 @@ const SingleCategoryPageTemplate = ({ name }: { name: string }) => {
 
 	if (!currentData) return <Loader />
 	return (
-		<section className={` sectionPages`}>
-			<HeaderText>
-				<h1>{name}</h1>
-			</HeaderText>
+		<section >
+			<HeaderText name={name} image={image} description={description} />
 			<PostsContent data={currentData} currentPage={currentPage} setCurrentPage={setCurrentPage} />
 		</section>
 	)

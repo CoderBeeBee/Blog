@@ -30,7 +30,7 @@ const AddCategoryForm = () => {
 	const [updateCategory] = useUpdateCategoryMutation()
 	const { editContext } = useGlobalContext()
 	const { editCategory, catId, successDeleteMessage, handleSetCategory } = editContext
-
+	
 	const fileRef = useRef<(HTMLInputElement | null)[]>([])
 	const options = useMemo(() => {
 		return data
@@ -124,7 +124,7 @@ const AddCategoryForm = () => {
 			}
 
 			let res
-			if (editCategory) {
+			if (editCategory && catId) {
 				res = await updateCategory(uploadedData).unwrap()
 
 				handleSetCategory('')
@@ -150,7 +150,7 @@ const AddCategoryForm = () => {
 			}
 		}
 	}
-	
+
 	useEffect(() => {
 		if (catId) {
 			reset(editCategory)
@@ -307,9 +307,9 @@ const AddCategoryForm = () => {
 					<div className={styles.submitBtns}>
 						<FormBtn
 							type="submit"
-							ariaLabel="Save"
+							ariaLabel={`${isSubmitting ? 'Saving' : 'Save'}`}
 							isSubmitting={isSubmitting || !isDirty}
-							className={`${styles.submitBtn} ${isDirty ? styles.save : ''}`}>
+							className={`${styles.submitBtn} ${isSubmitting ? styles.isSubmitting : ''} ${isDirty ? styles.save : ''}`}>
 							<SaveSVG />
 							{isSubmitting ? (
 								<>

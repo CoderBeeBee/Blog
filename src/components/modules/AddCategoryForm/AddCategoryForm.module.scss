@@ -81,11 +81,21 @@
 			animation: animateDot 1.4s ease-in-out 0.6s infinite;
 		}
 		.clearButton {
-			
 			cursor: pointer;
 			&:hover {
 				color: var(--whiteColor);
 				background-color: var(--clearButtonBgc);
+			}
+		}
+
+		.isSubmitting {
+			background-color: var(--lightGrayColor);
+			color: var(--darkColor);
+			cursor: not-allowed;
+
+			&:hover {
+				color: var(--darkColor);
+				background-color: var(--lightGrayColor);
 			}
 		}
 	}

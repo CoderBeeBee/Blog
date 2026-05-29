@@ -26,7 +26,7 @@ const SinglePostPage = () => {
 				publishedTime={publishedAt}
 				modifiedTime={updatedAt}
 				author={author.name}
-				defaultLogo={mainImage.src}
+				favIcon={mainImage.src}
 			/>
 			<SinglePostTemplate />
 		</>

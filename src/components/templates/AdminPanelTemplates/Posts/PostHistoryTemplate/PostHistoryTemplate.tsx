@@ -18,7 +18,7 @@ const PostHistoryTemplate = () => {
 	const { sort, listRef, handleSetSort, focusedChevron, handleResetSort } = useSort()
 	
 	const href = `${pathname}/details`
-
+	const entityType = ['Post', 'Tag','Category']
 	const { data } = useFetchAuditLogsQuery(
 		{
 			limit: rows,
@@ -26,7 +26,7 @@ const PostHistoryTemplate = () => {
 			search: search,
 			sortBy: sort.sortBy,
 			order: sort.order,
-			entityType: 'Post',
+			entityType,
 		},
 		{ refetchOnMountOrArgChange: true },
 	)

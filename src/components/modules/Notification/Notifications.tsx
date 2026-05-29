@@ -1,6 +1,7 @@
 import type { JSX } from 'react'
 import {
 	CalendarSVG,
+	CategorySVG,
 	CommentsSVG,
 	HeartSVG,
 	PostsSVG,
@@ -13,7 +14,7 @@ import styles from './Notifications.module.scss'
 import type { NotificationsTypes } from '../../../types/types'
 import { notificationHelper, timeAgo } from '../../../hooks/notificationHelper'
 
-type EntityType = 'User' | 'Post' | 'Comment' | 'Like' | 'Tag'
+type EntityType = 'User' | 'Post' | 'Comment' | 'Like' | 'Tag' | 'Category'
 
 interface NotificationsProps {
 	notifications: NotificationsTypes[]
@@ -32,6 +33,7 @@ const Notifications = ({ notifications }: NotificationsProps) => {
 					Comment: <CommentsSVG className={styles.comment} />,
 					Like: <HeartSVG className={styles.like} />,
 					Tag: <TagSVG className={styles.tag} />,
+					Category: <CategorySVG className={styles.category} />,
 				}
 
 				const icon = iconsMap[notif.entityType]

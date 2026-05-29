@@ -29,7 +29,7 @@ const SinglePostTemplate = () => {
 
 	return (
 		<div className={styles.postContainer}>
-			<div className={`${styles.column} row`}>
+			<div className={`${styles.column} `}>
 				<div className={styles.postWrapper}>
 					<ArticleContent />
 				</div>

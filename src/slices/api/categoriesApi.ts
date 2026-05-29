@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { CategoryProps } from '../../types/types'
+import type { CategoryProps, CategoryTypes } from '../../types/types'
 import type { categoryTypes } from '../../types/categoriesSchema'
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -28,7 +28,7 @@ export const categoryApi = createApi({
 			}),
 			invalidatesTags: () => [{ type: 'CATEGORY' }],
 		}),
-		fetchSingleCategory: builder.query<CategoryProps, string>({
+		fetchSingleCategory: builder.query<CategoryTypes, string>({
 			query: categorySlug => `${CATEGORY_URL}/single/${categorySlug}`,
 			providesTags: () => [{ type: 'CATEGORY' }],
 		}),

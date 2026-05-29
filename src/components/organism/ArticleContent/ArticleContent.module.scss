@@ -1,18 +1,18 @@
 .articleContainer {
 	width: 100%;
-	// height: 100%;
+	
 	padding-bottom: var(--vspace-4);
 
 	.imageContainer {
 		margin: 0 auto var(--vspace-2_5);
 		width: 100%;
-		max-width: 1080px;
+		
 		height: 60dvh;
 		max-height: 50dvw;
 		.image {
 			width: 100%;
 			height: 100%;
-			// object-fit: cover;
+			
 		}
 	}
 
@@ -27,6 +27,15 @@
 			font-family: var(--font-2);
 		}
 	}
+
+	.articleTextContainer {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+
+		width: 100%;
+		height: 100%;
+	}
 }
 @media (max-width: 1200px) {
 	.articleContainer {
@@ -38,6 +47,18 @@
 			.headerTitle {
 				font-size: var(--textSize_36);
 			}
+		}
+
+		.articleTextContainer {
+			flex-direction: column;
+			padding: 0 5vw;
+		}
+	}
+}
+@media (max-width: 1000px) {
+	.articleContainer {
+		.articleTextContainer {
+			padding: 0;
 		}
 	}
 }

@@ -19,7 +19,7 @@ const SinglePostProvider = ({ children }: SinglePostProviderProps) => {
 	const postId = query.get('id')
 
 	const { data, isFetching } = useFetchPostByIdQuery(postId, { skip: !postId })
-
+	
 	if (isFetching) return <Loader />
 
 	return <SinglePostContext value={data}>{children}</SinglePostContext>

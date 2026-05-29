@@ -18,6 +18,7 @@ const useCategory = () => {
 	}
 	const handleDeleteCategory = async (id: string) => {
 		try {
+			
 			if (!id) return
 
 			const res = await deleteCategory(id).unwrap()

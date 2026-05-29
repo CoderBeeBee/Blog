@@ -16,15 +16,13 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import GoogleAds from '../../modules/GoogleAdds/GoogleAds'
 import useGlobalContext from '../../../hooks/useGlobalContext'
-interface ArticleMiddleSideProps {
-	styles: { [key: string]: string }
-}
+import styles from './ArticleMiddleSide.module.scss'
 
 type ArticleBlock =
 	| { type: 'text' | 'add'; value: string; client?: string; slot?: string }
 	| { type: 'image'; value: { src: string; alt: string; description: string } }
 
-const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
+const ArticleMiddleSide = () => {
 	const isDev = import.meta.env.VITE_NODE_ENV === 'development'
 
 	const slot = ''
@@ -42,7 +40,7 @@ const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 
 	const { data: postLikes } = useFetchLivePostLikesQuery(postId!, { skip: !postId })
 	const { ads } = useGlobalContext()
-	
+
 	const articleWithAds = useMemo<ArticleBlock[]>(() => {
 		if (!articleContent) return []
 
@@ -111,8 +109,6 @@ const ArticleMiddleSide = ({ styles }: ArticleMiddleSideProps) => {
 							return ads.slots.singlePost.enableAd ? (
 								<GoogleAds className={styles.articleAdd} key={pathname + index} client={item.client} slot={item.slot} />
 							) : null
-								
-							
 						}
 						if (item.type === 'image') {
 							return (

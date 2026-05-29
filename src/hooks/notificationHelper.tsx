@@ -5,7 +5,7 @@ interface notificationHelperProps {
 	notif: {
 		action: string
 		role: string
-		entityType: 'User' | 'Post' | 'Comment' | 'Like' | 'Tag'
+		entityType: 'User' | 'Post' | 'Comment' | 'Like' | 'Tag' | 'Category'
 		name: string
 		avatar: string
 		createdAt: string
@@ -29,6 +29,9 @@ const notificationTemplates: Record<string, (title: string) => string> = {
 	'Comments deleted': title => `Comment removed from post: „${title}”`,
 	'Post liked': title => `New post like: „${title}”`,
 	'Post unliked': title => `Unliked post: „${title}”`,
+	'New category': title => `New category: „${title}”  has been added`,
+	'Updated category': title => `Category: „${title}”  has been updated`,
+	'Deleted category': title => `Category: „${title}”  has been deleted`,
 	'New tag': title => `New tag: „${title}”  has been added`,
 	'Deleted tag': title => `Tag: „${title}” has been deleted`,
 	'Admin created user': title => `Admin created user: „${title}”`,
@@ -37,7 +40,7 @@ const notificationTemplates: Record<string, (title: string) => string> = {
 
 const renderNotification = (action: string, title?: string, url?: string, className?: string) => {
 	if (!title) return action
-	const strong = ['Admin deleted user', 'Admin created user','Post deleted']
+	const strong = ['Admin deleted user', 'Admin created user', 'Post deleted', 'Deleted category']
 	const template = notificationTemplates[action]
 	if (!template) return action
 
@@ -66,10 +69,23 @@ const renderNotification = (action: string, title?: string, url?: string, classN
 }
 
 const notificationHelper = ({ notif, className }: notificationHelperProps) => {
-	const title = notif.changes?.postTitle || notif.changes?.tag || notif.changes.name || notif.changes.title
-	
+	const title =
+		notif.changes?.postTitle ||
+		notif.changes?.tag ||
+		notif.changes.name ||
+		notif.changes.title ||
+		notif.changes.category
+
 	const postId = notif.changes?.postId
-	const href = notif.entityType === 'Tag' ? '/admin/blog/tags' : '#'
+
+
+	const routes: Record<string, string> = {
+		Tag: '/admin/blog/tags',
+		Category: '/admin/blog/categories',
+	}
+
+	const href = routes[notif.entityType] ?? '#'
+
 	const url =
 		postId && notif.categories && notif.seo
 			? createUrl({
