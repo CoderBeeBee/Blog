@@ -1,0 +1,30 @@
+@use '../../../assets/styles/variable' as *;
+.profileWrapper {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--whiteColor);
+	border: 1px solid var(--lightGrayColor);
+	border-radius: var(--borderRadius06);
+
+	.profileBox {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		max-width: 500px;
+	}
+	// .deleteText {
+	// 	font-size: var(--textSize_14);
+	// 	line-height: 2.2rem;
+	// 	color: var(--blackColor);
+	// }
+	// .deleteAccount {
+	// 	@include formBtn($bgc: var(--errorColor), $color: #ffffff, $padding: 1rem);
+
+	// 	align-self: flex-end;
+	// 	margin-top: 3rem;
+
+	// 	&:hover {
+	// 		background-color: var(--errorColorHover);
+	// 	}
+	// }
+}

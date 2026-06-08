@@ -37,7 +37,7 @@ export interface ArticleContentProps {
 	href?: string
 	left?: string
 	top?: string
-	publishedAt:string
+	publishedAt?:string
 	articleRef?: React.Ref<HTMLElement>
 	styles?: { [key: string]: string }
 	onImageLoad?: () => void

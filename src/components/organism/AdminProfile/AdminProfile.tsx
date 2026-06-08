@@ -1,21 +1,18 @@
-import styles from './ProfileTemplate.module.scss'
 import { useState, type MouseEvent } from 'react'
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import {
 	useChangeEmailAddressMutation,
 	useFetchUserProfileQuery,
 	useResetPasswordMutation,
-} from '../../../../slices/api/userApi'
+} from '../../../slices/api/userApi'
+import styles from './AdminProfile.module.scss'
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
+import Profile from '../../modules/Profile/Profile'
 
-import AccountPopup from '../../../atoms/AccountPopup/AccountPopup'
-
-import AnchorLink from '../../../atoms/AnchorLink/AnchorLink'
-
-import WrapperBox from '../../../atoms/WrapperBox/WrapperBox'
-import Profile from '../../../modules/Profile/Profile'
-import Password from '../../../organism/Password/Password'
-
-const ProfileTemplate = () => {
+import Password from '../Password/Password'
+import AccountPopup from '../../atoms/AccountPopup/AccountPopup'
+import ChangeEmail from '../../modules/ChangeEmail/ChangeEmail'
+const AdminProfile = () => {
 	const [resetPassword] = useResetPasswordMutation()
 	const [changeEmailAddress] = useChangeEmailAddressMutation()
 	const { data: profileData } = useFetchUserProfileQuery({})
@@ -68,28 +65,16 @@ const ProfileTemplate = () => {
 		}
 	}
 	return (
-		<div className={styles.profileTemplateContainer}>
-			<h2 className={styles.title}>Profile Info</h2>
-			<div className={styles.profileWrapper}>
+		<div className={styles.profileWrapper}>
+			<Breadcrumbs />
+			<div className={styles.profileBox}>
 				<Profile />
-				<WrapperBox>
-					<p className={styles.boxTitle}>Email Address</p>
-					<label htmlFor="email" className={styles.profileLabel}>
-						<input
-							type="email"
-							id="email"
-							readOnly
-							value={email ?? ''}
-							className={` ${styles.profileEmail} ${styles.profileEmailDisabled}`}
-						/>
-					</label>
-					<button id="email" onClick={e => handleAccountPopup(e)} className={styles.changeEmail}>
-						Change Email Address
-					</button>
-				</WrapperBox>
+
+				<ChangeEmail email={email} handleAccountPopup={handleAccountPopup}/>
+
 				<Password handleAccountPopup={handleAccountPopup} />
-				<WrapperBox>
-					<p className={styles.boxTitle}>Delete Account</p>
+			</div>
+			{/* <p className={styles.boxTitle}>Delete Account</p>
 					<p className={styles.deleteText}>
 						By clicking on the button, you will proceed to the account deletion process. You will be able to recover
 						your account within 30 days from the date of confirmation of deletion.
@@ -97,9 +82,8 @@ const ProfileTemplate = () => {
 
 					<AnchorLink href="/account/delete" ariaLabel="Delete account" className={styles.deleteAccount}>
 						Delete Account
-					</AnchorLink>
-				</WrapperBox>
-			</div>
+					</AnchorLink> */}
+
 			{accountPopup && (
 				<AccountPopup
 					popupSuccessMessage={popupSuccessMessage}
@@ -115,4 +99,4 @@ const ProfileTemplate = () => {
 	)
 }
 
-export default ProfileTemplate
+export default AdminProfile

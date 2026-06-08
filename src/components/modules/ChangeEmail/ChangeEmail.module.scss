@@ -1,0 +1,47 @@
+.changeEmailWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 2rem;
+    font-family: var(--fontFamily);
+
+    .emailTitle{
+        font-size: var(--textSize_14);
+        font-weight: 500;
+        color: var(--textColor);
+    }
+	.profileLabel {
+		margin-bottom: 1rem;
+
+		.profileEmail {
+			display: flex;
+			width: 100%;
+			padding: var(--vspace-0_25);
+			border: none;
+			color: var(--blackColor);
+			border: 1px solid var(--blackColor);
+			border-radius: var(--borderRadius06);
+			outline: none;
+		}
+
+		.profileEmailDisabled {
+			background-color: #e8edeb;
+			color: #889397;
+			border: 1px solid #889397;
+			cursor: not-allowed;
+		}
+	}
+
+	.changeEmail {
+		display: flex;
+		align-self: start;
+		color: var(--mainColor);
+		border: none;
+		background-color: transparent;
+		cursor: pointer;
+
+		&:hover {
+			color: var(--mainColorHover);
+		}
+	}
+}

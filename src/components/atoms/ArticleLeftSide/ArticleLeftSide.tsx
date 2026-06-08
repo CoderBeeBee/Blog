@@ -16,7 +16,7 @@ const ArticleLeftSide = () => {
 						<a href="#">{author.name}</a>
 					</div>
 					<div className={styles.publishedInfo}>
-						<span>{new Date(publishedAt).toLocaleDateString('pl-PL')}</span>
+						<span>{new Date(publishedAt!).toLocaleDateString('pl-PL')}</span>
 					</div>
 				</div>
 			</div>

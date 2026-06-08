@@ -81,12 +81,16 @@ const NewsletterPage = lazy(() => import('./components/pages/AdminPanel/Newslett
 const SubscribersPage = lazy(() => import('./components/pages/AdminPanel/Subscribers/SubscribersPage'))
 const AdsPage = lazy(() => import('./components/pages/AdminPanel/AdsPage/AdsPage'))
 
+const AdminProfile = lazy(()=> import('./components/pages/AdminPanel/AdminProfile/AdminProfile'))
+const PostTagPage = lazy(()=> import('./components/pages/AdminPanel/Posts/PostTagPage/PostTagPage'))
+
 import Loader from './components/atoms/loader/Loader'
 import PageNotFound from './components/pages/PageNotFound/PageNotFound'
 import ForgotPasswordPage from './components/pages/ForgotPasswordPage/ForgotPasswordPage'
 import ConfirmResetPasswordPage from './components/pages/ConfirmResetPasswordPage/ConfirmResetPasswordPage'
+
 import AdminLoginPage from './components/pages/AdminPanel/AdminLoginPage/AdminLoginPage'
-import PostTagPage from './components/pages/AdminPanel/Posts/PostTagPage/PostTagPage'
+
 
 const App = () => {
 	return (
@@ -142,6 +146,7 @@ const App = () => {
 					<Route index element={<DashboardPage />} />
 
 					<Route path="administration" element={<AdminRoomPage />} />
+					<Route path="profile" element={<AdminProfile />} />
 
 					<Route path="blog/">
 						<Route path="posts" element={<ListOfPostPage />} />

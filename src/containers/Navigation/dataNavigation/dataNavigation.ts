@@ -32,21 +32,7 @@ export const defaultCategories: MenuTypes = {
 		{ name: 'Family', slug: '/categories/family' },
 	],
 }
-export const defaultCategories2: MenuTypes = {
-	title: 'Categories',
-	href: '',
-	children: [
-		{ name: 'LifeStyle', slug: '/categories/lifestyle' },
-		{ name: 'Culture', slug: '/categories/culture' },
-		{ name: 'Travel', slug: '/categories/travel' },
-		{ name: 'Nature', slug: '/categories/nature' },
-		{ name: 'Photography', slug: '/categories/photography' },
-		{ name: 'Vacation', slug: '/categories/vacation' },
-		{ name: 'Work', slug: '/categories/work' },
-		{ name: 'Health', slug: '/categories/health' },
-		{ name: 'Family', slug: '/categories/family' },
-	],
-}
+
 
 const about: MenuTypes = {
 	title: 'About',
@@ -57,4 +43,4 @@ const contact: MenuTypes = {
 	href: '/contact',
 }
 
-export const dataNavigation = [home, defaultCategories,defaultCategories2, about, contact]
+export const dataNavigation = [home, defaultCategories, about, contact]

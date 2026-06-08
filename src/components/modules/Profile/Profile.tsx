@@ -2,12 +2,12 @@ import styles from './Profile.module.scss'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form'
+import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCreateCloudinarySignatureMutation } from '../../../slices/api/cloudinaryApi'
 import { useFetchUserProfileQuery, useUpdateProfileMutation } from '../../../slices/api/userApi'
-import WrapperBox from '../../atoms/WrapperBox/WrapperBox'
+
 import FormBtn from '../../atoms/FormBtn/FormBtn'
 import { setData } from '../../../slices/authSlice'
 import uploadToCloudinary from '../../../hooks/useUploadToCloudinary'
@@ -16,9 +16,14 @@ import RHFInput from '../../atoms/RHFInput/RHFInput'
 import RHFAddFile from '../../atoms/RHFAddFile/RHFAddFile'
 import validateImageRHF from '../../../hooks/validateImageRHF'
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
+import { SaveSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 const profileSchema = z.object({
-	name: z.string().trim().min(1, { message: 'Field is required' }),
+	name: z
+		.string()
+		.trim()
+		.min(4, { message: 'Name must have at least 4 characters' })
+		.max(32, { message: 'The name is too long. Max 32 characters' }),
 	avatar: z
 		.instanceof(File)
 		.or(z.string())
@@ -47,13 +52,12 @@ const Profile = () => {
 		},
 	})
 	const {
-		control,
 		handleSubmit,
 		reset,
 		formState: { isSubmitting, isDirty },
 	} = methods
 
-	const [avatar] = useWatch({ control, name: ['avatar'] })
+	// const [avatar] = useWatch({ control, name: ['avatar'] })
 
 	const onSubmit: SubmitHandler<profileTypes> = async data => {
 		let updatedAvatar = {}
@@ -124,40 +128,49 @@ const Profile = () => {
 
 	return (
 		<FormProvider {...methods}>
-			<WrapperBox>
-				<p className={styles.boxTitle}>Profile</p>
-
-				<form
-					aria-busy={isSubmitting}
-					onSubmit={handleSubmit(onSubmit)}
-					className={`${styles.formWrapper} ${profileSuccessMessage || profileErrorMessage ? '' : styles.topDistance}`}>
-					<div className={styles.profileBox}>
-						{(profileSuccessMessage || profileErrorMessage) && (
-							<APIResponseMessage messageType={profileSuccessMessage ? 'success' : 'error'}>
-								{profileSuccessMessage ? profileSuccessMessage : <>{profileErrorMessage}</>}
-							</APIResponseMessage>
-						)}
-
+			<form
+				aria-busy={isSubmitting}
+				onSubmit={handleSubmit(onSubmit)}
+				className={`${styles.formWrapper} ${profileSuccessMessage || profileErrorMessage ? '' : styles.topDistance}`}>
+				<div className={styles.profileBox}>
+					<div className={styles.avatarWrapper}>
 						<RHFAddFile
 							name="avatar"
 							id="avatar"
-							className={`${styles.avatarWrapper} ${!avatar ? styles.avatarShadow : ''}`}
+							
+
 							fileIndex={-1}
 							isSubmitting={isSubmitting}
 							required={false}
 							tip={false}
 						/>
 					</div>
-					<RHFInput name="name" id="name" label="Name" type="text" isSubmitting={isSubmitting} required={false} />
+					<RHFInput name="name" id="name" label="Name" type="text" isSubmitting={isSubmitting} required={false} tipMessage='At least 4 characters. Max 32 characters'/>
+				</div>
+				{(profileSuccessMessage || profileErrorMessage) && (
+					<APIResponseMessage messageType={profileSuccessMessage ? 'success' : 'error'}>
+						{profileSuccessMessage ? profileSuccessMessage : <>{profileErrorMessage}</>}
+					</APIResponseMessage>
+				)}
 
-					<FormBtn
-						type="submit"
-						isSubmitting={isSubmitting}
-						className={`${styles.saveChanges} ${isDirty && !isSubmitting ? styles.enabledChanges : ''}`}>
-						Save Changes
-					</FormBtn>
-				</form>
-			</WrapperBox>
+				<FormBtn
+					type="submit"
+					isSubmitting={isSubmitting}
+					
+					className={`${styles.submitBtn} ${isSubmitting ? styles.isSubmitting : ''} ${isDirty ? styles.save : ''}`}>
+					<SaveSVG />
+					{isSubmitting ? (
+						<>
+							Saving
+							<span className={styles.animate1}>.</span>
+							<span className={styles.animate2}>.</span>
+							<span className={styles.animate3}>.</span>
+						</>
+					) : (
+						'Save Changes'
+					)}
+				</FormBtn>
+			</form>
 		</FormProvider>
 	)
 }

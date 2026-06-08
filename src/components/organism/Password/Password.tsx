@@ -2,13 +2,12 @@ import styles from './Password.module.scss'
 import { useEffect, useState, type MouseEvent } from 'react'
 import { useChangePasswordMutation, useFetchUserProfileQuery } from '../../../slices/api/userApi'
 import FormBtn from '../../atoms/FormBtn/FormBtn'
-import WrapperBox from '../../atoms/WrapperBox/WrapperBox'
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
 import z from 'zod'
 import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import { CheckSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
+import { CheckSVG, SaveSVG } from '../../../assets/icons/adminPanelIcons/AdminPanelIcons'
 
 import RHFInput from '../../atoms/RHFInput/RHFInput'
 
@@ -64,7 +63,6 @@ const Password = ({ handleAccountPopup }: PasswordProps) => {
 	const isEmailInPassword = emailPrefix && newPassword.toLowerCase().includes(emailPrefix.toLowerCase())
 
 	const onSubmit: SubmitHandler<passwordTypes> = async data => {
-		
 		try {
 			const { newPassword, currentPassword } = data
 
@@ -79,8 +77,8 @@ const Password = ({ handleAccountPopup }: PasswordProps) => {
 			if (typeof error === 'object' && error !== null) {
 				const fetchError = error as FetchBaseQueryError
 				const message =
-					fetchError.data && typeof fetchError.data === 'object' && 'message' in fetchError.data
-						? (fetchError.data.message as string)
+					fetchError.data && typeof fetchError.data === 'object' && 'error' in fetchError.data
+						? (fetchError.data.error as string)
 						: 'An unexpected error has occured'
 
 				setErrorMessage(message)
@@ -123,22 +121,17 @@ const Password = ({ handleAccountPopup }: PasswordProps) => {
 
 	return (
 		<FormProvider {...methods}>
-			<WrapperBox>
+			<div className={styles.passwordWrapper}>
 				<p className={styles.boxTitle}>Password</p>
 
-				{(successMessage || errorMessage) && (
-					<APIResponseMessage messageType={successMessage ? 'succes' : 'error'}>
-						{successMessage ? successMessage : <>{errorMessage}</>}
-					</APIResponseMessage>
-				)}
 				<form aria-busy={isSubmitting} onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
 					<RHFInput
 						type="password"
 						id="currentPassword"
 						name="currentPassword"
 						label="Current Password"
-						
 						isSubmitting={isSubmitting}
+						tip={false}
 					/>
 					<button
 						id="reset"
@@ -154,8 +147,8 @@ const Password = ({ handleAccountPopup }: PasswordProps) => {
 						id="newPassword"
 						name="newPassword"
 						label="New Password"
-						
-						isSubmitting={isSubmitting}>
+						isSubmitting={isSubmitting}
+						tip={false}>
 						<ul className={styles.newPasswordInfo}>
 							<li className={`${isValidLength ? styles.highlightLi : isErrorLength ? styles.errorLi : ''}`}>
 								<CheckSVG className={styles.checkSVG} />
@@ -173,16 +166,31 @@ const Password = ({ handleAccountPopup }: PasswordProps) => {
 						name="confirmPassword"
 						label="Confirm Password"
 						isSubmitting={isSubmitting}
-						
+						tip={false}
 					/>
+					{(successMessage || errorMessage) && (
+						<APIResponseMessage messageType={successMessage ? 'succes' : 'error'}>
+							{successMessage ? successMessage : <>{errorMessage}</>}
+						</APIResponseMessage>
+					)}
 					<FormBtn
 						type="submit"
 						isSubmitting={!enabledButton}
-						className={`${styles.saveChanges} ${enabledButton ? styles.enabledChanges : ''}`}>
-						Save Changes
+						className={`${styles.submitBtn} ${isSubmitting ? styles.isSubmitting : ''} ${enabledButton ? styles.save : ''}`}>
+						<SaveSVG />
+						{isSubmitting ? (
+							<>
+								Saving
+								<span className={styles.animate1}>.</span>
+								<span className={styles.animate2}>.</span>
+								<span className={styles.animate3}>.</span>
+							</>
+						) : (
+							'Save Changes'
+						)}
 					</FormBtn>
 				</form>
-			</WrapperBox>
+			</div>
 		</FormProvider>
 	)
 }

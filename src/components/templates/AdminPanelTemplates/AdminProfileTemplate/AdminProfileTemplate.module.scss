@@ -1,0 +1,12 @@
+@use '../../../../assets/styles/variable' as *;
+.adminProfileContainer {
+
+	display: flex;
+	flex-direction: column;
+	min-height: calc(100dvh - var(--headerHeight));
+	height: 100%;
+	width: 100%;
+	padding: 2rem;
+	background-image: var(--backgroundGradient);
+	overflow: hidden;
+}

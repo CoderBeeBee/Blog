@@ -86,7 +86,7 @@ const AdminNavigation = () => {
 
 				<div className={`${styles.adminNavigationDropdown} ${toggleMenu ? styles.displayVisibility : ''} `}>
 					{isMobilePanel && <CloseButton styles={styles} handleClose={openCloseUserMenu} />}
-					<AnchorLink className={styles.adminNavigationLinks} href="/admin/profile">
+					<AnchorLink className={styles.adminNavigationLinks} href="/admin/profile" handleClose={openCloseUserMenu}>
 						<ProfileSVG/> Profile
 					</AnchorLink>
 					<LogoutButton ariaLabel="Log out" className={styles.adminNavigationLinks}>
