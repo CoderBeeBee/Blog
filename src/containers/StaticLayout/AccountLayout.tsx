@@ -13,23 +13,27 @@ import { useEffect, useState } from 'react'
 const AccountLayout = () => {
 	const { role } = useSelector((state: RootState) => state.auth)
 	const { pathname } = useLocation()
-		const [activeDashboardIndex, setActiveDashboardIndex] = useState<number | null>(null)
-		const expandCollapseDashboardDropdown = (index: number) => {
-			if (typeof index !== 'number') return
-	
-			if (activeDashboardIndex === index) {
-				setActiveDashboardIndex(null)
-			} else {
-				setActiveDashboardIndex(index)
-			}
+	const [activeDashboardIndex, setActiveDashboardIndex] = useState<number | null>(null)
+	const expandCollapseDashboardDropdown = (index: number) => {
+		if (typeof index !== 'number') return
+
+		if (activeDashboardIndex === index) {
+			setActiveDashboardIndex(null)
+		} else {
+			setActiveDashboardIndex(index)
 		}
-		
-		useEffect(() => {
-			// const ind = adminLinks.findIndex(i => pathname.includes(i.title.toLowerCase()))
-			const ind = accountLinks.findIndex(i => pathname.split('-').join('').includes(i.title.toLowerCase().split(' ').join('')))
-	
-			if (ind) setActiveDashboardIndex(ind)
-		}, [pathname])
+	}
+
+	useEffect(() => {
+		const ind = accountLinks.findIndex(i =>
+			pathname.split('-').join('').includes(i.title.toLowerCase().split(' ').join('')),
+		)
+
+		if (ind >= 0) {
+			setActiveDashboardIndex(ind)
+		}
+	}, [pathname])
+
 	return (
 		<GlobalProvider>
 			<div className={styles.accountLayoutContainer}>

@@ -1,0 +1,16 @@
+@use '../../../assets/styles/variable' as *;
+.profileWrapper {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--whiteColor);
+	border: 1px solid var(--lightGrayColor);
+	border-radius: var(--borderRadius06);
+	flex-grow: 1;
+	.profileBox {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		max-width: 500px;
+	}
+	
+}

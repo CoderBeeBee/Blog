@@ -1,99 +1,11 @@
 @use '../../../../assets/styles/variable' as *;
 .profileTemplateContainer {
-	position: relative;
 	display: flex;
 	flex-direction: column;
-	min-height: 100dvh;
+	min-height: calc(100dvh - var(--headerHeight));
 	height: 100%;
 	width: 100%;
-	background-color: var(--pagesBgc);
-	padding: 0 2rem;
-
-	.title {
-		text-align: left;
-		margin-block: 2rem;
-		font-size: var(--textSize_26);
-		font-weight: 400;
-		line-height: 4rem;
-		font-family: var(--font-2);
-		color: var(--sideBarColor);
-	}
-
-	.profileWrapper {
-		display: flex;
-		flex-direction: column;
-
-		.boxTitle {
-			margin-bottom: 1.6rem;
-			font-size: var(--textSize_14);
-			font-weight: bold;
-		}
-
-		.profileLabel {
-			margin-bottom: 1.5rem;
-
-			.profileEmail {
-				display: flex;
-				width: 100%;
-				padding: var(--vspace-0_25);
-				font-size: var(--textSize_16);
-				font-family: var(--font-2);
-				border: none;
-				color: var(--blackColor);
-				border: 1px solid var(--blackColor);
-				border-radius: var(--borderRadius06);
-				outline: none;
-			}
-
-			.profileEmailDisabled {
-				background-color: #e8edeb;
-				color: #889397;
-				border: 1px solid #889397;
-				cursor: not-allowed;
-			}
-		}
-
-		.changeEmail {
-			display: flex;
-			align-self: start;
-			color: var(--mainColor);
-			border: none;
-			background-color: transparent;
-			cursor: pointer;
-
-			&:hover {
-				color: var(--mainColorHover);
-			}
-		}
-		.deleteText {
-			font-size: var(--textSize_14);
-			line-height: 2.2rem;
-			color: var(--blackColor);
-		}
-		.deleteAccount {
-			@include formBtn($bgc: var(--errorColor), $color: #ffffff, $padding: 1rem);
-
-			align-self: flex-end;
-			margin-top: 3rem;
-
-			&:hover {
-				background-color: var(--errorColorHover);
-			}
-		}
-	}
-}
-
-@media (max-width: 800px) {
-	.profileTemplateContainer {
-		.title {
-			max-width: 450px;
-			width: 100%;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		.profileWrapper {
-			margin-left: auto;
-			margin-right: auto;
-		}
-	}
+	padding: 2rem;
+	background-image: var(--backgroundGradient);
+	overflow: hidden;
 }

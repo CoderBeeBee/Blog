@@ -27,7 +27,7 @@ const AdminPanelLayout = () => {
 		// const ind = adminLinks.findIndex(i => pathname.includes(i.title.toLowerCase()))
 		const ind = adminLinks.findIndex(i => pathname.split('-').join('').includes(i.title.toLowerCase().split(' ').join('')))
 
-		if (ind) setActiveDashboardIndex(ind)
+		if (ind >= 0) setActiveDashboardIndex(ind)
 	}, [pathname])
 
 	return (

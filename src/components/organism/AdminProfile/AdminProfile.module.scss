@@ -5,7 +5,7 @@
 	background-color: var(--whiteColor);
 	border: 1px solid var(--lightGrayColor);
 	border-radius: var(--borderRadius06);
-
+	flex-grow: 1;
 	.profileBox {
 		display: flex;
 		flex-direction: column;

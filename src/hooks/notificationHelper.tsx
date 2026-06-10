@@ -72,9 +72,9 @@ const notificationHelper = ({ notif, className }: notificationHelperProps) => {
 	const title =
 		notif.changes?.postTitle ||
 		notif.changes?.tag ||
-		notif.changes.name ||
-		notif.changes.title ||
-		notif.changes.category
+		notif.changes?.name ||
+		notif.changes?.title ||
+		notif.changes?.category
 
 	const postId = notif.changes?.postId
 

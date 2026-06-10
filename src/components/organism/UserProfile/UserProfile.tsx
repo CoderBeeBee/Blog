@@ -1,18 +1,20 @@
 import { useState, type MouseEvent } from 'react'
+import styles from './UserProfile.module.scss'
 import {
 	useChangeEmailAddressMutation,
 	useFetchUserProfileQuery,
 	useResetPasswordMutation,
 } from '../../../slices/api/userApi'
-import styles from './AdminProfile.module.scss'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import Breadcrumbs from '../../atoms/Breadcrumbs/Breadcrumbs'
 import Profile from '../../modules/Profile/Profile'
-
+import ChangeEmail from '../../modules/ChangeEmail/ChangeEmail'
 import Password from '../Password/Password'
 import AccountPopup from '../../atoms/AccountPopup/AccountPopup'
-import ChangeEmail from '../../modules/ChangeEmail/ChangeEmail'
-const AdminProfile = () => {
+
+import DeleteAccount from '../../modules/DeleteAccount/DeleteAccount'
+
+const UserProfile = () => {
 	const [resetPassword] = useResetPasswordMutation()
 	const [changeEmailAddress] = useChangeEmailAddressMutation()
 	const { data: profileData } = useFetchUserProfileQuery({})
@@ -53,6 +55,7 @@ const AdminProfile = () => {
 		} catch (error) {
 			if (typeof error === 'object' && error !== null) {
 				const fetchError = error as FetchBaseQueryError
+
 				const data = fetchError.data
 
 				if (data && typeof data === 'object') {
@@ -79,8 +82,9 @@ const AdminProfile = () => {
 				<ChangeEmail email={email} handleAccountPopup={handleAccountPopup} />
 
 				<Password handleAccountPopup={handleAccountPopup} />
+
+				<DeleteAccount />
 			</div>
-			
 
 			{accountPopup && (
 				<AccountPopup
@@ -97,4 +101,4 @@ const AdminProfile = () => {
 	)
 }
 
-export default AdminProfile
+export default UserProfile

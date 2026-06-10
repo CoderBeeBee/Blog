@@ -30,12 +30,13 @@ const SideBarLink = ({
 	const { pathname } = useLocation()
 
 	const active = pathname === data.href
+	
 	const onKeyDown = (e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
 			expandCollapseDashboardDropdown(index)
 		}
 	}
-
+	
 
 	if (data.href === '') {
 		return (

@@ -88,11 +88,19 @@ const Registration = () => {
 		} catch (error) {
 			if (typeof error === 'object' && error !== null) {
 				const fetchError = error as FetchBaseQueryError
-				const messageError =
-					fetchError.data && typeof fetchError.data === 'object' && 'message' in fetchError.data
-						? (fetchError.data.message as string)
-						: 'An unexpected error has occurred'
-				setError('root', { message: messageError })
+				const data = fetchError.data
+
+				if (data && typeof data === 'object') {
+					const message =
+						'error' in data
+							? String(data.error)
+							: 'message' in data
+								? String(data.message)
+								: 'An unexpected error has occurred'
+
+					setError('root', { message })
+				}
+				
 			} else {
 				setError('root', { message: 'An unexpected error has occurred' })
 			}
@@ -132,7 +140,7 @@ const Registration = () => {
 							placeholder="Enter your name"
 							isSubmitting={isSubmitting}
 							tip={false}
-							/>
+						/>
 						<RHFInput
 							type="email"
 							name="email"
@@ -141,7 +149,7 @@ const Registration = () => {
 							placeholder="Enter your valid email address"
 							isSubmitting={isSubmitting}
 							tip={false}
-							/>
+						/>
 						<RHFInput
 							type="password"
 							name="password"
@@ -150,7 +158,7 @@ const Registration = () => {
 							placeholder="Enter your password"
 							isSubmitting={isSubmitting}
 							tip={false}
-							/>
+						/>
 						<RHFInput
 							type="password"
 							name="repeatPassword"
@@ -161,7 +169,7 @@ const Registration = () => {
 							tip={false}
 						/>
 						<div className={styles.checkbox}>
-							<RHFCheckbox name="consents" id="consents" isSubmitting={isSubmitting} >
+							<RHFCheckbox name="consents" id="consents" isSubmitting={isSubmitting}>
 								<>
 									<CheckMark isChecked={consents} className={styles.checkMark} />
 									<span>

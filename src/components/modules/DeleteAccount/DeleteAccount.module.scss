@@ -1,0 +1,28 @@
+@use '../../../assets/styles/variable' as *;
+.deleteAccountWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 2rem;
+
+	.title {
+		font-size: var(--textSize_14);
+		font-weight: bold;
+	}
+
+	.deleteText {
+		font-size: var(--textSize_14);
+		line-height: 2.2rem;
+		color: var(--blackColor);
+	}
+	.deleteAccount {
+		@include formBtn($bgc: var(--errorColor), $color: #ffffff, $padding: 1rem);
+
+		align-self: flex-end;
+		margin-top: 3rem;
+
+		&:hover {
+			background-color: var(--errorColorHover);
+		}
+	}
+}
