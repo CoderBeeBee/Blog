@@ -1,5 +1,4 @@
-import { useDispatch } from 'react-redux'
-import { useLoginMutation } from '../../../slices/api/userApi'
+import { useLoginMutation, userApi } from '../../../slices/api/userApi'
 import styles from './Login.module.scss'
 import { useNavigate } from 'react-router'
 import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form'
@@ -15,6 +14,7 @@ import FormBtn from '../../atoms/FormBtn/FormBtn'
 
 import Logo from '../../atoms/logo/Logo'
 import SocialLinks from '../../modules/SocialLinks/SocialLinks'
+import { useAppDispatch } from '../../../store'
 
 const loginSchema = z.object({
 	email: z.email(),
@@ -26,7 +26,7 @@ type loginFields = z.infer<typeof loginSchema>
 const Login = () => {
 	const [logIn, { isSuccess }] = useLoginMutation()
 
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 
 	const navigate = useNavigate()
 
@@ -63,6 +63,11 @@ const Login = () => {
 				dispatch(setLogin(true))
 				dispatch(setData(res))
 			}
+
+			dispatch(
+				userApi.util.upsertQueryData('getMe',undefined,res)
+			)
+
 			if (errors.root?.message) clearErrors('root')
 		} catch (error) {
 			if (typeof error === 'object' && error !== null) {

@@ -1,6 +1,5 @@
 import styles from './ConfirmResetPassword.module.scss'
 import { FormProvider, useForm, useWatch, type SubmitHandler } from 'react-hook-form'
-import { GlobalProvider } from '../../../context/globalContext'
 import Logo from '../../atoms/logo/Logo'
 import RHFInput from '../../atoms/RHFInput/RHFInput'
 import APIResponseMessage from '../../atoms/APIResponseMessage/APIResponseMessage'
@@ -20,7 +19,7 @@ const newPasswordSchema = z.object({
 type newPasswordType = z.infer<typeof newPasswordSchema>
 const ConfirmResetPassword = () => {
 	const [successMessage, setSuccessMessage] = useState<string>('')
-	const { signOut } = useGlobalContext()
+	const { signOut, } = useGlobalContext()
 
 	const { search } = useLocation()
 	const params = new URLSearchParams(search)
@@ -101,7 +100,7 @@ const ConfirmResetPassword = () => {
 
 	if (!token) return <Navigate to="/" replace />
 	return (
-		<GlobalProvider>
+		
 			<FormProvider {...methods}>
 				<div className={styles.confirmResetPasswordWrapper}>
 					<Logo styles={styles} />
@@ -141,7 +140,7 @@ const ConfirmResetPassword = () => {
 					</form>
 				</div>
 			</FormProvider>
-		</GlobalProvider>
+		
 	)
 }
 

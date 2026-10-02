@@ -1,15 +1,17 @@
 .changeEmailWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 2rem;
-    font-family: var(--fontFamily);
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 2rem;
+	font-family: var(--fontFamily);
+	border-bottom: 1px solid var(--lightGrayColor);
 
-    .emailTitle{
-        font-size: var(--textSize_14);
-        font-weight: 500;
-        color: var(--textColor);
-    }
+	.emailTitle {
+		margin-bottom: 1.6rem;
+		font-size: var(--textSize_14);
+		font-weight: bold;
+		color: var(--textColor);
+	}
 	.profileLabel {
 		margin-bottom: 1rem;
 
@@ -34,7 +36,7 @@
 
 	.changeEmail {
 		display: flex;
-		align-self: start;
+		align-self: flex-end;
 		color: var(--mainColor);
 		border: none;
 		background-color: transparent;

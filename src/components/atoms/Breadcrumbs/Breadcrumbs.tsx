@@ -20,6 +20,8 @@ const Breadcrumbs = () => {
 						</span>
 					)
 				} else {
+					
+
 					return <span key={to} className={styles.breadcrumbs}> / {value}</span>
 				}
 			})}

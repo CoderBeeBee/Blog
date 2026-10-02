@@ -18,7 +18,7 @@ interface RHFInputProps<T extends FieldValues> {
 	tipMessage?: string
 	required?: boolean
 }
-
+type InputType = RHFInputProps<FieldValues>['type']
 const RHFInput = <T extends FieldValues>({
 	name,
 	placeholder,
@@ -35,8 +35,26 @@ const RHFInput = <T extends FieldValues>({
 	const { dateToDateTimeLocal } = useDateToDateTimeLocal()
 	const [visible, setVisible] = useState<boolean>(false)
 	const { control } = useFormContext()
-	
-	
+
+	const getInputValue = (type: InputType, value: string) => {
+		if (type === 'datetime-local') {
+			return dateToDateTimeLocal(value)
+		}
+
+		return value ?? ''
+	}
+
+	const getFormValue = (type: InputType, value: string) => {
+		if (type === 'number') {
+			return value === '' ? undefined : Number(value)
+		}
+
+		if (type === 'datetime-local') {
+			return value ? new Date(value) : null
+		}
+
+		return value
+	}
 
 	return (
 		<Controller
@@ -48,28 +66,23 @@ const RHFInput = <T extends FieldValues>({
 						<label htmlFor={id} className={`${required && styles.labelAfter}`}>
 							{label && `${label}`}
 						</label>
-						{tip && (
-							<ToolTip
-								id={id}
-								tipMessage={tipMessage}
-								isSubmitting={isSubmitting}
-							/>
-						)}
+						{tip && <ToolTip id={id} tipMessage={tipMessage} isSubmitting={isSubmitting} />}
 					</div>
 					<div className={styles.formInput}>
 						<input
 							id={id}
-							value={type === 'datetime-local' ? dateToDateTimeLocal(value) : (value ?? '')}
+							value={getInputValue(type,value)}
+							// value={type === 'datetime-local' ? dateToDateTimeLocal(value) : (value ?? '')}
 							onChange={e => {
 								const value = e.target.value
-
-								if (type === 'number') {
-									onChange(value === '' ? undefined : Number(value))
-								} else if (type === 'datetime-local') {
-									onChange(value ? new Date(value) : null)
-								} else {
-									onChange(value)
-								}
+								onChange(getFormValue(type,value))
+								// if (type === 'number') {
+								// 	onChange(value === '' ? undefined : Number(value))
+								// } else if (type === 'datetime-local') {
+								// 	onChange(value ? new Date(value) : null)
+								// } else {
+								// 	onChange(value)
+								// }
 							}}
 							type={type === 'password' ? (visible === false ? type : 'text') : type}
 							placeholder={placeholder}

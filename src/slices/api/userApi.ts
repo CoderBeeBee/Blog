@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import type { UserProps } from '../../types/types'
 
 const API_URL = import.meta.env.VITE_API_URL
 const USERS_URL = import.meta.env.VITE_USERS_URL
@@ -15,6 +16,13 @@ export const userApi = createApi({
 				headers: { 'Content-type': 'application/json' },
 				body: { email, password },
 			}),
+		}),
+		getMe: builder.query<UserProps, void>({
+			query: () => ({
+				url: `${USERS_URL}/me`,
+				method: 'GET',
+			}),
+			providesTags: ['User'],
 		}),
 		adminLogin: builder.mutation({
 			query: ({ email, password }) => ({
@@ -151,7 +159,7 @@ export const userApi = createApi({
 				url: `${USERS_URL}/admin-delete-user`,
 				method: 'DELETE',
 				headers: { 'Content-type': 'application/json' },
-				body:{usersId}
+				body: { usersId },
 			}),
 			invalidatesTags: () => [{ type: 'User' }],
 		}),
@@ -177,5 +185,5 @@ export const {
 	useChangeEmailAddressMutation,
 	useConfirmNewEmailMutation,
 	useUpdateProfileMutation,
-	useAdminLoginMutation,
+	useAdminLoginMutation,useGetMeQuery
 } = userApi

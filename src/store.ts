@@ -19,6 +19,7 @@ import { auditlogApi } from './slices/api/auditLogApi'
 import { tagsApi } from './slices/api/tagsApi'
 import { adApi } from './slices/api/adApi'
 import { menuSlice } from './slices/menuSlice'
+import { useDispatch } from 'react-redux'
 
 export const store = configureStore({
 	reducer: {
@@ -61,6 +62,10 @@ export const store = configureStore({
 			.concat(tagsApi.middleware)
 			.concat(adApi.middleware),
 })
+// ...existing code...
+export type AppDispatch = typeof store.dispatch
 
+export const useAppDispatch = () => useDispatch<AppDispatch>()
+// ...existing code...
 setupListeners(store.dispatch)
 export type RootState = ReturnType<typeof store.getState>
